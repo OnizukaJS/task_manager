@@ -64,7 +64,7 @@ namespace TaskManager
 
             // UseSqlServer requires a connection string that's defined in our appsettings.json
             services.AddDbContextPool<TaskToDoContext>(options => options.UseSqlServer(
-                Configuration.GetConnectionString("TaskToDoContextConnectionString")));
+                Configuration.GetConnectionString("TaskManagerContextConnectionString")));
 
             services.AddScoped<IEmployeeData, SqlEmployeeData>();
             services.AddScoped<IWorkItemData, SqlWorkItemData>();

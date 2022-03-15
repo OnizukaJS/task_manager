@@ -19,6 +19,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<Nullable>enable</Nullable>
+		<UserSecretsId>cac0712b-d957-4c52-914d-b1fbe92e1cd3</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

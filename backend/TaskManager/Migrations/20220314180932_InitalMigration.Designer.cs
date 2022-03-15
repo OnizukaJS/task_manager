@@ -10,8 +10,8 @@ using TaskManager.Models.taskToDo;
 namespace TaskManager.Migrations
 {
     [DbContext(typeof(TaskToDoContext))]
-    [Migration("20211213165147_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220314180932_InitalMigration")]
+    partial class InitalMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,14 +34,13 @@ namespace TaskManager.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TaskToDoId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("WorkItemId")
+                    b.Property<Guid?>("WorkItemId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CommentId");
@@ -129,6 +128,34 @@ namespace TaskManager.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("TaskManager.Models.tag.Tag", b =>
+                {
+                    b.Property<Guid>("TagId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("TaskToDoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("WorkItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("TagId");
+
+                    b.HasIndex("TaskToDoId");
+
+                    b.HasIndex("WorkItemId");
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("TaskManager.Models.workItem.WorkItem", b =>
                 {
                     b.Property<Guid>("Id")
@@ -170,14 +197,12 @@ namespace TaskManager.Migrations
                     b.HasOne("TaskManager.Models.TaskToDo", "TaskToDo")
                         .WithMany("Comments")
                         .HasForeignKey("TaskToDoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("TaskManager.Models.workItem.WorkItem", "WorkItem")
                         .WithMany("Comments")
                         .HasForeignKey("WorkItemId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Employee");
 
@@ -212,6 +237,23 @@ namespace TaskManager.Migrations
                         .HasForeignKey("EmployeeId1");
                 });
 
+            modelBuilder.Entity("TaskManager.Models.tag.Tag", b =>
+                {
+                    b.HasOne("TaskManager.Models.TaskToDo", "TaskToDo")
+                        .WithMany("Tags")
+                        .HasForeignKey("TaskToDoId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.HasOne("TaskManager.Models.workItem.WorkItem", "WorkItem")
+                        .WithMany("Tags")
+                        .HasForeignKey("WorkItemId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("TaskToDo");
+
+                    b.Navigation("WorkItem");
+                });
+
             modelBuilder.Entity("TaskManager.Models.workItem.WorkItem", b =>
                 {
                     b.HasOne("TaskManager.Models.employee.Employee", "Employee")
@@ -226,6 +268,8 @@ namespace TaskManager.Migrations
             modelBuilder.Entity("TaskManager.Models.TaskToDo", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("TaskManager.Models.employee.Employee", b =>
@@ -240,6 +284,8 @@ namespace TaskManager.Migrations
             modelBuilder.Entity("TaskManager.Models.workItem.WorkItem", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Tags");
 
                     b.Navigation("TaskToDos");
                 });
