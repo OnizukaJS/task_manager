@@ -54,4 +54,4 @@ jobs:
           app-name: 'mytaskmanagerappservices'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C4438F1BCDB043EF98CC9D464D13D518 }}
-          package: .
+          package: "backend"
