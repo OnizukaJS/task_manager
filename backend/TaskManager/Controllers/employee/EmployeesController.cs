@@ -42,10 +42,18 @@ namespace TaskManager.Controllers.employee
         [Route("api/[controller]")]
         public IActionResult GetEmployees()
         {
-            var employees = _employeeData.GetEmployees();
+            try
+            {
+                var employees = _employeeData.GetEmployees();
 
-            var employeesDto = _mapper.Map<IEnumerable<EmployeeResponseModel>>(employees);
-            return Ok(employeesDto);
+                var employeesDto = _mapper.Map<IEnumerable<EmployeeResponseModel>>(employees);
+                return Ok(employeesDto);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+            
         }
 
         [HttpGet]
