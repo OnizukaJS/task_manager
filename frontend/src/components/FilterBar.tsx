@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import React from "react";
+import TypesSelect from "./selects/TypesSelect";
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -34,6 +35,7 @@ const FilterBar = ({ setDisplayFilterBar }: FilterBarProps) => {
   const classes = useStyles();
   return (
     <Box className={classes.containerFilterBar}>
+      <TypesSelect filterTypeSelected="" />
       <Tooltip title="Clear and dismiss filters">
         <CloseOutlinedIcon
           className={classes.closeFilterBarIcon}
