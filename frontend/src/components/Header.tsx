@@ -24,7 +24,6 @@ const useStyles = makeStyles<Theme>((theme) =>
       justifyContent: "end",
       boxShadow: "0 4px 2px -2px #CC293D",
       marginBottom: "1rem",
-      paddingTop: 0,
     },
     link: {
       textDecoration: "none",
