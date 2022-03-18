@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - backend/**
 
 env:
   AZURE_WEBAPP_NAME: mytaskmanagerappservices
