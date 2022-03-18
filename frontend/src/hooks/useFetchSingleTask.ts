@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TaskModel from "../models/taskModels/TaskModel";
 
-const useFetchTasks = (
+const useFetchSingleTask = (
   refreshState: number,
   taskId: string
 ): [TaskModel | undefined, boolean] => {
@@ -26,4 +26,4 @@ const useFetchTasks = (
   return [task, isLoading];
 };
 
-export default useFetchTasks;
+export default useFetchSingleTask;
