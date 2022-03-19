@@ -279,7 +279,10 @@ const TaskListColumns = ({
       <Divider className={classes.marginBottomDivider} />
 
       {displayFilterBar ? (
-        <FilterBar setDisplayFilterBar={setDisplayFilterBar} />
+        <FilterBar
+          setDisplayFilterBar={setDisplayFilterBar}
+          employees={employees}
+        />
       ) : null}
 
       <Box>
