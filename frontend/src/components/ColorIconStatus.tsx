@@ -4,10 +4,12 @@ import { makeStyles } from "@material-ui/core";
 import TaskStatusEnum from "../models/enum/TaskStatusEnum";
 
 interface ColorIconStatusProps {
-  status: TaskStatusEnum;
+  status: TaskStatusEnum | string;
+  height?: string;
+  width?: string;
 }
 
-const ColorIconStatus = ({ status }: ColorIconStatusProps) => {
+const ColorIconStatus = ({ status, height, width }: ColorIconStatusProps) => {
   let backgroundColor: string;
 
   switch (status as unknown as string) {
@@ -41,7 +43,7 @@ const ColorIconStatus = ({ status }: ColorIconStatusProps) => {
 
   const classes = useStyles();
 
-  return <div className={classes.status} />;
+  return <div className={classes.status} style={{ height, width }} />;
 };
 
 export default ColorIconStatus;
