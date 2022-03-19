@@ -25,8 +25,12 @@ const useStyles = makeStyles((theme) =>
       margin: "8px 8px 0",
       justifyContent: "end",
     },
-    containerSelect: {
-      overflow: "hidden",
+    containerForm: {
+      padding: "0 8px!important",
+
+      "&:hover": {
+        backgroundColor: "#e2e2e2",
+      },
     },
     taskIconColor: {
       color: "#F2CB1D",
@@ -64,7 +68,11 @@ const TypesFilterSelect = () => {
   };
 
   return (
-    <FormControl sx={{ minWidth: 100 }} variant="standard">
+    <FormControl
+      sx={{ minWidth: 100 }}
+      variant="standard"
+      className={classes.containerForm}
+    >
       <Select
         disableUnderline
         multiple
@@ -78,7 +86,7 @@ const TypesFilterSelect = () => {
           if (selected.length === 1) {
             return selected;
           } else {
-            return `${selected[0]} (+1)`;
+            return `${selected[0]} (+${selected.length - 1})`;
           }
         }}
         MenuProps={MenuProps}
