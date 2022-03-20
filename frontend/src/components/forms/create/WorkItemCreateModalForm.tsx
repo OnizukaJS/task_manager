@@ -10,7 +10,6 @@ import {
 } from "@material-ui/core";
 import ButtonComponent from "../../buttons/ButtonComponent";
 import { useHistory } from "react-router-dom";
-import TaskTypeEnum from "../../../models/enum/TaskTypeEnum";
 import WorkItemModelToCreate from "../../../models/workItemModels/WorkItemModelToCreate";
 
 interface WorkItemCreateModalFormProps {
@@ -92,9 +91,7 @@ const WorkItemCreateModalForm = ({
     <Box className={classes.paper}>
       <form onSubmit={handleSubmit}>
         <Box className={classes.displayCenter}>
-          <h2 className={classes.titleTaskToCreate}>
-            Add {TaskTypeEnum[workItemToCreate.type]}
-          </h2>
+          <h2 className={classes.titleTaskToCreate}>Add Work Item</h2>
         </Box>
         <TextField label="Name" name="name" onChange={handleChange} /> <br />
         <TextField
@@ -105,7 +102,7 @@ const WorkItemCreateModalForm = ({
         <br />
         <Box className={classes.displayCenter}>
           <ButtonComponent
-            text={`Create ${TaskTypeEnum[workItemToCreate.type]}`}
+            text={`Create Work Item`}
             type="submit"
             color="primary"
             variant="contained"

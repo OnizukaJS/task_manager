@@ -50,6 +50,10 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     containerFilters: {
       width: "36px",
     },
+    containerTaskListColumn: {
+      minWidth: "1550px",
+      overflowX: "scroll",
+    },
     doubleArrowIcon: {
       transform: (props) =>
         props.expandedWorkItem && props.expandedWorkItem.length !== 0
@@ -285,7 +289,7 @@ const TaskListColumns = ({
         />
       ) : null}
 
-      <Box>
+      <Box className={classes.containerTaskListColumn}>
         <Grid container direction="row" className={classes.gridColumnTitles}>
           <Grid
             container

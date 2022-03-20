@@ -13,11 +13,6 @@ import Cookies from "universal-cookie";
 const useStyles = makeStyles({
   container: {
     maxWidth: "100%",
-    top: "0px",
-    bottom: "0px",
-    right: "0px",
-    left: "0px",
-    margin: "0 !important",
     padding: "0 !important",
     fontFamily: "Roboto",
   },
