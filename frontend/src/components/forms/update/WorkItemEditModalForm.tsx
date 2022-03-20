@@ -340,12 +340,6 @@ const WorkItemEditModalForm = ({
 
           <Box className={classes.headerInfo}>
             <Box className={classes.containerAvatarsHeaderInfo}>
-              <Box className={classes.avatar}>
-                <ProfilePicture
-                  name={currentTaskEmployeeData?.employeeName!}
-                  surname={currentTaskEmployeeData?.employeeSurname!}
-                />
-              </Box>
               <TaskEmployeeSelect
                 employees={employees}
                 taskToEdit={workItemToEdit}

@@ -16,6 +16,9 @@ const MuiNativeSelectComponent = withStyles({
       backgroundColor: "white",
     },
   },
+  icon: {
+    color: "transparent",
+  },
 })(NativeSelect);
 
 const WorkItemStatusSelectImmediateUpdate = ({

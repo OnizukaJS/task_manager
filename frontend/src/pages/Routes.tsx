@@ -15,6 +15,8 @@ const useStyles = makeStyles({
     maxWidth: "100%",
     padding: "0 !important",
     fontFamily: "Roboto",
+    height: "100%",
+    overflow: "hidden",
   },
   containerRoutes: {
     padding: "0 0.5rem",

@@ -12,9 +12,15 @@ interface TaskStatusSelectImmediateUpdateProps {
 const MuiNativeSelectComponent = withStyles({
   root: {
     paddingLeft: "8px",
+    // border: ".5px solid transparent",
+
     "&:hover": {
       backgroundColor: "white",
+      // borderColor: "black",
     },
+  },
+  icon: {
+    color: "transparent",
   },
 })(NativeSelect);
 

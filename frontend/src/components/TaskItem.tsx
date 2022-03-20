@@ -32,6 +32,12 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   avatarStatus: {
     display: "flex",
     alignItems: "center",
+    border: "1px solid transparent",
+    paddingLeft: theme.spacing(1),
+
+    "&:hover": {
+      borderColor: "black",
+    },
   },
   boxStatus: {
     display: "flex",

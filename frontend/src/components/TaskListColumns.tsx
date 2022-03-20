@@ -30,6 +30,9 @@ import TaskColumn from "./TaskColumn";
 import WorkItemColumn from "./WorkItemColumn";
 import EmployeeModel from "../models/employeeModels/EmployeeModel";
 import FilterBar from "./FilterBar";
+import PersonToDisplaySelect from "./selects/PersonToDisplaySelect";
+import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
+import Cookies from "universal-cookie";
 
 export interface StyleProps {
   expandedWorkItem: string[];
@@ -41,6 +44,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      padding: "2px 8px",
 
       "&:hover": {
         backgroundColor: "#EAEAEA",
@@ -50,9 +54,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     containerFilters: {
       width: "36px",
     },
+    containerHeaderTaskListColumn: {
+      alignItems: "center",
+    },
     containerTaskListColumn: {
       minWidth: "1550px",
-      overflowX: "scroll",
     },
     doubleArrowIcon: {
       transform: (props) =>
@@ -168,6 +174,12 @@ const TaskListColumns = ({
     workItemIds!
   );
   const classes = useStyles({ expandedWorkItem });
+  const cookies = new Cookies();
+
+  const [currentEmployeeData] = useFetchEmployeeData(
+    cookies.get("employeeId"),
+    refreshState
+  );
 
   const handleIsExpanded =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
@@ -259,16 +271,16 @@ const TaskListColumns = ({
 
   return (
     <>
-      <HeaderTaskListColumn>
+      <HeaderTaskListColumn className={classes.containerHeaderTaskListColumn}>
         <AddWorkItemButton
           handleOpenCreateWorkItem={handleOpenCreateWorkItem}
         />
         <Box className={classes.containersHeaderTaskListColumn}>
           <PeopleAltOutlinedIcon color="primary" />
-          <p className={classes.personOfTheTasks}>
-            Person: Jean-Baptiste Castillo
-          </p>
-          <KeyboardArrowDown />
+          <PersonToDisplaySelect
+            employees={employees}
+            currentEmployee={currentEmployeeData!}
+          />
         </Box>
         <Tooltip title="Filter">
           <Box
