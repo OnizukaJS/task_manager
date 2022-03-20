@@ -1,5 +1,4 @@
 import {
-  ListItemAvatar,
   MenuItem,
   Box,
   makeStyles,
@@ -8,8 +7,6 @@ import {
   Button,
 } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
-import ListItemText from "@mui/material/ListItemText";
-import { AssignmentTurnedIn, BugReport, MenuBook } from "@material-ui/icons";
 import FormControl from "@mui/material/FormControl";
 import React, { useState } from "react";
 import Select, { SelectChangeEvent } from "@mui/material/Select";

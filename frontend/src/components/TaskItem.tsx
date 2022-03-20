@@ -9,13 +9,11 @@ import { AssignmentTurnedIn, BugReport } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
 import routes from "../config/routes";
-import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 import useFetchTagsPerTask from "../hooks/useFetchTagsPerTask";
 import EmployeeModel from "../models/employeeModels/EmployeeModel";
 import TaskTypeEnum from "../models/enum/TaskTypeEnum";
 import TaskModel from "../models/taskModels/TaskModel";
 import ColorIconStatus from "./ColorIconStatus";
-import ProfilePicture from "./ProfilePicture";
 import TaskEmployeeSelectImmediateUpdate from "./selects/TaskEmployeeSelectImmediateUpdate";
 import TaskStatusSelectImmediateUpdate from "./selects/TaskStatusSelectImmediateUpdate";
 import TagComponent from "./TagComponent";
@@ -77,9 +75,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       color: "black",
     },
   },
-  personOfTheTask: {
-    display: "flex",
-  },
   state: {
     marginRight: theme.spacing(3),
     color: theme.palette.grey[600],
@@ -113,11 +108,6 @@ const TaskItem = ({
 }: TaskItemProps) => {
   const classes = useStyles({ type: task.type as unknown as string });
 
-  const [currentTaskEmployeeData] = useFetchEmployeeData(
-    task.employeeId,
-    refreshState
-  );
-
   const [tags] = useFetchTagsPerTask(task.id, refreshState);
 
   return (
@@ -148,21 +138,11 @@ const TaskItem = ({
           </Link>
         </Box>
 
-        <Box className={classes.personOfTheTask}>
-          <ProfilePicture
-            name={currentTaskEmployeeData?.employeeName!}
-            surname={currentTaskEmployeeData?.employeeSurname!}
-            height={30}
-            width={30}
-            fontSize={12}
-          />
-
-          <TaskEmployeeSelectImmediateUpdate
-            employees={employees}
-            task={task}
-            triggerRefresh={triggerRefresh}
-          />
-        </Box>
+        <TaskEmployeeSelectImmediateUpdate
+          employees={employees}
+          task={task}
+          triggerRefresh={triggerRefresh}
+        />
 
         <Box className={classes.boxStatus}>
           <span className={classes.state}>State </span>

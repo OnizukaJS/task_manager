@@ -1,9 +1,14 @@
-import { NativeSelect } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles";
+import {
+  Box,
+  createStyles,
+  makeStyles,
+  MenuItem,
+  Select,
+} from "@material-ui/core";
 import React from "react";
 import EmployeeModel from "../../models/employeeModels/EmployeeModel";
 import WorkItemModel from "../../models/workItemModels/WorkItemModel";
-import EmployeeOptionSelect from "./EmployeeOptionSelect";
+import ProfilePicture from "../ProfilePicture";
 
 interface WorkItemEmployeeSelectImmediateUpdateProps {
   employees: EmployeeModel[] | undefined;
@@ -11,21 +16,28 @@ interface WorkItemEmployeeSelectImmediateUpdateProps {
   triggerRefresh: () => void;
 }
 
-const EmployeeSelect = withStyles({
-  root: {
-    border: "1px solid transparent",
-    padding: "5px 24px 5px 7px",
-    "&:hover": {
-      border: "1px solid #EAEAEA",
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    containerEmployeeName: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      marginLeft: theme.spacing(1),
     },
-  },
-})(NativeSelect);
+    containerMenuItem: {
+      display: "flex",
+      alignItems: "center",
+    },
+  })
+);
 
 const WorkItemEmployeeSelectImmediateUpdate = ({
   employees,
   workItem,
   triggerRefresh,
 }: WorkItemEmployeeSelectImmediateUpdateProps) => {
+  const classes = useStyles();
+
   const handleChange = (
     e: React.ChangeEvent<{
       name?: string | undefined;
@@ -51,18 +63,33 @@ const WorkItemEmployeeSelectImmediateUpdate = ({
       .then(() => triggerRefresh())
       .catch(() => console.log("ERROR while updating workItem's employee"));
   };
+
   return (
-    <EmployeeSelect
+    <Select
       name="employeeId"
       value={workItem.employeeId}
       disableUnderline
       variant="standard"
       onChange={handleChange}
+      style={{ width: "100%" }}
     >
-      {employees?.map((employee) => {
-        return <EmployeeOptionSelect employee={employee} />;
-      })}
-    </EmployeeSelect>
+      {employees?.map((employee) => (
+        <MenuItem key={employee.employeeName} value={employee.employeeId}>
+          <Box className={classes.containerMenuItem}>
+            <ProfilePicture
+              name={employee.employeeName}
+              surname={employee.employeeSurname}
+              height={30}
+              width={30}
+              fontSize={12}
+            />
+            <span className={classes.containerEmployeeName}>
+              {employee.employeeName} {employee.employeeSurname}
+            </span>
+          </Box>
+        </MenuItem>
+      ))}
+    </Select>
   );
 };
 

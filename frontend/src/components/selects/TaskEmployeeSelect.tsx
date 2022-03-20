@@ -1,10 +1,15 @@
-import { NativeSelect } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles";
+import {
+  Box,
+  createStyles,
+  makeStyles,
+  MenuItem,
+  Select,
+} from "@material-ui/core";
 import React from "react";
 import EmployeeModel from "../../models/employeeModels/EmployeeModel";
 import TaskModel from "../../models/taskModels/TaskModel";
 import WorkItemModel from "../../models/workItemModels/WorkItemModel";
-import EmployeeOptionSelect from "./EmployeeOptionSelect";
+import ProfilePicture from "../ProfilePicture";
 
 interface TaskEmployeeSelectProps {
   employees: EmployeeModel[] | undefined;
@@ -17,33 +22,53 @@ interface TaskEmployeeSelectProps {
   ) => void;
 }
 
-const EmployeeSelect = withStyles({
-  root: {
-    border: "1px solid transparent",
-    padding: "5px 24px 5px 7px",
-    "&:hover": {
-      border: "1px solid #EAEAEA",
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    containerEmployeeName: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      marginLeft: theme.spacing(1),
     },
-  },
-})(NativeSelect);
+    containerMenuItem: {
+      display: "flex",
+      alignItems: "center",
+    },
+  })
+);
 
 const TaskEmployeeSelect = ({
   employees,
   taskToEdit,
   handleChange,
 }: TaskEmployeeSelectProps) => {
+  const classes = useStyles();
+
   return (
-    <EmployeeSelect
+    <Select
       name="employeeId"
       value={taskToEdit.employeeId}
       disableUnderline
       variant="standard"
       onChange={handleChange}
     >
-      {employees?.map((employee) => {
-        return <EmployeeOptionSelect employee={employee} />;
-      })}
-    </EmployeeSelect>
+      {employees?.map((employee) => (
+        <MenuItem key={employee.employeeName} value={employee.employeeId}>
+          <Box className={classes.containerMenuItem}>
+            <ProfilePicture
+              name={employee.employeeName}
+              surname={employee.employeeSurname}
+              height={30}
+              width={30}
+              fontSize={12}
+            />
+            <span className={classes.containerEmployeeName}>
+              {employee.employeeName} {employee.employeeSurname}
+            </span>
+          </Box>
+        </MenuItem>
+      ))}
+    </Select>
   );
 };
 

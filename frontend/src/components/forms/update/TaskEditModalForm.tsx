@@ -23,7 +23,6 @@ import EmployeeModel from "../../../models/employeeModels/EmployeeModel";
 import ProfilePicture from "../../ProfilePicture";
 import Cookies from "universal-cookie";
 import TaskEmployeeSelect from "../../selects/TaskEmployeeSelect";
-import useFetchEmployeeData from "../../../hooks/useFetchEmployeeData";
 import useFetchCommentsPerTask from "../../../hooks/useFetchCommentsPerTask";
 import AccordionComponent from "../../AccordionComponent";
 import AddTagButton from "../../buttons/AddTagButton";
@@ -281,10 +280,6 @@ const TaskEditModalForm = ({
     nameEmployeeLogged: "",
     surnameEmployeeLogged: "",
   });
-  const [currentTaskEmployeeData] = useFetchEmployeeData(
-    taskToEdit.employeeId,
-    refreshState
-  );
 
   const [comments, isLoading] = useFetchCommentsPerTask(
     taskToEdit.id,
@@ -400,15 +395,6 @@ const TaskEditModalForm = ({
 
           <Box className={classes.headerInfo}>
             <Box className={classes.containerAvatarsHeaderInfo}>
-              <Box>
-                <ProfilePicture
-                  name={currentTaskEmployeeData?.employeeName!}
-                  surname={currentTaskEmployeeData?.employeeSurname!}
-                  height={25}
-                  width={25}
-                  fontSize={12}
-                />
-              </Box>
               <TaskEmployeeSelect
                 employees={employees}
                 taskToEdit={taskToEdit}
