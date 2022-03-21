@@ -9,7 +9,7 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { DoubleArrow, ArrowRight, KeyboardArrowDown } from "@material-ui/icons";
+import { DoubleArrow, ArrowRight } from "@material-ui/icons";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import React, { useState } from "react";

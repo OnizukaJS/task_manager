@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 import { Route, Switch } from "react-router-dom";
 import TasksListPage from "./TaskListPage";
 import routes from "../config/routes";
@@ -11,7 +11,7 @@ import Header from "../components/Header";
 import Cookies from "universal-cookie";
 
 const useStyles = makeStyles({
-  container: {
+  containerApp: {
     padding: "0 !important",
     fontFamily: "Roboto",
     height: "100%",
@@ -38,13 +38,8 @@ const App = () => {
   }, []);
   const [refreshState, triggerRefresh] = useRefresh();
 
-  // Add scrollbar to the body
-  useEffect(() => {
-    document.body.style.overflowY = "scroll";
-  }, []);
-
   return (
-    <Container className={classes.container}>
+    <Container className={classes.containerApp} maxWidth={false}>
       <Header refreshState={refreshState} triggerRefresh={triggerRefresh} />
 
       <Box className={classes.containerRoutes}>

@@ -20,7 +20,6 @@ import EmployeeModel from "../../../models/employeeModels/EmployeeModel";
 import ProfilePicture from "../../ProfilePicture";
 import Cookies from "universal-cookie";
 import TaskEmployeeSelect from "../../selects/TaskEmployeeSelect";
-import useFetchEmployeeData from "../../../hooks/useFetchEmployeeData";
 import AccordionComponent from "../../AccordionComponent";
 import WorkItemModel from "../../../models/workItemModels/WorkItemModel";
 import useFetchCommentsPerWorkItem from "../../../hooks/useFetchCommentsPerWorkItem";
@@ -240,11 +239,6 @@ const WorkItemEditModalForm = ({
     nameEmployeeLogged: "",
     surnameEmployeeLogged: "",
   });
-
-  const [currentTaskEmployeeData] = useFetchEmployeeData(
-    workItemToEdit.employeeId,
-    refreshState
-  );
 
   const [comments, isLoading] = useFetchCommentsPerWorkItem(
     workItemToEdit.id,
