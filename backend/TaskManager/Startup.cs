@@ -101,6 +101,10 @@ namespace TaskManager
                     .AllowAnyHeader();
             });
 
+            app.UseStaticFiles();
+            app.UseDefaultFiles();
+            // TODO: Map Fallback
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
