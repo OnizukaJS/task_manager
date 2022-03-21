@@ -31,7 +31,6 @@ const AddWorkItemButton = ({
       <ButtonComponent
         text="New Work Item"
         onClick={() => handleOpenCreateWorkItem()}
-        // color="primary"
         variant="text"
         startIcon={<Add fontSize="large" color="primary" />}
       />

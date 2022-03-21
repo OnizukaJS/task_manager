@@ -4,6 +4,8 @@ import {
   Divider,
   Grid,
   makeStyles,
+  MenuItem,
+  MenuList,
   styled,
   Theme,
   Tooltip,
@@ -33,6 +35,8 @@ import FilterBar from "./FilterBar";
 import PersonToDisplaySelect from "./selects/PersonToDisplaySelect";
 import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 import Cookies from "universal-cookie";
+import ButtonComponent from "./buttons/ButtonComponent";
+import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 
 export interface StyleProps {
   expandedWorkItem: string[];
@@ -40,6 +44,9 @@ export interface StyleProps {
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) =>
   createStyles({
+    columnOptionsIcon: {
+      transform: "rotate(90deg)",
+    },
     containersHeaderTaskListColumn: {
       display: "flex",
       alignItems: "center",
@@ -54,8 +61,13 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     containerFilters: {
       width: "36px",
     },
-    containerHeaderTaskListColumn: {
-      alignItems: "center",
+    containerHeaderTaskListColumn: {},
+    containerMenuItem: {
+      borderBottom: "3px solid #0078D4",
+    },
+    containerMenuList: {
+      display: "flex",
+      padding: 0,
     },
     containerTaskListColumn: {
       overflow: "auto",
@@ -138,8 +150,9 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const HeaderTaskListColumn = styled(Box)(({ theme }) => ({
   display: "flex",
-  justifyContent: "end",
+  justifyContent: "space-between",
   marginBottom: "1rem",
+  alignItems: "center",
 }));
 
 interface TaskListColumnsProps {
@@ -273,27 +286,69 @@ const TaskListColumns = ({
     setDisplayFilterBar(!displayFilterBar);
   };
 
+  const handleDoesNothing = () => {
+    alert("This button does nothing! :)");
+  };
+
   return (
     <>
       <HeaderTaskListColumn className={classes.containerHeaderTaskListColumn}>
-        <AddWorkItemButton
-          handleOpenCreateWorkItem={handleOpenCreateWorkItem}
-        />
-        <Box className={classes.containersHeaderTaskListColumn}>
-          <PeopleAltOutlinedIcon color="primary" />
-          <PersonToDisplaySelect
-            employees={employees}
-            currentEmployee={currentEmployeeData!}
+        <Box style={{ display: "flex" }}>
+          <MenuList className={classes.containerMenuList}>
+            <MenuItem
+              onClick={handleDoesNothing}
+              className={classes.containerMenuItem}
+            >
+              <Typography style={{ fontWeight: "bold" }}>Taskboard</Typography>
+            </MenuItem>
+            <MenuItem onClick={handleDoesNothing}>
+              <Typography>Backlog</Typography>
+            </MenuItem>
+            <MenuItem onClick={handleDoesNothing}>
+              <Typography>Capacity</Typography>
+            </MenuItem>
+            <MenuItem
+              onClick={handleDoesNothing}
+              style={{ borderRight: "2px solid #C8C8C8" }}
+            >
+              <Typography>Analytics</Typography>
+            </MenuItem>
+          </MenuList>
+
+          <AddWorkItemButton
+            handleOpenCreateWorkItem={handleOpenCreateWorkItem}
+          />
+          <ButtonComponent
+            text="Column Options"
+            onClick={() => alert("This button does nothing! :)")}
+            variant="text"
+            startIcon={
+              <BuildOutlinedIcon
+                fontSize="small"
+                color="primary"
+                className={classes.columnOptionsIcon}
+              />
+            }
           />
         </Box>
-        <Tooltip title="Filter">
-          <Box
-            className={`${classes.containersHeaderTaskListColumn} ${classes.containerFilters}`}
-            onClick={handleDisplayFilterBar}
-          >
-            <FilterAltOutlinedIcon color="primary" />
+
+        <Box style={{ display: "flex" }}>
+          <Box className={classes.containersHeaderTaskListColumn}>
+            <PeopleAltOutlinedIcon color="primary" />
+            <PersonToDisplaySelect
+              employees={employees}
+              currentEmployee={currentEmployeeData!}
+            />
           </Box>
-        </Tooltip>
+          <Tooltip title="Filter">
+            <Box
+              className={`${classes.containersHeaderTaskListColumn} ${classes.containerFilters}`}
+              onClick={handleDisplayFilterBar}
+            >
+              <FilterAltOutlinedIcon color="primary" />
+            </Box>
+          </Tooltip>
+        </Box>
       </HeaderTaskListColumn>
 
       <Divider className={classes.marginBottomDivider} />
