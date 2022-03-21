@@ -12,14 +12,14 @@ import Cookies from "universal-cookie";
 
 const useStyles = makeStyles({
   container: {
-    maxWidth: "100%",
     padding: "0 !important",
     fontFamily: "Roboto",
     height: "100%",
     overflow: "hidden",
   },
   containerRoutes: {
-    padding: "0 0.5rem",
+    padding: "16px 24px",
+    overflow: "hidden",
   },
   menuList: {
     borderRight: "1px solid",

@@ -23,7 +23,6 @@ const useStyles = makeStyles<Theme>((theme) =>
       alignItems: "center",
       justifyContent: "end",
       boxShadow: "0 4px 2px -2px #CC293D",
-      marginBottom: "1rem",
     },
     link: {
       textDecoration: "none",
