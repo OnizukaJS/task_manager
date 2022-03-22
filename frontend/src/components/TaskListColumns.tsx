@@ -14,6 +14,7 @@ import {
 import { DoubleArrow, ArrowRight } from "@material-ui/icons";
 import {
   StarBorder,
+  Star,
   FilterAltOutlined,
   PeopleAltOutlined,
   Loop,
@@ -222,6 +223,7 @@ const TaskListColumns = ({
   employees,
 }: TaskListColumnsProps) => {
   const { showMessage: showWarningMessage } = useWarningSnackbar();
+  const [addedToFavorite, setAddedToFavorite] = useState<boolean>(false);
   const [popoverToDisplay, setPopoverToDisplay] = useState<string>("");
   const [displayFilterBar, setDisplayFilterBar] = useState<boolean>(false);
   const workItemIds: string[] | undefined = workItems?.map((workItem) => {
@@ -348,13 +350,20 @@ const TaskListColumns = ({
           </Box>
 
           <Tooltip
-            title="Add to favorites"
+            title={addedToFavorite ? "Remove to favorites" : "Add to favorites"}
             className={classes.iconHeaderNumberOne}
           >
-            <StarBorder
-              style={{ color: "#d67f3c" }}
-              onClick={handleDoesNothing}
-            />
+            {addedToFavorite ? (
+              <Star
+                style={{ color: "#d67f3c" }}
+                onClick={() => setAddedToFavorite(!addedToFavorite)}
+              />
+            ) : (
+              <StarBorder
+                style={{ color: "#d67f3c" }}
+                onClick={() => setAddedToFavorite(!addedToFavorite)}
+              />
+            )}
           </Tooltip>
           <Tooltip
             title="Show Team Profile"
