@@ -37,6 +37,7 @@ import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 import Cookies from "universal-cookie";
 import ButtonComponent from "./buttons/ButtonComponent";
 import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
+import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 
 export interface StyleProps {
   expandedWorkItem: string[];
@@ -182,6 +183,7 @@ const TaskListColumns = ({
   refreshState,
   employees,
 }: TaskListColumnsProps) => {
+  const { showMessage: showWarningMessage } = useWarningSnackbar();
   const [popoverToDisplay, setPopoverToDisplay] = useState<string>("");
   const [displayFilterBar, setDisplayFilterBar] = useState<boolean>(false);
   const workItemIds: string[] | undefined = workItems?.map((workItem) => {
@@ -287,7 +289,7 @@ const TaskListColumns = ({
   };
 
   const handleDoesNothing = () => {
-    alert("This button does nothing! :)");
+    showWarningMessage({ message: "This button does nothing! :)" });
   };
 
   return (

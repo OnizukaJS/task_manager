@@ -17,6 +17,7 @@ import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 import { withStyles } from "@material-ui/styles";
 import MyAccountPopoverMenuItem from "./MyAccountPopoverMenuItem";
 import azureDevopsLogo from "../images/azure-devops-logo.png";
+import useErrorSnackbar from "../hooks/useErrorSnackbar";
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -60,22 +61,23 @@ const CustomMenuItem = withStyles({
 
 const menuItemsLogo = ["is-propd", "VBS.ZASV", "Board", "Sprint"];
 
-const handleDoesNothing = () => {
-  alert("This button does nothing! :)");
-};
-
 interface HeaderProps {
   triggerRefresh: () => void;
   refreshState: number;
 }
 
 const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
+  const { showMessage: showErrorMessage } = useErrorSnackbar();
   const cookies = new Cookies();
   const classes = useStyles();
   const [currentEmployeeData] = useFetchEmployeeData(
     cookies.get("employeeId"),
     refreshState
   );
+
+  const handleDoesNothing = () => {
+    showErrorMessage({ message: "This button does nothing! :)" });
+  };
 
   return cookies.get("employeeId") ? (
     <Box className={classes.containerHeader}>
