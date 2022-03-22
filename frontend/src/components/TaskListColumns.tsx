@@ -322,7 +322,7 @@ const TaskListColumns = ({
           />
           <ButtonComponent
             text="Column Options"
-            onClick={() => alert("This button does nothing! :)")}
+            onClick={handleDoesNothing}
             variant="text"
             startIcon={
               <BuildOutlinedIcon
