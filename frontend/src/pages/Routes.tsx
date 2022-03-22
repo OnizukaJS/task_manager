@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Route, Switch } from "react-router-dom";
 import TasksListPage from "./TaskListPage";
 import routes from "../config/routes";
-import { Box, Container, makeStyles } from "@material-ui/core";
+import { Box, Container, Divider, makeStyles } from "@material-ui/core";
 import LoginPage from "./LoginPage";
 import useRefresh from "../hooks/useRefresh";
 import RegistrationPage from "./RegistrationPage";
@@ -41,6 +41,7 @@ const App = () => {
   return (
     <Container className={classes.containerApp} maxWidth={false}>
       <Header refreshState={refreshState} triggerRefresh={triggerRefresh} />
+      <Divider />
 
       <Box className={classes.containerRoutes}>
         <Switch>

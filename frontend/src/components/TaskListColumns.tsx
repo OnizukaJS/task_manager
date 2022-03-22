@@ -12,8 +12,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import { DoubleArrow, ArrowRight } from "@material-ui/icons";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import {
+  StarBorder,
+  FilterAltOutlined,
+  PeopleAltOutlined,
+  Loop,
+  KeyboardArrowDown,
+} from "@mui/icons-material";
 import React, { useState } from "react";
 import TaskStatusEnum from "../models/enum/TaskStatusEnum";
 import TaskTypeEnum from "../models/enum/TaskTypeEnum";
@@ -73,6 +78,13 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     containerTaskListColumn: {
       overflow: "auto",
     },
+    containerGridColumnScroll: {
+      minWidth: "1550px",
+    },
+    containerGridColumnTasks: {},
+    containerGridColumnTitles: {
+      marginBottom: "8px",
+    },
     doubleArrowIcon: {
       transform: (props) =>
         props.expandedWorkItem && props.expandedWorkItem.length !== 0
@@ -90,12 +102,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
         border: "1px solid #C7E0F4",
       },
     },
-    containerGridColumnScroll: {
-      minWidth: "1550px",
-    },
-    containerGridColumnTasks: {},
-    containerGridColumnTitles: {
-      marginBottom: "8px",
+    flexAligned: {
+      display: "flex",
+      alignItems: "center",
     },
     marginBottomDivider: {
       marginBottom: "17px",
@@ -105,6 +114,19 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     },
     personOfTheTasks: {
       margin: "0 8px",
+    },
+    sprintInfo: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "end",
+    },
+    squadName: {
+      cursor: "pointer",
+      padding: "2px 4px",
+
+      "&:hover": {
+        backgroundColor: "#F0F0F0",
+      },
     },
     titleGridContainer: {
       margin: 0,
@@ -149,7 +171,14 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-const HeaderTaskListColumn = styled(Box)(({ theme }) => ({
+const HeaderTaskListColumn1 = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginBottom: "1rem",
+  alignItems: "center",
+  justifyContent: "space-between",
+}));
+
+const HeaderTaskListColumn2 = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   marginBottom: "1rem",
@@ -294,7 +323,30 @@ const TaskListColumns = ({
 
   return (
     <>
-      <HeaderTaskListColumn className={classes.containerHeaderTaskListColumn}>
+      <HeaderTaskListColumn1>
+        <Box className={classes.flexAligned}>
+          <Box className={`${classes.flexAligned} ${classes.squadName}`}>
+            <Loop />
+            <Typography className={classes.flexAligned}>
+              VBS.ZASV RockAndRoll Devs <KeyboardArrowDown />
+            </Typography>
+          </Box>
+
+          <Tooltip title="Add to favorites">
+            <StarBorder style={{ color: "#d67f3c" }} />
+          </Tooltip>
+          <Tooltip title="Show Team Profile">
+            <PeopleAltOutlined />
+          </Tooltip>
+        </Box>
+        <Box>
+          <Box className={classes.sprintInfo}>
+            <Typography>March 16 - March 29</Typography>
+            <Typography variant="caption">6 work days remaining</Typography>
+          </Box>
+        </Box>
+      </HeaderTaskListColumn1>
+      <HeaderTaskListColumn2 className={classes.containerHeaderTaskListColumn}>
         <Box style={{ display: "flex" }}>
           <MenuList className={classes.containerMenuList}>
             <MenuItem
@@ -331,12 +383,13 @@ const TaskListColumns = ({
                 className={classes.columnOptionsIcon}
               />
             }
+            onHoverColor="#EAEAEA"
           />
         </Box>
 
         <Box style={{ display: "flex" }}>
           <Box className={classes.containersHeaderTaskListColumn}>
-            <PeopleAltOutlinedIcon color="primary" />
+            <PeopleAltOutlined color="primary" />
             <PersonToDisplaySelect
               employees={employees}
               currentEmployee={currentEmployeeData!}
@@ -347,11 +400,11 @@ const TaskListColumns = ({
               className={`${classes.containersHeaderTaskListColumn} ${classes.containerFilters}`}
               onClick={handleDisplayFilterBar}
             >
-              <FilterAltOutlinedIcon color="primary" />
+              <FilterAltOutlined color="primary" />
             </Box>
           </Tooltip>
         </Box>
-      </HeaderTaskListColumn>
+      </HeaderTaskListColumn2>
 
       <Divider className={classes.marginBottomDivider} />
 

@@ -9,10 +9,12 @@ interface AddWorkItemButtonProps {
   handleOpenCreateWorkItem: () => void;
 }
 
-const useStyles = makeStyles((thene: Theme) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     link: {
       textDecoration: "none",
+      display: "flex",
+      marginLeft: theme.spacing(1),
 
       "&:hover": {
         backgroundColor: "#EAEAEA",

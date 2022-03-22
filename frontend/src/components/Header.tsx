@@ -12,7 +12,15 @@ import { Link } from "react-router-dom";
 import React from "react";
 import Cookies from "universal-cookie";
 import routes from "../config/routes";
-import { TaskOutlined, Login, FormatListBulleted } from "@mui/icons-material";
+import {
+  TaskOutlined,
+  Login,
+  FormatListBulleted,
+  FormatListBulletedSharp,
+  ShoppingBagOutlined,
+  HelpOutlineOutlined,
+  PersonOutlineOutlined,
+} from "@mui/icons-material";
 import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 import { withStyles } from "@material-ui/styles";
 import MyAccountPopoverMenuItem from "./MyAccountPopoverMenuItem";
@@ -21,27 +29,34 @@ import useErrorSnackbar from "../hooks/useErrorSnackbar";
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
+    azureLogo: {
+      width: "25px",
+      height: "25px",
+    },
     containerHeader: {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      boxShadow: "0 4px 2px -2px #CC293D",
     },
     containerLogo: {
       display: "flex",
       marginLeft: theme.spacing(2),
       alignItems: "center",
     },
-    menuList: {
-      display: "flex",
-      alignItems: "center",
-    },
-    azureLogo: {
-      width: "25px",
-      height: "25px",
+    iconsHeader: {
+      marginLeft: theme.spacing(0.5),
+      marginRight: theme.spacing(0.5),
+
+      "&:hover": {
+        backgroundColor: "#FAFAFA",
+      },
     },
     link: {
       textDecoration: "none",
+    },
+    menuList: {
+      display: "flex",
+      alignItems: "center",
     },
     menuItemsLogo: {
       display: "flex",
@@ -109,6 +124,19 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
             </ListItemIcon>
           </CustomMenuItem>
         </Link>
+
+        <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
+          <FormatListBulletedSharp />
+        </MenuItem>
+        <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
+          <ShoppingBagOutlined />
+        </MenuItem>
+        <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
+          <HelpOutlineOutlined />
+        </MenuItem>
+        <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
+          <PersonOutlineOutlined />
+        </MenuItem>
 
         <MyAccountPopoverMenuItem
           currentEmployeeData={currentEmployeeData!}

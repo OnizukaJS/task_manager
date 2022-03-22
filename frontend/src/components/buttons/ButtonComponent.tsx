@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 
-import { Button } from "@material-ui/core";
+import { Button, createStyles, makeStyles } from "@material-ui/core";
 
 interface ButtonComponentProps {
   text: string;
@@ -11,6 +11,7 @@ interface ButtonComponentProps {
   marginLeft?: string;
   marginBottom?: string;
   marginTop?: string;
+  onHoverColor?: string;
   startIcon?: ReactElement;
   endIcon?: ReactElement;
 }
@@ -23,10 +24,23 @@ const ButtonComponent = ({
   marginLeft,
   marginBottom,
   marginTop,
+  onHoverColor,
   variant,
   startIcon,
   endIcon,
 }: ButtonComponentProps) => {
+  const useStyles = makeStyles((theme) =>
+    createStyles({
+      handleOnHover: {
+        "&:hover": {
+          backgroundColor: onHoverColor,
+        },
+      },
+    })
+  );
+
+  const classes = useStyles();
+
   return (
     <Button
       variant={variant}
@@ -36,6 +50,7 @@ const ButtonComponent = ({
       style={{ marginLeft, marginBottom, marginTop }}
       startIcon={startIcon ? startIcon : null}
       endIcon={endIcon ? endIcon : null}
+      className={classes.handleOnHover}
     >
       {text}
     </Button>
