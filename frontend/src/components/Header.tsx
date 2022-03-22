@@ -7,13 +7,15 @@ import {
   Theme,
   Typography,
   Box,
+  TextField,
+  InputAdornment,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
 import Cookies from "universal-cookie";
 import routes from "../config/routes";
 import {
-  TaskOutlined,
+  Search,
   Login,
   FormatListBulleted,
   FormatListBulletedSharp,
@@ -51,6 +53,9 @@ const useStyles = makeStyles<Theme>((theme) =>
         backgroundColor: "#FAFAFA",
       },
     },
+    iconSearch: {
+      transform: "rotate(90deg)",
+    },
     link: {
       textDecoration: "none",
     },
@@ -73,6 +78,23 @@ const CustomMenuItem = withStyles({
     },
   },
 })(MenuItem);
+
+const CustomInputSearch = withStyles({
+  root: {
+    "& .MuiOutlinedInput-adornedStart": {
+      paddingLeft: "10px",
+    },
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "2px",
+    },
+    "& .MuiOutlinedInput-input": {
+      padding: "10px 14px 10px 0",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "black",
+    },
+  },
+})(TextField);
 
 const menuItemsLogo = ["is-propd", "VBS.ZASV", "Board", "Sprint"];
 
@@ -97,11 +119,13 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
   return cookies.get("employeeId") ? (
     <Box className={classes.containerHeader}>
       <Box className={classes.containerLogo}>
-        <img
-          src={azureDevopsLogo}
-          alt="Azure DevOps"
-          className={classes.azureLogo}
-        />
+        <Link to={routes.tasksList} className={classes.link}>
+          <img
+            src={azureDevopsLogo}
+            alt="Azure DevOps"
+            className={classes.azureLogo}
+          />
+        </Link>
 
         <Box className={classes.menuItemsLogo}>
           {menuItemsLogo.map((menuItem, index) => (
@@ -116,15 +140,17 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
       </Box>
 
       <MenuList className={classes.menuList}>
-        <Link to={routes.tasksList} className={classes.link}>
-          <CustomMenuItem>
-            <ListItemIcon>
-              <TaskOutlined fontSize="small" />
-              <Typography variant="inherit">Go to Tasks</Typography>
-            </ListItemIcon>
-          </CustomMenuItem>
-        </Link>
-
+        <CustomInputSearch
+          placeholder="Search"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search className={classes.iconSearch} />
+              </InputAdornment>
+            ),
+          }}
+          variant="outlined"
+        />
         <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
           <FormatListBulletedSharp />
         </MenuItem>

@@ -126,9 +126,9 @@ const MyAccountPopoverMenuItem = ({
           <ProfilePicture
             name={currentEmployeeData?.employeeName!}
             surname={currentEmployeeData?.employeeSurname!}
-            height={32}
-            width={32}
-            fontSize={15}
+            height={37}
+            width={37}
+            fontSize={17}
           />
         </Box>
       </CustomMenuItem>

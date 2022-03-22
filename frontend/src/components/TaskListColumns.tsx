@@ -106,6 +106,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       display: "flex",
       alignItems: "center",
     },
+    iconHeaderNumberOne: {
+      cursor: "pointer",
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+    },
     marginBottomDivider: {
       marginBottom: "17px",
     },
@@ -132,6 +137,10 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       margin: 0,
       display: "flex",
       fontFamily: "sans-serif",
+    },
+    typographyHeaderNumberOne: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
     },
     workItemType: {
       marginRight: theme.spacing(1),
@@ -325,18 +334,33 @@ const TaskListColumns = ({
     <>
       <HeaderTaskListColumn1>
         <Box className={classes.flexAligned}>
-          <Box className={`${classes.flexAligned} ${classes.squadName}`}>
+          <Box
+            className={`${classes.flexAligned} ${classes.squadName}`}
+            onClick={handleDoesNothing}
+          >
             <Loop />
-            <Typography className={classes.flexAligned}>
-              VBS.ZASV RockAndRoll Devs <KeyboardArrowDown />
+            <Typography
+              className={`${classes.typographyHeaderNumberOne} ${classes.flexAligned}`}
+            >
+              VBS.ZASV RockAndRoll Devs
             </Typography>
+            <KeyboardArrowDown />
           </Box>
 
-          <Tooltip title="Add to favorites">
-            <StarBorder style={{ color: "#d67f3c" }} />
+          <Tooltip
+            title="Add to favorites"
+            className={classes.iconHeaderNumberOne}
+          >
+            <StarBorder
+              style={{ color: "#d67f3c" }}
+              onClick={handleDoesNothing}
+            />
           </Tooltip>
-          <Tooltip title="Show Team Profile">
-            <PeopleAltOutlined />
+          <Tooltip
+            title="Show Team Profile"
+            className={classes.iconHeaderNumberOne}
+          >
+            <PeopleAltOutlined onClick={handleDoesNothing} />
           </Tooltip>
         </Box>
         <Box>
@@ -346,6 +370,7 @@ const TaskListColumns = ({
           </Box>
         </Box>
       </HeaderTaskListColumn1>
+
       <HeaderTaskListColumn2 className={classes.containerHeaderTaskListColumn}>
         <Box style={{ display: "flex" }}>
           <MenuList className={classes.containerMenuList}>
