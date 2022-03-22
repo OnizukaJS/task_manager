@@ -11,8 +11,10 @@ env:
   AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_82D214FB6D02423FA5031BE9F887AEA3 }}
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 3.1.301
-  WORKING_DIRECTORY: backend
+  WORKING_DIRECTORY_BACKEND: backend
+  WORKING_DIRECTORY_FRONTEND: frontend
   NAME: TaskManager/TaskManager.csproj
+  NODE_VERSION: '14.x'
 
 jobs:
   build:
@@ -20,6 +22,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Setup Node.js version
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          
+      - name: npm install, build
+        working-directory: ${{ env.WORKING_DIRECTORY_FRONTEND }}
+        run: |
+          npm install
+          npm run build --if-present
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
@@ -28,10 +41,10 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }}
+        run: dotnet build "${{ env.WORKING_DIRECTORY_BACKEND }}" --configuration ${{ env.CONFIGURATION }}
 
       - name: dotnet publish
-        run: dotnet publish "${{ env.WORKING_DIRECTORY }}/${{ env.NAME }}" --configuration ${{ env.CONFIGURATION }} --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+        run: dotnet publish "${{ env.WORKING_DIRECTORY_BACKEND }}/${{ env.NAME }}" --configuration ${{ env.CONFIGURATION }} --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
