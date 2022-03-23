@@ -9,6 +9,9 @@ import {
   Box,
   TextField,
   InputAdornment,
+  Tooltip,
+  styled,
+  TooltipProps,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
@@ -28,6 +31,7 @@ import { withStyles } from "@material-ui/styles";
 import MyAccountPopoverMenuItem from "./MyAccountPopoverMenuItem";
 import azureDevopsLogo from "../images/azure-devops-logo.png";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
+import { tooltipClasses } from "@mui/material/Tooltip";
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -100,6 +104,17 @@ const CustomInputSearch = withStyles({
 
 const menuItemsLogo = ["is-propd", "VBS.ZASV", "Board", "Sprint"];
 
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}));
+
 interface HeaderProps {
   triggerRefresh: () => void;
   refreshState: number;
@@ -160,16 +175,24 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
           <ShoppingBagOutlined />
         </MenuItem>
         <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
-          <HelpOutlineOutlined />
+          <Tooltip title="Help">
+            <HelpOutlineOutlined />
+          </Tooltip>
         </MenuItem>
         <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
-          <PersonOutlineOutlined />
+          <Tooltip title="User settings">
+            <PersonOutlineOutlined />
+          </Tooltip>
         </MenuItem>
 
-        <MyAccountPopoverMenuItem
-          currentEmployeeData={currentEmployeeData!}
-          triggerRefresh={triggerRefresh}
-        />
+        <LightTooltip
+          title={`Account manager for ${currentEmployeeData?.employeeName} ${currentEmployeeData?.employeeSurname}`}
+        >
+          <MyAccountPopoverMenuItem
+            currentEmployeeData={currentEmployeeData!}
+            triggerRefresh={triggerRefresh}
+          />
+        </LightTooltip>
       </MenuList>
     </Box>
   ) : (

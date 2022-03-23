@@ -422,34 +422,39 @@ const TaskListColumns = ({
           <AddWorkItemButton
             handleOpenCreateWorkItem={handleOpenCreateWorkItem}
           />
-          <ButtonComponent
-            text="Column Options"
-            onClick={handleDoesNothing}
-            variant="text"
-            startIcon={
-              <BuildOutlinedIcon
-                fontSize="small"
-                color="primary"
-                className={classes.columnOptionsIcon}
-              />
-            }
-            onHoverColor="#EAEAEA"
-          />
+
+          <Tooltip title="Column Options">
+            <ButtonComponent
+              text="Column Options"
+              onClick={handleDoesNothing}
+              variant="text"
+              startIcon={
+                <BuildOutlinedIcon
+                  fontSize="small"
+                  color="primary"
+                  className={classes.columnOptionsIcon}
+                />
+              }
+              onHoverColor="#EAEAEA"
+            />
+          </Tooltip>
         </Box>
 
         <Box style={{ display: "flex" }}>
-          <Box
-            className={classes.containersHeaderTaskListColumn}
-            onClick={handleDoesNothing}
-          >
-            <Loop />
-            <Typography
-              className={`${classes.flexAligned} ${classes.typographyHeaderNumberOne}`}
+          <Tooltip title="Rock'n'Roll 30">
+            <Box
+              className={classes.containersHeaderTaskListColumn}
+              onClick={handleDoesNothing}
             >
-              Rock'n'Roll 30
-            </Typography>
-            <KeyboardArrowDown className={classes.arrowDownIcon} />
-          </Box>
+              <Loop />
+              <Typography
+                className={`${classes.flexAligned} ${classes.typographyHeaderNumberOne}`}
+              >
+                Rock'n'Roll 30
+              </Typography>
+              <KeyboardArrowDown className={classes.arrowDownIcon} />
+            </Box>
+          </Tooltip>
 
           <Box className={classes.containersHeaderTaskListColumn}>
             <PeopleAltOutlined color="primary" />
