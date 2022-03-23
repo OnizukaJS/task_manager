@@ -9,6 +9,7 @@ import React from "react";
 import EmployeeModel from "../../models/employeeModels/EmployeeModel";
 import TaskModel from "../../models/taskModels/TaskModel";
 import ProfilePicture from "../ProfilePicture";
+import { withStyles } from "@material-ui/styles";
 
 interface TaskEmployeeSelectImmediateUpdateProps {
   employees: EmployeeModel[] | undefined;
@@ -30,6 +31,15 @@ const useStyles = makeStyles((theme) =>
     },
   })
 );
+
+const MuiSelectComponent = withStyles({
+  root: {
+    padding: "0 24px 0 0",
+  },
+  icon: {
+    color: "transparent",
+  },
+})(Select);
 
 const TaskEmployeeSelectImmediateUpdate = ({
   employees,
@@ -66,7 +76,7 @@ const TaskEmployeeSelectImmediateUpdate = ({
   };
 
   return (
-    <Select
+    <MuiSelectComponent
       name="employeeId"
       value={task.employeeId}
       disableUnderline
@@ -84,13 +94,13 @@ const TaskEmployeeSelectImmediateUpdate = ({
               width={30}
               fontSize={12}
             />
-            <p className={classes.containerEmployeeName}>
+            <span className={classes.containerEmployeeName}>
               {employee.employeeName} {employee.employeeSurname}
-            </p>
+            </span>
           </Box>
         </MenuItem>
       ))}
-    </Select>
+    </MuiSelectComponent>
   );
 };
 

@@ -48,6 +48,7 @@ const useStyles = makeStyles<Theme>((theme) =>
     iconsHeader: {
       marginLeft: theme.spacing(0.5),
       marginRight: theme.spacing(0.5),
+      color: "rgba(102,102,102,1)",
 
       "&:hover": {
         backgroundColor: "#FAFAFA",
@@ -55,8 +56,9 @@ const useStyles = makeStyles<Theme>((theme) =>
     },
     iconSearch: {
       transform: "rotate(90deg)",
+      color: "rgba(102,102,102,1)",
     },
-    link: {
+    linkToTaskList: {
       textDecoration: "none",
     },
     menuList: {
@@ -65,7 +67,7 @@ const useStyles = makeStyles<Theme>((theme) =>
     },
     menuItemsLogo: {
       display: "flex",
-      color: "#7380a4",
+      color: "rgba(102,102,102,1)",
       alignItems: "center",
     },
   })
@@ -85,13 +87,13 @@ const CustomInputSearch = withStyles({
       paddingLeft: "10px",
     },
     "& .MuiOutlinedInput-root": {
-      borderRadius: "2px",
+      borderRadius: "3px",
     },
     "& .MuiOutlinedInput-input": {
       padding: "10px 14px 10px 0",
     },
     "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "black",
+      borderColor: "rgba(102,102,102,1)",
     },
   },
 })(TextField);
@@ -119,7 +121,7 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
   return cookies.get("employeeId") ? (
     <Box className={classes.containerHeader}>
       <Box className={classes.containerLogo}>
-        <Link to={routes.tasksList} className={classes.link}>
+        <Link to={routes.tasksList} className={classes.linkToTaskList}>
           <img
             src={azureDevopsLogo}
             alt="Azure DevOps"

@@ -15,6 +15,7 @@ import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import routes from "../config/routes";
 import Cookies from "universal-cookie";
 import { useHistory } from "react-router";
+import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 
 const CustomMenuItem = withStyles({
   root: {
@@ -48,6 +49,11 @@ const useStyles = makeStyles<Theme>((theme) =>
       display: "flex",
       alignItems: "center",
     },
+    emailAccount: {
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+    },
     iconSignIn: {
       border: "1px solid",
       borderRadius: "50%",
@@ -56,9 +62,10 @@ const useStyles = makeStyles<Theme>((theme) =>
       padding: theme.spacing(1),
     },
     link: {
-      textDecoration: "none",
-      "&:hover": {
-        textDecoration: "underline",
+      color: "#0078d6",
+
+      "&:visited": {
+        color: "#0078d6",
       },
     },
     padding: {
@@ -85,6 +92,7 @@ const MyAccountPopoverMenuItem = ({
   currentEmployeeData,
   triggerRefresh,
 }: MyAccountPopoverMenuItemProps) => {
+  const { showMessage: showWarningMessage } = useWarningSnackbar();
   const classes = useStyles();
 
   const cookies = useMemo(() => {
@@ -115,6 +123,10 @@ const MyAccountPopoverMenuItem = ({
 
     history.push("/");
     triggerRefresh();
+  };
+
+  const handleDoesNothing = () => {
+    showWarningMessage({ message: "This button does nothing! :)" });
   };
 
   return (
@@ -175,7 +187,11 @@ const MyAccountPopoverMenuItem = ({
                 {currentEmployeeData?.employeeName}{" "}
                 {currentEmployeeData?.employeeSurname}
               </Box>
-              <Box>{currentEmployeeData?.email}</Box>
+              <Box>
+                <span className={classes.emailAccount}>
+                  {currentEmployeeData?.email}
+                </span>
+              </Box>
               <Link
                 to={routes.myAccount}
                 className={`${classes.link}`}
@@ -184,13 +200,14 @@ const MyAccountPopoverMenuItem = ({
                 View account
               </Link>
               <br />
-              <Link to="#" className={classes.link}>
+              <Link to="#" className={classes.link} onClick={handleDoesNothing}>
                 Switch directory
               </Link>
             </Box>
           </Box>
           <Box
             className={`${classes.displayFlexAlignItems} ${classes.padding} ${classes.containerFooterPopover}`}
+            onClick={handleDoesNothing}
           >
             <PersonAddAltOutlinedIcon className={classes.iconSignIn} />
             Sign in with a different account

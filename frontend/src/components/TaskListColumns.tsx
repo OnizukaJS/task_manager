@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { DoubleArrow, ArrowRight } from "@material-ui/icons";
+import { DoubleArrow, ArrowRight, SettingsOutlined } from "@material-ui/icons";
 import {
   StarBorder,
   Star,
@@ -51,6 +51,9 @@ export interface StyleProps {
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) =>
   createStyles({
+    arrowDownIcon: {
+      color: "rgba(102,102,102,1)",
+    },
     columnOptionsIcon: {
       transform: "rotate(90deg)",
     },
@@ -125,6 +128,14 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "end",
+      color: "rgba(102,102,102,1)",
+    },
+    sprintInfoDate: {
+      cursor: "pointer",
+
+      "&:hover": {
+        color: "#1976d2",
+      },
     },
     squadName: {
       cursor: "pointer",
@@ -346,7 +357,7 @@ const TaskListColumns = ({
             >
               VBS.ZASV RockAndRoll Devs
             </Typography>
-            <KeyboardArrowDown />
+            <KeyboardArrowDown className={classes.arrowDownIcon} />
           </Box>
 
           <Tooltip
@@ -374,7 +385,12 @@ const TaskListColumns = ({
         </Box>
         <Box>
           <Box className={classes.sprintInfo}>
-            <Typography>March 16 - March 29</Typography>
+            <Tooltip
+              title="Edit the dates for this iteration"
+              className={classes.sprintInfoDate}
+            >
+              <Typography>March 16 - March 29</Typography>
+            </Tooltip>
             <Typography variant="caption">6 work days remaining</Typography>
           </Box>
         </Box>
@@ -422,6 +438,19 @@ const TaskListColumns = ({
         </Box>
 
         <Box style={{ display: "flex" }}>
+          <Box
+            className={classes.containersHeaderTaskListColumn}
+            onClick={handleDoesNothing}
+          >
+            <Loop />
+            <Typography
+              className={`${classes.flexAligned} ${classes.typographyHeaderNumberOne}`}
+            >
+              Rock'n'Roll 30
+            </Typography>
+            <KeyboardArrowDown className={classes.arrowDownIcon} />
+          </Box>
+
           <Box className={classes.containersHeaderTaskListColumn}>
             <PeopleAltOutlined color="primary" />
             <PersonToDisplaySelect
@@ -429,12 +458,21 @@ const TaskListColumns = ({
               currentEmployee={currentEmployeeData!}
             />
           </Box>
+
           <Tooltip title="Filter">
             <Box
               className={`${classes.containersHeaderTaskListColumn} ${classes.containerFilters}`}
               onClick={handleDisplayFilterBar}
             >
               <FilterAltOutlined color="primary" />
+            </Box>
+          </Tooltip>
+          <Tooltip title="Configure team settings">
+            <Box
+              className={`${classes.containersHeaderTaskListColumn} ${classes.containerFilters}`}
+              onClick={handleDoesNothing}
+            >
+              <SettingsOutlined color="primary" />
             </Box>
           </Tooltip>
         </Box>
