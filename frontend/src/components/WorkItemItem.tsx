@@ -25,6 +25,12 @@ const useStyles = makeStyles((theme) =>
     avatarStatus: {
       display: "flex",
       alignItems: "center",
+      border: "1px solid transparent",
+      paddingLeft: theme.spacing(1),
+
+      "&:hover": {
+        borderColor: "rgba(102,102,102,1)",
+      },
     },
     boxStatus: {
       display: "flex",

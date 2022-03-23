@@ -25,6 +25,15 @@ const useStyles = makeStyles((theme) =>
       textOverflow: "ellipsis",
       marginLeft: theme.spacing(1),
     },
+    containerEmployeeSelect: {
+      width: "100%",
+      border: "1px solid transparent",
+      padding: "2px 0 2px 2px",
+
+      "&:hover": {
+        borderColor: "rgba(102,102,102,1)",
+      },
+    },
     containerMenuItem: {
       display: "flex",
       alignItems: "center",
@@ -82,7 +91,7 @@ const TaskEmployeeSelectImmediateUpdate = ({
       disableUnderline
       variant="standard"
       onChange={handleChange}
-      style={{ width: "100%" }}
+      className={classes.containerEmployeeSelect}
     >
       {employees?.map((employee) => (
         <MenuItem key={employee.employeeName} value={employee.employeeId}>

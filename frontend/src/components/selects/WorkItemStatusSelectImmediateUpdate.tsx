@@ -11,7 +11,8 @@ interface WorkItemStatusSelectImmediateUpdateProps {
 
 const MuiNativeSelectComponent = withStyles({
   root: {
-    paddingLeft: "8px",
+    padding: "3px 0 3px",
+
     "&:hover": {
       backgroundColor: "white",
     },

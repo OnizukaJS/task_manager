@@ -36,7 +36,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     paddingLeft: theme.spacing(1),
 
     "&:hover": {
-      borderColor: "black",
+      borderColor: "rgba(102,102,102,1)",
     },
   },
   boxStatus: {
