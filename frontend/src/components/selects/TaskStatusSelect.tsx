@@ -16,8 +16,11 @@ interface TaskStatusSelectProps {
 const MuiNativeSelectComponent = withStyles({
   root: {
     paddingLeft: "8px",
+    border: "1px solid transparent",
+
     "&:hover": {
       backgroundColor: "white",
+      border: "1px solid #eeeeee",
     },
   },
   icon: {

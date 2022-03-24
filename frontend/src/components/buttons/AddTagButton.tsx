@@ -93,17 +93,17 @@ const AddTagButton = ({
   };
 
   return tags?.length! === 0 ? (
-    !displayInput ? (
-      <CustomCreateTagButton onClick={handleDisplayInput}>
-        Add tag
-      </CustomCreateTagButton>
-    ) : (
+    displayInput ? (
       <TextField
         name="text"
         type="search"
         onChange={handleChangeTagToCreate}
         onKeyPress={handlePressEnter}
       />
+    ) : (
+      <CustomCreateTagButton onClick={handleDisplayInput}>
+        Add tag
+      </CustomCreateTagButton>
     )
   ) : (
     <Tooltip title="Add tag" arrow>
