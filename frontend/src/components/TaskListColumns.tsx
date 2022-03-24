@@ -20,6 +20,7 @@ import {
   Loop,
   KeyboardArrowDown,
 } from "@mui/icons-material";
+import fullScreenMode from "../images/full-screen-mode.png";
 import React, { useState } from "react";
 import TaskStatusEnum from "../models/enum/TaskStatusEnum";
 import TaskTypeEnum from "../models/enum/TaskTypeEnum";
@@ -44,6 +45,7 @@ import Cookies from "universal-cookie";
 import ButtonComponent from "./buttons/ButtonComponent";
 import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
+import sprintImage from "../images/sprint_image.png";
 
 export interface StyleProps {
   expandedWorkItem: string[];
@@ -71,6 +73,13 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     containerFilters: {
       width: "36px",
     },
+    containerGridColumnScroll: {
+      minWidth: "1550px",
+    },
+    containerGridColumnTasks: {},
+    containerGridColumnTitles: {
+      marginBottom: "8px",
+    },
     containerHeaderTaskListColumn: {},
     containerMenuItem: {
       borderBottom: "3px solid #0078D4",
@@ -79,15 +88,12 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       display: "flex",
       padding: 0,
     },
+    containerSprintInfo: {
+      display: "flex",
+      alignItems: "center",
+    },
     containerTaskListColumn: {
       overflow: "auto",
-    },
-    containerGridColumnScroll: {
-      minWidth: "1550px",
-    },
-    containerGridColumnTasks: {},
-    containerGridColumnTitles: {
-      marginBottom: "8px",
     },
     doubleArrowIcon: {
       transform: (props) =>
@@ -110,10 +116,19 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       display: "flex",
       alignItems: "center",
     },
+    fullScreenModeImage: {
+      width: "22px",
+      transform: "rotate(135deg)",
+    },
     iconHeaderNumberOne: {
       cursor: "pointer",
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
+    },
+    imageSprintInfo: {
+      width: "10em",
+      height: "3.31em",
+      marginLeft: theme.spacing(2.5),
     },
     marginBottomDivider: {
       marginBottom: "17px",
@@ -383,7 +398,7 @@ const TaskListColumns = ({
             <PeopleAltOutlined onClick={handleDoesNothing} />
           </Tooltip>
         </Box>
-        <Box>
+        <Box className={classes.containerSprintInfo}>
           <Box className={classes.sprintInfo}>
             <Tooltip
               title="Edit the dates for this iteration"
@@ -393,6 +408,7 @@ const TaskListColumns = ({
             </Tooltip>
             <Typography variant="caption">6 work days remaining</Typography>
           </Box>
+          <img src={sprintImage} alt="" className={classes.imageSprintInfo} />
         </Box>
       </HeaderTaskListColumn1>
 
@@ -478,6 +494,18 @@ const TaskListColumns = ({
               onClick={handleDoesNothing}
             >
               <SettingsOutlined color="primary" />
+            </Box>
+          </Tooltip>
+          <Tooltip title="Enter full screen mode">
+            <Box
+              className={`${classes.containersHeaderTaskListColumn} ${classes.containerFilters}`}
+              onClick={handleDoesNothing}
+            >
+              <img
+                src={fullScreenMode}
+                alt=""
+                className={classes.fullScreenModeImage}
+              />
             </Box>
           </Tooltip>
         </Box>
