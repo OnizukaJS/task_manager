@@ -16,31 +16,22 @@ const ContainerTag = (props: ButtonUnstyledProps) => {
   return <ButtonUnstyled {...props} component={ContainerTagRoot} />;
 };
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    containerTag: {
-      backgroundColor: "#EFF6FC",
-    },
-    containerTagAndDeleteButton: {
-      display: "flex",
-      "& :focus": {
-        backgroundColor: "#0078d4",
-      },
-    },
-  })
-);
-
 interface TagComponentProps {
   tag: TagModel;
 }
 
 const TagComponent = ({ tag }: TagComponentProps) => {
+  const useStyles = makeStyles(() =>
+    createStyles({
+      containerTag: {
+        backgroundColor: "#EFF6FC",
+      },
+    })
+  );
   const classes = useStyles();
 
   return (
-    <Box className={classes.containerTagAndDeleteButton}>
-      <ContainerTag className={classes.containerTag}>{tag.text}</ContainerTag>
-    </Box>
+    <ContainerTag className={classes.containerTag}>{tag.text}</ContainerTag>
   );
 };
 

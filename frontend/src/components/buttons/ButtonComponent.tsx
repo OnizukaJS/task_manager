@@ -11,9 +11,12 @@ interface ButtonComponentProps {
   marginLeft?: string;
   marginBottom?: string;
   marginTop?: string;
+  borderRadius?: string;
   onHoverColor?: string;
+  boxShadow?: string;
   startIcon?: ReactElement;
   endIcon?: ReactElement;
+  backgroundColor?: string;
 }
 
 const ButtonComponent = ({
@@ -24,14 +27,19 @@ const ButtonComponent = ({
   marginLeft,
   marginBottom,
   marginTop,
+  borderRadius,
   onHoverColor,
+  boxShadow,
   variant,
   startIcon,
   endIcon,
+  backgroundColor,
 }: ButtonComponentProps) => {
   const useStyles = makeStyles((theme) =>
     createStyles({
-      handleOnHover: {
+      customButton: {
+        backgroundColor: backgroundColor,
+
         "&:hover": {
           backgroundColor: onHoverColor,
         },
@@ -47,10 +55,10 @@ const ButtonComponent = ({
       color={color}
       onClick={onClick}
       type={type}
-      style={{ marginLeft, marginBottom, marginTop }}
+      style={{ marginLeft, marginBottom, marginTop, borderRadius, boxShadow }}
       startIcon={startIcon ? startIcon : null}
       endIcon={endIcon ? endIcon : null}
-      className={classes.handleOnHover}
+      className={classes.customButton}
     >
       {text}
     </Button>

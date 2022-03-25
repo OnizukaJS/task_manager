@@ -13,7 +13,7 @@ import React, { ReactNode, useState } from "react";
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
     subTitlesTexts: {
-      marginBottom: 0,
+      margin: 0,
     },
   })
 );
