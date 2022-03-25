@@ -35,7 +35,6 @@ import AccordionComponent from "../../AccordionComponent";
 import AddTagButton from "../../buttons/AddTagButton";
 import useFetchTagsPerTask from "../../../hooks/useFetchTagsPerTask";
 import TagComponent from "../../TagComponent";
-import TagModel from "../../../models/tagModels/TagModel";
 import {
   Close,
   CompassCalibrationOutlined,
@@ -46,7 +45,6 @@ import {
 import DeleteTaskDialog from "../../DeleteTaskDialog";
 import { Tooltip } from "@mui/material";
 import { useWarningSnackbar } from "../../../hooks/useErrorSnackbar";
-import TagModelToCreate from "../../../models/tagModels/TagModelToCreate";
 
 interface TaskEditModalFormProps {
   openEditTaskItem: boolean;
@@ -429,18 +427,6 @@ const TaskEditModalForm = ({
       .catch(() => console.log("ERROR while adding a comment"));
   };
 
-  const handleDelete = () => {
-    fetch(`https://localhost:44358/api/TasksToDo/${taskToEdit.id}`, {
-      method: "DELETE",
-    })
-      .then(() => console.log("Task deleted"))
-      .then(() => triggerRefresh())
-      .catch(() => console.log("ERROR while deleting"));
-
-    handleClose();
-    handleClosePopover();
-  };
-
   const handleDeleteTag = (tagId: string) => {
     fetch(`https://localhost:44358/api/Tags/${tagId}`, {
       method: "DELETE",
@@ -599,7 +585,10 @@ const TaskEditModalForm = ({
                     horizontal: "right",
                   }}
                 >
-                  <Box className={classes.moreActions} onClick={handleDelete}>
+                  <Box
+                    className={classes.moreActions}
+                    onClick={() => setOpenDeleteTaskDialog(true)}
+                  >
                     <CloseOutlined
                       className={classes.deleteIcon}
                       color="error"

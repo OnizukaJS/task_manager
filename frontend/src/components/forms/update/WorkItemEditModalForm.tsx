@@ -611,7 +611,10 @@ const WorkItemEditModalForm = ({
                     horizontal: "right",
                   }}
                 >
-                  <Box className={classes.moreActions} onClick={handleDelete}>
+                  <Box
+                    className={classes.moreActions}
+                    onClick={() => setOpenDeleteWorkItemDialog(true)}
+                  >
                     <CloseOutlined
                       className={classes.deleteIcon}
                       color="error"
