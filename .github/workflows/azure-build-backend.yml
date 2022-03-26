@@ -9,6 +9,7 @@ env:
   AZURE_WEBAPP_NAME: mytaskmanagerappservices
   AZURE_WEBAPP_PACKAGE_PATH: TaskManager/publish
   AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_82D214FB6D02423FA5031BE9F887AEA3 }}
+  PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 3.1.301
   WORKING_DIRECTORY_BACKEND: backend
@@ -20,7 +21,7 @@ jobs:
   build:
     runs-on: windows-latest
 
-    steps:
+    steps:  
       - uses: actions/checkout@v2
 
       - name: Set up .NET Core
@@ -40,7 +41,28 @@ jobs:
         with:
           name: .net-app
           path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
+      
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with: 
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: npm install, build
+        run: |
+          npm install
+          npm run build --if-present
+          
+      - name: copy files
+        uses: OnizukaJS/copycat-action@v3
+        with:
+          personal_token: ${{ env.PERSONAL_TOKEN }}
+          src_path: frontend/build
+          dst_owner: OnizukaJS
+          dst_repo_name: backend/TaskManager/wwwroot
+          dst_branch: master
+          src_branch: maste
+    
   deploy:
     runs-on: windows-latest
     needs: build
