@@ -54,14 +54,14 @@ jobs:
           npm run build --if-present
           
       - name: copy files
-        uses: OnizukaJS/copycat-action@v3
+        uses: andstor/copycat-action@v3
         with:
           personal_token: ${{ env.PERSONAL_TOKEN }}
           src_path: frontend/build
           dst_owner: OnizukaJS
           dst_repo_name: backend/TaskManager/wwwroot
           dst_branch: master
-          src_branch: maste
+          src_branch: master
     
   deploy:
     runs-on: windows-latest
