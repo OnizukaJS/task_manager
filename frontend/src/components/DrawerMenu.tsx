@@ -51,7 +51,6 @@ const DrawerCustom = withStyles({
       backgroundColor: "#EAEAEA",
       top: "4.14em",
       display: "flex",
-      //   justifyContent: "space-between",
       maxWidth: "50px",
     },
   },
@@ -61,6 +60,12 @@ const useStyles = makeStyles({
   boardsIcon: {
     backgroundColor: "#dcdcdc!important",
     borderLeft: "4px solid #0078d4!important",
+  },
+  bottomDrawer: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: "2em",
   },
   plusIcon: {
     transform: "rotate(45deg)",
@@ -141,7 +146,7 @@ const DrawerMenu = () => {
         ))}
       </List>
 
-      <Box>
+      <Box className={classes.bottomDrawer}>
         <Divider />
 
         <List>
