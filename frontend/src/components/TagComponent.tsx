@@ -3,6 +3,7 @@ import TagModel from "../models/tagModels/TagModel";
 import { makeStyles, createStyles } from "@material-ui/styles";
 import { ButtonUnstyled, ButtonUnstyledProps } from "@mui/base";
 import { styled } from "@mui/system";
+import TagModelToCreate from "../models/tagModels/TagModelToCreate";
 
 const ContainerTagRoot = styled("button")`
   background-color: #eff6fc;
@@ -16,10 +17,11 @@ const ContainerTag = (props: ButtonUnstyledProps) => {
 };
 
 interface TagComponentProps {
-  tag: TagModel;
+  tag?: TagModel;
+  tagToCreate?: TagModelToCreate;
 }
 
-const TagComponent = ({ tag }: TagComponentProps) => {
+const TagComponent = ({ tag, tagToCreate }: TagComponentProps) => {
   const useStyles = makeStyles(() =>
     createStyles({
       containerTag: {
@@ -30,7 +32,9 @@ const TagComponent = ({ tag }: TagComponentProps) => {
   const classes = useStyles();
 
   return (
-    <ContainerTag className={classes.containerTag}>{tag.text}</ContainerTag>
+    <ContainerTag className={classes.containerTag}>
+      {tag ? tag.text : tagToCreate?.text}
+    </ContainerTag>
   );
 };
 

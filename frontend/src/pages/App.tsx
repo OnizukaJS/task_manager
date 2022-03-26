@@ -1,9 +1,8 @@
 import React from "react";
-import { Container, Divider, makeStyles } from "@material-ui/core";
+import { Container, makeStyles } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import useRefresh from "../hooks/useRefresh";
 import Header from "../components/Header";
-import DrawerMenu from "../components/DrawerMenu";
 import Routes from "./Routes";
 
 const useStyles = makeStyles({
@@ -34,11 +33,7 @@ const App = () => {
     <Container className={classes.containerApp} maxWidth={false}>
       <Header refreshState={refreshState} triggerRefresh={triggerRefresh} />
 
-      <Divider />
-
-      <Box sx={{ display: "flex" }}>
-        <DrawerMenu />
-
+      <Box sx={{ marginTop: "65px" }}>
         <Routes />
       </Box>
     </Container>

@@ -12,6 +12,7 @@ import {
   Tooltip,
   styled,
   TooltipProps,
+  Divider,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
@@ -32,6 +33,7 @@ import MyAccountPopoverMenuItem from "./MyAccountPopoverMenuItem";
 import azureDevopsLogo from "../images/azure-devops-logo.png";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import { tooltipClasses } from "@mui/material/Tooltip";
+import DrawerMenu from "./DrawerMenu";
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -43,6 +45,12 @@ const useStyles = makeStyles<Theme>((theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
+      minHeight: "65px",
+    },
+    containerHeaderMenu: {
+      position: "fixed",
+      width: "100%",
+      backgroundColor: "white",
     },
     containerLogo: {
       display: "flex",
@@ -134,86 +142,111 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
   };
 
   return cookies.get("employeeId") ? (
-    <Box className={classes.containerHeader}>
-      <Box className={classes.containerLogo}>
-        <Link to={routes.tasksList} className={classes.linkToTaskList}>
-          <img
-            src={azureDevopsLogo}
-            alt="Azure DevOps"
-            className={classes.azureLogo}
-          />
-        </Link>
+    <>
+      <Box className={classes.containerHeaderMenu}>
+        <Box className={classes.containerHeader}>
+          <Box className={classes.containerLogo}>
+            <Link to={routes.tasksList} className={classes.linkToTaskList}>
+              <img
+                src={azureDevopsLogo}
+                alt="Azure DevOps"
+                className={classes.azureLogo}
+              />
+            </Link>
 
-        <Box className={classes.menuItemsLogo}>
-          {menuItemsLogo.map((menuItem, index) => (
-            <>
-              <MenuItem onClick={handleDoesNothing}>
-                <Typography>{menuItem}</Typography>
-              </MenuItem>
-              {index + 1 !== menuItemsLogo.length && <Typography>/</Typography>}
-            </>
-          ))}
+            <Box className={classes.menuItemsLogo}>
+              {menuItemsLogo.map((menuItem, index) => (
+                <>
+                  <MenuItem onClick={handleDoesNothing}>
+                    <Typography>{menuItem}</Typography>
+                  </MenuItem>
+                  {index + 1 !== menuItemsLogo.length && (
+                    <Typography>/</Typography>
+                  )}
+                </>
+              ))}
+            </Box>
+          </Box>
+
+          <MenuList className={classes.menuList}>
+            <CustomInputSearch
+              placeholder="Search"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search className={classes.iconSearch} />
+                  </InputAdornment>
+                ),
+              }}
+              variant="outlined"
+            />
+            <MenuItem
+              className={classes.iconsHeader}
+              onClick={handleDoesNothing}
+            >
+              <FormatListBulletedSharp />
+            </MenuItem>
+            <MenuItem
+              className={classes.iconsHeader}
+              onClick={handleDoesNothing}
+            >
+              <ShoppingBagOutlined />
+            </MenuItem>
+            <MenuItem
+              className={classes.iconsHeader}
+              onClick={handleDoesNothing}
+            >
+              <Tooltip title="Help">
+                <HelpOutlineOutlined />
+              </Tooltip>
+            </MenuItem>
+            <MenuItem
+              className={classes.iconsHeader}
+              onClick={handleDoesNothing}
+            >
+              <Tooltip title="User settings">
+                <PersonOutlineOutlined />
+              </Tooltip>
+            </MenuItem>
+
+            <LightTooltip
+              title={`Account manager for ${currentEmployeeData?.employeeName} ${currentEmployeeData?.employeeSurname}`}
+            >
+              <MyAccountPopoverMenuItem
+                currentEmployeeData={currentEmployeeData!}
+                triggerRefresh={triggerRefresh}
+              />
+            </LightTooltip>
+          </MenuList>
         </Box>
+        <Divider />
+        <DrawerMenu />
       </Box>
-
-      <MenuList className={classes.menuList}>
-        <CustomInputSearch
-          placeholder="Search"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search className={classes.iconSearch} />
-              </InputAdornment>
-            ),
-          }}
-          variant="outlined"
-        />
-        <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
-          <FormatListBulletedSharp />
-        </MenuItem>
-        <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
-          <ShoppingBagOutlined />
-        </MenuItem>
-        <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
-          <Tooltip title="Help">
-            <HelpOutlineOutlined />
-          </Tooltip>
-        </MenuItem>
-        <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
-          <Tooltip title="User settings">
-            <PersonOutlineOutlined />
-          </Tooltip>
-        </MenuItem>
-
-        <LightTooltip
-          title={`Account manager for ${currentEmployeeData?.employeeName} ${currentEmployeeData?.employeeSurname}`}
-        >
-          <MyAccountPopoverMenuItem
-            currentEmployeeData={currentEmployeeData!}
-            triggerRefresh={triggerRefresh}
-          />
-        </LightTooltip>
-      </MenuList>
-    </Box>
+    </>
   ) : (
-    <MenuList className={classes.menuList}>
-      <Link to={routes.loginPage} className={classes.link}>
-        <CustomMenuItem>
-          <ListItemIcon>
-            <Login fontSize="small" />
-            <Typography variant="inherit">Login</Typography>
-          </ListItemIcon>
-        </CustomMenuItem>
-      </Link>
-      <Link to={routes.registrationPage} className={classes.link}>
-        <CustomMenuItem>
-          <ListItemIcon>
-            <FormatListBulleted fontSize="small" />
-            <Typography variant="inherit">Registration</Typography>
-          </ListItemIcon>
-        </CustomMenuItem>
-      </Link>
-    </MenuList>
+    <>
+      <Box className={classes.containerHeader}>
+        <MenuList className={classes.menuList}>
+          <Link to={routes.loginPage} className={classes.link}>
+            <CustomMenuItem>
+              <ListItemIcon>
+                <Login fontSize="small" />
+                <Typography variant="inherit">Login</Typography>
+              </ListItemIcon>
+            </CustomMenuItem>
+          </Link>
+          <Link to={routes.registrationPage} className={classes.link}>
+            <CustomMenuItem>
+              <ListItemIcon>
+                <FormatListBulleted fontSize="small" />
+                <Typography variant="inherit">Registration</Typography>
+              </ListItemIcon>
+            </CustomMenuItem>
+          </Link>
+        </MenuList>
+      </Box>
+      <Divider />
+    </>
   );
 };
 
