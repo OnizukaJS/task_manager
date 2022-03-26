@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
-  Button,
   Box,
   makeStyles,
   createStyles,

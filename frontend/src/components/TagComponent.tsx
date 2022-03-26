@@ -1,4 +1,3 @@
-import { Box } from "@material-ui/core";
 import React from "react";
 import TagModel from "../models/tagModels/TagModel";
 import { makeStyles, createStyles } from "@material-ui/styles";

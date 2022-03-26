@@ -13,12 +13,7 @@ import {
   Typography,
   withStyles,
 } from "@material-ui/core";
-import {
-  AssignmentTurnedIn,
-  BugReport,
-  CloseOutlined,
-  Save,
-} from "@material-ui/icons";
+import { CloseOutlined, Save } from "@material-ui/icons";
 import {
   Close,
   CompassCalibrationOutlined,
@@ -445,18 +440,6 @@ const WorkItemEditModalForm = ({
       .then(() => triggerRefresh())
       .then(() => setWorkItemToEdit({ ...workItemToEdit, comment: "" })) // Used to empty the TextField
       .catch(() => console.log("ERROR while adding a comment"));
-  };
-
-  const handleDelete = () => {
-    fetch(`https://localhost:44358/api/WorkItems/${workItemToEdit.id}`, {
-      method: "DELETE",
-    })
-      .then(() => console.log("Work Item deleted"))
-      .then(() => triggerRefresh())
-      .catch(() => console.log("ERROR while deleting"));
-
-    handleCloseWorkItem();
-    handleClosePopover();
   };
 
   const handleDeleteTag = (tagId: string) => {
