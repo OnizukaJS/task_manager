@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import TaskModel from "../models/taskModels/TaskModel";
 
 const useFetchSingleTask = (
-  refreshState: number,
-  taskId: string
+  taskId: string,
+  refreshState: number
 ): [TaskModel | undefined, boolean] => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [task, setTask] = useState<TaskModel>();
