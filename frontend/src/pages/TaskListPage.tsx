@@ -13,7 +13,6 @@ import TaskCreateModalForm from "../components/forms/create/TaskCreateModalForm"
 import TaskListColumns from "../components/TaskListColumns";
 import useFetchEmployees from "../hooks/useFetchEmployees";
 import useFetchTasks from "../hooks/useFetchTasks";
-import { Box, CircularProgress } from "@material-ui/core";
 import useFetchWorkItem from "../hooks/useFetchWorkItem";
 import WorkItemCreateModalForm from "../components/forms/create/WorkItemCreateModalForm";
 import WorkItemModel from "../models/workItemModels/WorkItemModel";
@@ -62,7 +61,7 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
   const [openCreateWorkItem, setOpenCreateWorkItem] = useState<boolean>(false);
   const [employees] = useFetchEmployees(refreshState);
   const [workItems] = useFetchWorkItem(refreshState);
-  const [tasks, isLoading] = useFetchTasks(refreshState);
+  const [tasks] = useFetchTasks(refreshState);
 
   console.log("workitem", workItems);
   console.log("tasks", tasks);
@@ -118,26 +117,19 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
 
   return (
     <>
-      {isLoading ? (
-        <Box component="div" m={1}>
-          <CircularProgress />
-          <p>Loading...</p>
-        </Box>
-      ) : (
-        <TaskListColumns
-          taskToCreate={taskToCreate}
-          setTaskToCreate={setTaskToCreate}
-          workItems={workItems}
-          tasks={tasks}
-          handleOpenEditTaskItem={handleOpenEditTaskItem}
-          handleOpenEditWorkItem={handleOpenEditWorkItem}
-          setOpenCreateWorkItem={setOpenCreateWorkItem}
-          setOpenCreateTaskItem={setOpenCreateTaskItem}
-          triggerRefresh={triggerRefresh}
-          refreshState={refreshState}
-          employees={employees}
-        />
-      )}
+      <TaskListColumns
+        taskToCreate={taskToCreate}
+        setTaskToCreate={setTaskToCreate}
+        workItems={workItems}
+        tasks={tasks}
+        handleOpenEditTaskItem={handleOpenEditTaskItem}
+        handleOpenEditWorkItem={handleOpenEditWorkItem}
+        setOpenCreateWorkItem={setOpenCreateWorkItem}
+        setOpenCreateTaskItem={setOpenCreateTaskItem}
+        triggerRefresh={triggerRefresh}
+        refreshState={refreshState}
+        employees={employees}
+      />
 
       <TaskCreateModalForm
         handleChange={handleChange}
