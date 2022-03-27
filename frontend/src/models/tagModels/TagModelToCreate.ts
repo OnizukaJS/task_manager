@@ -1,7 +1,7 @@
 interface TagModelToCreate {
   text: string;
-  workItemId?: string;
   taskToDoId?: string;
+  workItemId?: string;
 }
 
 export default TagModelToCreate;
