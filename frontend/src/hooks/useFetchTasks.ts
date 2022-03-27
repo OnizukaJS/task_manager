@@ -18,8 +18,7 @@ const useFetchTasks = (
     })
       .then((response) => response.json())
       .then((data) => setTasks(data))
-      // .then(() => setTimeout(() => setIsLoading(false), 200))
-      .then(() => setIsLoading(false))
+      .then(() => setTimeout(() => setIsLoading(false), 200))
       .catch(() => console.log("ERROR while getting tasks"));
   }, [refreshState]);
 
