@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   createStyles,
   Divider,
   Grid,
@@ -46,6 +47,7 @@ import ButtonComponent from "./buttons/ButtonComponent";
 import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import sprintImage from "../images/sprint_image.png";
+import useFetchTasks from "../hooks/useFetchTasks";
 
 export interface StyleProps {
   expandedWorkItem: string[];
@@ -358,6 +360,8 @@ const TaskListColumns = ({
     showWarningMessage({ message: "This button does nothing! :)" });
   };
 
+  const [, isLoading] = useFetchTasks(refreshState);
+
   return (
     <>
       <HeaderTaskListColumn1>
@@ -520,175 +524,182 @@ const TaskListColumns = ({
         />
       ) : null}
 
-      <Box className={classes.containerTaskListColumn}>
-        <Box className={classes.containerGridColumnScroll}>
-          <Grid
-            container
-            direction="row"
-            className={classes.containerGridColumnTitles}
-          >
-            <Grid
-              container
-              direction="column"
-              xs
-              className={`${classes.paddingMarginGridContainer}`}
-            >
-              <Box>
-                <button
-                  className={classes.expandButton}
-                  onClick={() => handleExpandOrCloseAll()}
-                >
-                  <DoubleArrow
-                    fontSize="small"
-                    className={classes.doubleArrowIcon}
-                  />{" "}
-                  <p className={`${classes.titleGridContainer}`}>
-                    {expandedWorkItem && expandedWorkItem.length === 0
-                      ? "Expand all"
-                      : "Collapse all"}
-                  </p>
-                </button>
-              </Box>
-            </Grid>
-
-            <Grid
-              container
-              direction="column"
-              xs
-              className={`${classes.paddingMarginGridContainer}`}
-            >
-              <p className={classes.titleGridContainer}>New</p>
-            </Grid>
-
-            <Grid
-              container
-              direction="column"
-              xs
-              className={`${classes.paddingMarginGridContainer}`}
-            >
-              <p className={classes.titleGridContainer}>Active</p>
-            </Grid>
-
-            <Grid
-              container
-              direction="column"
-              xs
-              className={`${classes.paddingMarginGridContainer}`}
-            >
-              <p className={classes.titleGridContainer}>Resolved</p>
-            </Grid>
-
-            <Grid
-              container
-              direction="column"
-              xs
-              className={`${classes.paddingMarginGridContainer}`}
-            >
-              <p className={classes.titleGridContainer}>Ready For Test</p>
-            </Grid>
-
-            <Grid
-              container
-              direction="column"
-              xs
-              className={`${classes.paddingMarginGridContainer}`}
-            >
-              <p className={classes.titleGridContainer}>Closed</p>
-            </Grid>
-          </Grid>
-
-          <Grid className={classes.containerGridColumnTasks}>
-            {workItems?.map((workItem, id) => {
-              return (
-                <DragDropContext
-                  onDragEnd={onDragEnd}
-                  onDragStart={onDragStart}
-                >
-                  <Accordion
-                    expanded={expandedWorkItem?.includes(workItem.id)}
-                    onChange={handleIsExpanded(workItem.id)}
-                  >
-                    <AccordionSummary>
-                      <MenuBook
-                        className={classes.workItemType}
-                        fontSize="small"
-                      />
-                      <Typography>{workItem.name}</Typography>
-                    </AccordionSummary>
-
-                    <AccordionDetails>
-                      <Grid container direction="row">
-                        <WorkItemColumn
-                          workItem={workItem}
-                          id={id}
-                          handleOpenEditWorkItem={handleOpenEditWorkItem}
-                          triggerRefresh={triggerRefresh}
-                          employees={employees}
-                          refreshState={refreshState}
-                        />
-
-                        <TaskColumn
-                          employees={employees}
-                          status={TaskStatusEnum.New}
-                          tasks={tasks}
-                          workItemId={workItem.id}
-                          handleOpenEditTaskItem={handleOpenEditTaskItem}
-                          triggerRefresh={triggerRefresh}
-                          refreshState={refreshState}
-                          handleClosePopover={handleClosePopover}
-                          handleUpdateTaskItemType={handleUpdateTaskItemType}
-                          popoverToDisplay={popoverToDisplay}
-                          setPopoverToDisplay={setPopoverToDisplay}
-                        />
-
-                        <TaskColumn
-                          employees={employees}
-                          status={TaskStatusEnum.Active}
-                          tasks={tasks}
-                          workItemId={workItem.id}
-                          handleOpenEditTaskItem={handleOpenEditTaskItem}
-                          triggerRefresh={triggerRefresh}
-                          refreshState={refreshState}
-                        />
-
-                        <TaskColumn
-                          employees={employees}
-                          status={TaskStatusEnum.Resolved}
-                          tasks={tasks}
-                          workItemId={workItem.id}
-                          handleOpenEditTaskItem={handleOpenEditTaskItem}
-                          triggerRefresh={triggerRefresh}
-                          refreshState={refreshState}
-                        />
-
-                        <TaskColumn
-                          employees={employees}
-                          status={TaskStatusEnum.ReadyForTest}
-                          tasks={tasks}
-                          workItemId={workItem.id}
-                          handleOpenEditTaskItem={handleOpenEditTaskItem}
-                          triggerRefresh={triggerRefresh}
-                          refreshState={refreshState}
-                        />
-
-                        <TaskColumn
-                          employees={employees}
-                          status={TaskStatusEnum.Closed}
-                          tasks={tasks}
-                          workItemId={workItem.id}
-                          handleOpenEditTaskItem={handleOpenEditTaskItem}
-                          triggerRefresh={triggerRefresh}
-                          refreshState={refreshState}
-                        />
-                      </Grid>
-                    </AccordionDetails>
-                  </Accordion>
-                </DragDropContext>
-              );
-            })}
-          </Grid>
+      {isLoading ? (
+        <Box component="div" m={1}>
+          <CircularProgress />
+          <p>Loading...</p>
         </Box>
-      </Box>
+      ) : (
+        <Box className={classes.containerTaskListColumn}>
+          <Box className={classes.containerGridColumnScroll}>
+            <Grid
+              container
+              direction="row"
+              className={classes.containerGridColumnTitles}
+            >
+              <Grid
+                container
+                direction="column"
+                xs
+                className={`${classes.paddingMarginGridContainer}`}
+              >
+                <Box>
+                  <button
+                    className={classes.expandButton}
+                    onClick={() => handleExpandOrCloseAll()}
+                  >
+                    <DoubleArrow
+                      fontSize="small"
+                      className={classes.doubleArrowIcon}
+                    />{" "}
+                    <p className={`${classes.titleGridContainer}`}>
+                      {expandedWorkItem && expandedWorkItem.length === 0
+                        ? "Expand all"
+                        : "Collapse all"}
+                    </p>
+                  </button>
+                </Box>
+              </Grid>
+
+              <Grid
+                container
+                direction="column"
+                xs
+                className={`${classes.paddingMarginGridContainer}`}
+              >
+                <p className={classes.titleGridContainer}>New</p>
+              </Grid>
+
+              <Grid
+                container
+                direction="column"
+                xs
+                className={`${classes.paddingMarginGridContainer}`}
+              >
+                <p className={classes.titleGridContainer}>Active</p>
+              </Grid>
+
+              <Grid
+                container
+                direction="column"
+                xs
+                className={`${classes.paddingMarginGridContainer}`}
+              >
+                <p className={classes.titleGridContainer}>Resolved</p>
+              </Grid>
+
+              <Grid
+                container
+                direction="column"
+                xs
+                className={`${classes.paddingMarginGridContainer}`}
+              >
+                <p className={classes.titleGridContainer}>Ready For Test</p>
+              </Grid>
+
+              <Grid
+                container
+                direction="column"
+                xs
+                className={`${classes.paddingMarginGridContainer}`}
+              >
+                <p className={classes.titleGridContainer}>Closed</p>
+              </Grid>
+            </Grid>
+
+            <Grid className={classes.containerGridColumnTasks}>
+              {workItems?.map((workItem, id) => {
+                return (
+                  <DragDropContext
+                    onDragEnd={onDragEnd}
+                    onDragStart={onDragStart}
+                  >
+                    <Accordion
+                    // expanded={expandedWorkItem?.includes(workItem.id)}
+                    // onChange={handleIsExpanded(workItem.id)}
+                    >
+                      <AccordionSummary>
+                        <MenuBook
+                          className={classes.workItemType}
+                          fontSize="small"
+                        />
+                        <Typography>{workItem.name}</Typography>
+                      </AccordionSummary>
+
+                      <AccordionDetails>
+                        <Grid container direction="row">
+                          <WorkItemColumn
+                            workItem={workItem}
+                            id={id}
+                            handleOpenEditWorkItem={handleOpenEditWorkItem}
+                            triggerRefresh={triggerRefresh}
+                            employees={employees}
+                            refreshState={refreshState}
+                          />
+
+                          <TaskColumn
+                            employees={employees}
+                            status={TaskStatusEnum.New}
+                            tasks={tasks}
+                            workItemId={workItem.id}
+                            handleOpenEditTaskItem={handleOpenEditTaskItem}
+                            triggerRefresh={triggerRefresh}
+                            refreshState={refreshState}
+                            handleClosePopover={handleClosePopover}
+                            handleUpdateTaskItemType={handleUpdateTaskItemType}
+                            popoverToDisplay={popoverToDisplay}
+                            setPopoverToDisplay={setPopoverToDisplay}
+                          />
+
+                          <TaskColumn
+                            employees={employees}
+                            status={TaskStatusEnum.Active}
+                            tasks={tasks}
+                            workItemId={workItem.id}
+                            handleOpenEditTaskItem={handleOpenEditTaskItem}
+                            triggerRefresh={triggerRefresh}
+                            refreshState={refreshState}
+                          />
+
+                          <TaskColumn
+                            employees={employees}
+                            status={TaskStatusEnum.Resolved}
+                            tasks={tasks}
+                            workItemId={workItem.id}
+                            handleOpenEditTaskItem={handleOpenEditTaskItem}
+                            triggerRefresh={triggerRefresh}
+                            refreshState={refreshState}
+                          />
+
+                          <TaskColumn
+                            employees={employees}
+                            status={TaskStatusEnum.ReadyForTest}
+                            tasks={tasks}
+                            workItemId={workItem.id}
+                            handleOpenEditTaskItem={handleOpenEditTaskItem}
+                            triggerRefresh={triggerRefresh}
+                            refreshState={refreshState}
+                          />
+
+                          <TaskColumn
+                            employees={employees}
+                            status={TaskStatusEnum.Closed}
+                            tasks={tasks}
+                            workItemId={workItem.id}
+                            handleOpenEditTaskItem={handleOpenEditTaskItem}
+                            triggerRefresh={triggerRefresh}
+                            refreshState={refreshState}
+                          />
+                        </Grid>
+                      </AccordionDetails>
+                    </Accordion>
+                  </DragDropContext>
+                );
+              })}
+            </Grid>
+          </Box>
+        </Box>
+      )}
     </>
   );
 };
