@@ -72,8 +72,6 @@ const AddTagButton = ({
 
   const handlePressEnter = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
-      console.log(tagToCreate);
-
       fetch(`https://localhost:44358/api/Tags`, {
         method: "POST",
         headers: {

@@ -46,7 +46,7 @@ namespace TaskManager.Controllers.tag
 
         [HttpPost]
         [Route("api/[controller]")]
-        public IActionResult AddTag(TagCreateModel tagCreate)
+        public IActionResult AddTag([FromBody]TagCreateModel tagCreate)
         {
             var tag = _mapper.Map<Tag>(tagCreate);
 
