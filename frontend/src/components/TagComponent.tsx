@@ -26,6 +26,7 @@ const TagComponent = ({ tag, tagToCreate }: TagComponentProps) => {
     createStyles({
       containerTag: {
         backgroundColor: "#EFF6FC",
+        marginRight: "4px",
       },
     })
   );
