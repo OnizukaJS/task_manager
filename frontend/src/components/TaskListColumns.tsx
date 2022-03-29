@@ -1,6 +1,5 @@
 import {
   Box,
-  CircularProgress,
   createStyles,
   Divider,
   Grid,
