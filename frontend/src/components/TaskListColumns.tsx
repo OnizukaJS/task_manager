@@ -48,6 +48,7 @@ import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import sprintImage from "../images/sprint_image.png";
 import useFetchTasks from "../hooks/useFetchTasks";
+import LoadingTasksList from "./loadings/LoadingTasksList";
 
 export interface StyleProps {
   expandedWorkItem: string[];
@@ -524,89 +525,89 @@ const TaskListColumns = ({
         />
       ) : null}
 
-      {isLoading ? (
-        <Box component="div" m={1}>
-          <CircularProgress />
-          <p>Loading...</p>
-        </Box>
-      ) : (
-        <Box className={classes.containerTaskListColumn}>
-          <Box className={classes.containerGridColumnScroll}>
+      <Box className={classes.containerTaskListColumn}>
+        <Box className={classes.containerGridColumnScroll}>
+          <Grid
+            container
+            direction="row"
+            className={classes.containerGridColumnTitles}
+          >
             <Grid
               container
-              direction="row"
-              className={classes.containerGridColumnTitles}
+              direction="column"
+              xs
+              className={`${classes.paddingMarginGridContainer}`}
             >
-              <Grid
-                container
-                direction="column"
-                xs
-                className={`${classes.paddingMarginGridContainer}`}
-              >
-                <Box>
-                  <button
-                    className={classes.expandButton}
-                    onClick={() => handleExpandOrCloseAll()}
-                  >
-                    <DoubleArrow
-                      fontSize="small"
-                      className={classes.doubleArrowIcon}
-                    />{" "}
-                    <p className={`${classes.titleGridContainer}`}>
-                      {expandedWorkItem && expandedWorkItem.length === 0
-                        ? "Expand all"
-                        : "Collapse all"}
-                    </p>
-                  </button>
-                </Box>
-              </Grid>
-
-              <Grid
-                container
-                direction="column"
-                xs
-                className={`${classes.paddingMarginGridContainer}`}
-              >
-                <p className={classes.titleGridContainer}>New</p>
-              </Grid>
-
-              <Grid
-                container
-                direction="column"
-                xs
-                className={`${classes.paddingMarginGridContainer}`}
-              >
-                <p className={classes.titleGridContainer}>Active</p>
-              </Grid>
-
-              <Grid
-                container
-                direction="column"
-                xs
-                className={`${classes.paddingMarginGridContainer}`}
-              >
-                <p className={classes.titleGridContainer}>Resolved</p>
-              </Grid>
-
-              <Grid
-                container
-                direction="column"
-                xs
-                className={`${classes.paddingMarginGridContainer}`}
-              >
-                <p className={classes.titleGridContainer}>Ready For Test</p>
-              </Grid>
-
-              <Grid
-                container
-                direction="column"
-                xs
-                className={`${classes.paddingMarginGridContainer}`}
-              >
-                <p className={classes.titleGridContainer}>Closed</p>
-              </Grid>
+              <Box>
+                <button
+                  className={classes.expandButton}
+                  onClick={() => handleExpandOrCloseAll()}
+                >
+                  <DoubleArrow
+                    fontSize="small"
+                    className={classes.doubleArrowIcon}
+                  />{" "}
+                  <p className={`${classes.titleGridContainer}`}>
+                    {expandedWorkItem && expandedWorkItem.length === 0
+                      ? "Expand all"
+                      : "Collapse all"}
+                  </p>
+                </button>
+              </Box>
             </Grid>
 
+            <Grid
+              container
+              direction="column"
+              xs
+              className={`${classes.paddingMarginGridContainer}`}
+            >
+              <p className={classes.titleGridContainer}>New</p>
+            </Grid>
+
+            <Grid
+              container
+              direction="column"
+              xs
+              className={`${classes.paddingMarginGridContainer}`}
+            >
+              <p className={classes.titleGridContainer}>Active</p>
+            </Grid>
+
+            <Grid
+              container
+              direction="column"
+              xs
+              className={`${classes.paddingMarginGridContainer}`}
+            >
+              <p className={classes.titleGridContainer}>Resolved</p>
+            </Grid>
+
+            <Grid
+              container
+              direction="column"
+              xs
+              className={`${classes.paddingMarginGridContainer}`}
+            >
+              <p className={classes.titleGridContainer}>Ready For Test</p>
+            </Grid>
+
+            <Grid
+              container
+              direction="column"
+              xs
+              className={`${classes.paddingMarginGridContainer}`}
+            >
+              <p className={classes.titleGridContainer}>Closed</p>
+            </Grid>
+          </Grid>
+
+          {isLoading ? (
+            <>
+              <LoadingTasksList />
+              <LoadingTasksList />
+            </>
+          ) : (
             <Grid className={classes.containerGridColumnTasks}>
               {workItems?.map((workItem, id) => {
                 return (
@@ -697,9 +698,9 @@ const TaskListColumns = ({
                 );
               })}
             </Grid>
-          </Box>
+          )}
         </Box>
-      )}
+      </Box>
     </>
   );
 };
