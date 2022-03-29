@@ -4,7 +4,6 @@ import {
   Box,
   CircularProgress,
   createStyles,
-  IconButton,
   makeStyles,
   Modal,
   Popover,
@@ -32,9 +31,6 @@ import Cookies from "universal-cookie";
 import TaskEmployeeSelect from "../../selects/TaskEmployeeSelect";
 import useFetchCommentsPerTask from "../../../hooks/useFetchCommentsPerTask";
 import AccordionComponent from "../../AccordionComponent";
-import AddTagButton from "../../buttons/AddTagButton";
-import useFetchTagsPerTask from "../../../hooks/useFetchTagsPerTask";
-import TagComponent from "../../TagComponent";
 import {
   Close,
   CompassCalibrationOutlined,
@@ -45,6 +41,7 @@ import {
 import DeleteTaskDialog from "../../DeleteTaskDialog";
 import { Tooltip } from "@mui/material";
 import { useWarningSnackbar } from "../../../hooks/useErrorSnackbar";
+import TagsListTaskItem from "../../TagsListTaskItem";
 
 interface TaskEditModalFormProps {
   openEditTaskItem: boolean;
@@ -145,16 +142,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       marginLeft: "1em",
       width: "100%",
     },
-    containerTagAndDeleteButton: {
-      display: "flex",
-      "& :focus": {
-        backgroundColor: "#0078d4",
-      },
-    },
-    containerTagInfo: {
-      display: "flex",
-      alignItems: "center",
-    },
     containerTaskToEditInfo: {
       display: "flex",
       padding: `0 ${theme.spacing(3)}px ${theme.spacing(2)}px ${theme.spacing(
@@ -201,6 +188,10 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       alignItems: "center",
       marginRight: theme.spacing(1),
       paddingBottom: theme.spacing(1.66),
+    },
+    isTagsLoading: {
+      display: "flex",
+      alignItems: "center",
     },
     modal: {
       display: "flex",
@@ -327,23 +318,6 @@ const TextFieldDiscussion = withStyles({
   },
 })(TextField);
 
-const DeleteTagButton = withStyles({
-  root: {
-    backgroundColor: "#EFF6FC",
-    marginRight: ".3em",
-    border: "none",
-    borderRadius: 0,
-    padding: "0px 0px",
-
-    "&:hover": {
-      backgroundColor: "#DEECF9",
-    },
-    "&:focus": {
-      backgroundColor: "#0078d4",
-    },
-  },
-})(IconButton);
-
 const TaskEditModalForm = ({
   openEditTaskItem,
   handleClose,
@@ -368,9 +342,6 @@ const TaskEditModalForm = ({
     taskToEdit.id,
     refreshState
   );
-
-  const [tags] = useFetchTagsPerTask(taskToEdit.id, refreshState);
-  console.log("tags", tags);
 
   useMemo(() => {
     const cookie = new Cookies();
@@ -425,15 +396,6 @@ const TaskEditModalForm = ({
       .then(() => triggerRefresh())
       .then(() => setTaskToEdit({ ...taskToEdit, comment: "" })) // Used to empty the TextField
       .catch(() => console.log("ERROR while adding a comment"));
-  };
-
-  const handleDeleteTag = (tagId: string) => {
-    fetch(`https://localhost:44358/api/Tags/${tagId}`, {
-      method: "DELETE",
-    })
-      .then(() => console.log("Tag deleted"))
-      .then(() => triggerRefresh!())
-      .catch(() => console.log("ERROR while deleting tag"));
   };
 
   const handleDoesNothing = () => {
@@ -505,25 +467,7 @@ const TaskEditModalForm = ({
                 {comments?.length} Comment{comments?.length! > 1 ? "s" : null}
               </Box>
 
-              <Box className={classes.containerTagInfo}>
-                {tags
-                  ? tags.map((tag) => (
-                      <Box className={classes.containerTagAndDeleteButton}>
-                        <TagComponent tag={tag} />
-                        <DeleteTagButton
-                          onClick={() => handleDeleteTag(tag.tagId)}
-                        >
-                          <Close fontSize="small" />
-                        </DeleteTagButton>
-                      </Box>
-                    ))
-                  : null}
-                <AddTagButton
-                  tags={tags}
-                  taskId={taskToEdit.id}
-                  triggerRefresh={triggerRefresh}
-                />
-              </Box>
+              <TagsListTaskItem taskId={taskToEdit.id} />
             </Box>
 
             <Box

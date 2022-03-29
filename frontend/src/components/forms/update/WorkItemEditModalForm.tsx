@@ -4,7 +4,6 @@ import {
   Box,
   CircularProgress,
   createStyles,
-  IconButton,
   makeStyles,
   Modal,
   Popover,
@@ -36,10 +35,8 @@ import WorkItemModel from "../../../models/workItemModels/WorkItemModel";
 import useFetchCommentsPerWorkItem from "../../../hooks/useFetchCommentsPerWorkItem";
 import { Tooltip } from "@mui/material";
 import { useWarningSnackbar } from "../../../hooks/useErrorSnackbar";
-import useFetchTagsPerTask from "../../../hooks/useFetchTagsPerTask";
-import TagComponent from "../../TagComponent";
-import AddTagButton from "../../buttons/AddTagButton";
 import DeleteTaskDialog from "../../DeleteTaskDialog";
+import TagsListWorkItem from "../../TagsListWorkItem";
 
 interface WorkItemEditModalFormProps {
   openEditWorkItem: boolean;
@@ -154,10 +151,6 @@ const useStyles = makeStyles<Theme>((theme) =>
     containerStatusAndSprintInfoElementsSecondBloc: {
       marginLeft: "1em",
       width: "100%",
-    },
-    containerTagInfo: {
-      display: "flex",
-      alignItems: "center",
     },
     containerWorkItemToEditInfo: {
       display: "flex",
@@ -343,23 +336,6 @@ const TextFieldDiscussion = withStyles({
   },
 })(TextField);
 
-const DeleteTagButton = withStyles({
-  root: {
-    backgroundColor: "#EFF6FC",
-    marginRight: ".3em",
-    border: "none",
-    borderRadius: 0,
-    padding: "0px 0px",
-
-    "&:hover": {
-      backgroundColor: "#DEECF9",
-    },
-    "&:focus": {
-      backgroundColor: "#0078d4",
-    },
-  },
-})(IconButton);
-
 const WorkItemEditModalForm = ({
   openEditWorkItem,
   handleCloseWorkItem,
@@ -384,8 +360,6 @@ const WorkItemEditModalForm = ({
     workItemToEdit.id,
     refreshState
   );
-
-  const [tags] = useFetchTagsPerTask(workItemToEdit.id, refreshState);
 
   useMemo(() => {
     const cookie = new Cookies();
@@ -440,15 +414,6 @@ const WorkItemEditModalForm = ({
       .then(() => triggerRefresh())
       .then(() => setWorkItemToEdit({ ...workItemToEdit, comment: "" })) // Used to empty the TextField
       .catch(() => console.log("ERROR while adding a comment"));
-  };
-
-  const handleDeleteTag = (tagId: string) => {
-    fetch(`https://localhost:44358/api/Tags/${tagId}`, {
-      method: "DELETE",
-    })
-      .then(() => console.log("Tag deleted"))
-      .then(() => triggerRefresh!())
-      .catch(() => console.log("ERROR while deleting tag"));
   };
 
   const handleDoesNothing = () => {
@@ -514,25 +479,7 @@ const WorkItemEditModalForm = ({
                 {comments?.length} Comment{comments?.length! > 1 ? "s" : null}
               </Box>
 
-              <Box className={classes.containerTagInfo}>
-                {tags
-                  ? tags.map((tag) => (
-                      <Box className={classes.containerTagAndDeleteButton}>
-                        <TagComponent tag={tag} />
-                        <DeleteTagButton
-                          onClick={() => handleDeleteTag(tag.tagId)}
-                        >
-                          <Close fontSize="small" />
-                        </DeleteTagButton>
-                      </Box>
-                    ))
-                  : null}
-                <AddTagButton
-                  tags={tags}
-                  workItemId={workItemToEdit.id}
-                  triggerRefresh={triggerRefresh}
-                />
-              </Box>
+              <TagsListWorkItem workItemId={workItemToEdit.id} />
             </Box>
 
             <Box

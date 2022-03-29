@@ -46,14 +46,14 @@ interface AddTagButtonProps {
   tags: TagModel[] | undefined;
   taskId?: string;
   workItemId?: string;
-  triggerRefresh: () => void;
+  triggerRefreshTag: () => void;
 }
 
 const AddTagButton = ({
   tags,
   taskId,
   workItemId,
-  triggerRefresh,
+  triggerRefreshTag,
 }: AddTagButtonProps) => {
   const [displayInput, setDisplayInput] = useState<boolean>(false);
   const [tagToCreate, setTagToCreate] = useState<TagModelToCreate>({
@@ -71,6 +71,8 @@ const AddTagButton = ({
   };
 
   const handlePressEnter = (e: KeyboardEvent) => {
+    e.preventDefault();
+
     if (e.key === "Enter") {
       fetch(`https://localhost:44358/api/Tags`, {
         method: "POST",
@@ -85,7 +87,7 @@ const AddTagButton = ({
       })
         .then((response) => response.json())
         .then((data) => console.log(data))
-        .then(() => triggerRefresh())
+        .then(() => triggerRefreshTag())
         .catch(() => console.log("ERROR while creating new tag"));
     }
   };
