@@ -2,7 +2,6 @@ import React, { useMemo, useState } from "react";
 
 import {
   Box,
-  CircularProgress,
   createStyles,
   makeStyles,
   Modal,
@@ -24,9 +23,7 @@ import {
 } from "@material-ui/icons";
 import ForumOutlinedIcon from "@material-ui/icons/ForumOutlined";
 import TaskStatusColorIcon from "../../ColorIconStatus";
-import CommentItem from "../../CommentItem";
 import EmployeeModel from "../../../models/employeeModels/EmployeeModel";
-import ProfilePicture from "../../ProfilePicture";
 import Cookies from "universal-cookie";
 import TaskEmployeeSelect from "../../selects/TaskEmployeeSelect";
 import useFetchCommentsPerTask from "../../../hooks/useFetchCommentsPerTask";
@@ -42,6 +39,7 @@ import DeleteTaskDialog from "../../DeleteTaskDialog";
 import { Tooltip } from "@mui/material";
 import { useWarningSnackbar } from "../../../hooks/useErrorSnackbar";
 import TagsListTaskItem from "../../TagsListTaskItem";
+import CommentsListTaskItem from "../../CommentsListTaskItem";
 
 interface TaskEditModalFormProps {
   openEditTaskItem: boolean;
@@ -66,10 +64,6 @@ export interface StyleProps {
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) =>
   createStyles({
-    avatar: {
-      marginRight: theme.spacing(1),
-      display: "flex",
-    },
     avatarEditTitle: {
       display: "flex",
       alignItems: "center",
@@ -102,12 +96,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     commentIcon: {
       color: "#3E93DC",
       marginRight: theme.spacing(1),
-    },
-    commentsContainer: {
-      maxHeight: "250px",
-      overflow: "scroll",
-      overflowX: "hidden",
-      marginTop: theme.spacing(2),
     },
     containerCommentInfo: {
       display: "flex",
@@ -179,7 +167,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       alignItems: "center",
       width: "100%",
     },
-    formContainer: {},
+    formContainer: {
+      paddingBottom: theme.spacing(2),
+    },
     fullWidth: {
       width: "100%",
     },
@@ -208,11 +198,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       "&:hover": {
         backgroundColor: "#deecf9",
       },
-    },
-    myAvatarDiscussion: {
-      display: "flex",
-      width: "100%",
-      marginTop: theme.spacing(2),
     },
     paper: {
       position: "absolute",
@@ -290,34 +275,6 @@ const TextFieldNoUnderline = withStyles({
   },
 })(TextField);
 
-const TextFieldDiscussion = withStyles({
-  root: {
-    width: "100%",
-
-    "& .MuiInputBase-multiline": {
-      paddingTop: 0,
-    },
-    "& .MuiInputBase-input": {
-      border: "1px solid #EAEAEA",
-      borderRadius: "5px",
-      padding: "16px",
-
-      "&:focus": {
-        border: "1px solid #0078D4",
-      },
-    },
-    "& .MuiInput-underline:before": {
-      borderBottom: "none",
-    },
-    "& .MuiInput-underline:hover:before": {
-      border: "none",
-    },
-    "& .MuiInput-underline:after": {
-      border: "none",
-    },
-  },
-})(TextField);
-
 const TaskEditModalForm = ({
   openEditTaskItem,
   handleClose,
@@ -338,10 +295,7 @@ const TaskEditModalForm = ({
     surnameEmployeeLogged: "",
   });
 
-  const [comments, isLoading] = useFetchCommentsPerTask(
-    taskToEdit.id,
-    refreshState
-  );
+  const [comments] = useFetchCommentsPerTask(taskToEdit.id, refreshState);
 
   useMemo(() => {
     const cookie = new Cookies();
@@ -378,24 +332,6 @@ const TaskEditModalForm = ({
       .catch(() => console.log("ERROR while posting new task"));
 
     handleClose();
-  };
-
-  const handleAddCommentTask = () => {
-    fetch("https://localhost:44358/api/Comments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: taskToEdit.comment,
-        employeeId: employeeId,
-        taskToDoId: taskToEdit.id,
-      }),
-    })
-      .then((response) => response.json())
-      .then(() => triggerRefresh())
-      .then(() => setTaskToEdit({ ...taskToEdit, comment: "" })) // Used to empty the TextField
-      .catch(() => console.log("ERROR while adding a comment"));
   };
 
   const handleDoesNothing = () => {
@@ -626,50 +562,12 @@ const TaskEditModalForm = ({
             </AccordionComponent>
 
             <AccordionComponent title="Discussion">
-              <Box className={classes.myAvatarDiscussion}>
-                <Box className={classes.avatar}>
-                  <ProfilePicture
-                    name={employeeLogged.nameEmployeeLogged}
-                    surname={employeeLogged.surnameEmployeeLogged}
-                  />
-                </Box>
-                <Box
-                  className={`${classes.discussionButton} ${classes.fullWidth}`}
-                >
-                  <TextFieldDiscussion
-                    name="comment"
-                    multiline
-                    rows={4}
-                    onChange={handleChangeEditTaskItem}
-                    placeholder="Add a comment. Use # to link a work item, ! to link a pull request, or @ to mention a person."
-                    value={taskToEdit.comment}
-                  />
-                  <ButtonComponent
-                    text="Add Comment"
-                    onClick={handleAddCommentTask}
-                    color="primary"
-                    variant="contained"
-                  />
-                </Box>
-              </Box>
-
-              {isLoading ? (
-                <Box component="div" className={classes.containerSpinner} m={1}>
-                  <CircularProgress />
-                  <p className={classes.textSpinner}>Loading...</p>
-                </Box>
-              ) : (
-                <Box className={classes.commentsContainer}>
-                  {comments?.map((comment) => {
-                    return (
-                      <CommentItem
-                        comment={comment}
-                        refreshState={refreshState}
-                      />
-                    );
-                  })}
-                </Box>
-              )}
+              <CommentsListTaskItem
+                handleChangeEditTaskItem={handleChangeEditTaskItem}
+                taskToEdit={taskToEdit}
+                setTaskToEdit={setTaskToEdit}
+                employeeId={employeeId}
+              />
             </AccordionComponent>
           </Box>
 

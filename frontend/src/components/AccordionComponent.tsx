@@ -73,7 +73,8 @@ const AccordionComponent = ({ title, children }: AccordionComponentProps) => {
 
   return (
     <>
-      <MuiAccordionComponent expanded={expanded} onClick={handleIsExpanded}>
+      {/* <MuiAccordionComponent expanded={expanded} onClick={handleIsExpanded}> */}
+      <MuiAccordionComponent onClick={handleIsExpanded}>
         <MuiAccordionSummary expandIcon={<ExpandMore />}>
           <h3 className={classes.subTitlesTexts}>{title}</h3>
         </MuiAccordionSummary>

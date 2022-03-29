@@ -2,7 +2,6 @@ import React, { useMemo, useState } from "react";
 
 import {
   Box,
-  CircularProgress,
   createStyles,
   makeStyles,
   Modal,
@@ -25,9 +24,7 @@ import TaskStatusSelect from "../../selects/TaskStatusSelect";
 import { MenuBook } from "@material-ui/icons";
 import ForumOutlinedIcon from "@material-ui/icons/ForumOutlined";
 import TaskStatusColorIcon from "../../ColorIconStatus";
-import CommentItem from "../../CommentItem";
 import EmployeeModel from "../../../models/employeeModels/EmployeeModel";
-import ProfilePicture from "../../ProfilePicture";
 import Cookies from "universal-cookie";
 import TaskEmployeeSelect from "../../selects/TaskEmployeeSelect";
 import AccordionComponent from "../../AccordionComponent";
@@ -37,6 +34,7 @@ import { Tooltip } from "@mui/material";
 import { useWarningSnackbar } from "../../../hooks/useErrorSnackbar";
 import DeleteTaskDialog from "../../DeleteTaskDialog";
 import TagsListWorkItem from "../../TagsListWorkItem";
+import CommentsListWorkItemItem from "../../CommentsListWorkItem";
 
 interface WorkItemEditModalFormProps {
   openEditWorkItem: boolean;
@@ -57,10 +55,6 @@ interface WorkItemEditModalFormProps {
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
-    avatar: {
-      marginRight: theme.spacing(1),
-      display: "flex",
-    },
     avatarEditTitle: {
       display: "flex",
       alignItems: "center",
@@ -101,12 +95,6 @@ const useStyles = makeStyles<Theme>((theme) =>
     commentIcon: {
       color: "#3E93DC",
       marginRight: theme.spacing(1),
-    },
-    commentsContainer: {
-      maxHeight: "250px",
-      overflow: "scroll",
-      overflowX: "hidden",
-      marginTop: theme.spacing(2),
     },
     containerAvatarsHeaderInfo: {
       display: "flex",
@@ -195,7 +183,9 @@ const useStyles = makeStyles<Theme>((theme) =>
         border: "1px solid #EAEAEA",
       },
     },
-    formContainer: {},
+    formContainer: {
+      paddingBottom: theme.spacing(2),
+    },
     fullWidth: {
       width: "100%",
     },
@@ -220,11 +210,6 @@ const useStyles = makeStyles<Theme>((theme) =>
       "&:hover": {
         backgroundColor: "#deecf9",
       },
-    },
-    myAvatarDiscussion: {
-      display: "flex",
-      width: "100%",
-      marginTop: theme.spacing(2),
     },
     paper: {
       position: "absolute",
@@ -308,34 +293,6 @@ const TextFieldNoUnderline = withStyles({
   },
 })(TextField);
 
-const TextFieldDiscussion = withStyles({
-  root: {
-    width: "100%",
-
-    "& .MuiInputBase-multiline": {
-      paddingTop: 0,
-    },
-    "& .MuiInputBase-input": {
-      border: "1px solid #EAEAEA",
-      borderRadius: "5px",
-      padding: "16px",
-
-      "&:focus": {
-        border: "1px solid #0078D4",
-      },
-    },
-    "& .MuiInput-underline:before": {
-      borderBottom: "none",
-    },
-    "& .MuiInput-underline:hover:before": {
-      border: "none",
-    },
-    "& .MuiInput-underline:after": {
-      border: "none",
-    },
-  },
-})(TextField);
-
 const WorkItemEditModalForm = ({
   openEditWorkItem,
   handleCloseWorkItem,
@@ -356,7 +313,7 @@ const WorkItemEditModalForm = ({
     surnameEmployeeLogged: "",
   });
 
-  const [comments, isLoading] = useFetchCommentsPerWorkItem(
+  const [comments] = useFetchCommentsPerWorkItem(
     workItemToEdit.id,
     refreshState
   );
@@ -396,24 +353,6 @@ const WorkItemEditModalForm = ({
       .catch(() => console.log("ERROR while updating work item"));
 
     handleCloseWorkItem();
-  };
-
-  const handleAddCommentWorkItem = () => {
-    fetch("https://localhost:44358/api/Comments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: workItemToEdit.comment,
-        employeeId: employeeId,
-        workItemId: workItemToEdit.id,
-      }),
-    })
-      .then((response) => response.json())
-      .then(() => triggerRefresh())
-      .then(() => setWorkItemToEdit({ ...workItemToEdit, comment: "" })) // Used to empty the TextField
-      .catch(() => console.log("ERROR while adding a comment"));
   };
 
   const handleDoesNothing = () => {
@@ -638,50 +577,12 @@ const WorkItemEditModalForm = ({
             </AccordionComponent>
 
             <AccordionComponent title="Discussion">
-              <Box className={classes.myAvatarDiscussion}>
-                <Box className={classes.avatar}>
-                  <ProfilePicture
-                    name={employeeLogged.nameEmployeeLogged}
-                    surname={employeeLogged.surnameEmployeeLogged}
-                  />
-                </Box>
-                <Box
-                  className={`${classes.discussionButton} ${classes.fullWidth}`}
-                >
-                  <TextFieldDiscussion
-                    name="comment"
-                    multiline
-                    rows={4}
-                    onChange={handleChangeEditWorkItem}
-                    placeholder="Add a comment. Use # to link a work item, ! to link a pull request, or @ to mention a person."
-                    value={workItemToEdit.comment}
-                  />
-                  <ButtonComponent
-                    text="Add Comment"
-                    onClick={handleAddCommentWorkItem}
-                    color="primary"
-                    variant="contained"
-                  />
-                </Box>
-              </Box>
-
-              {isLoading ? (
-                <Box component="div" className={classes.containerSpinner} m={1}>
-                  <CircularProgress />
-                  <p className={classes.textSpinner}>Loading...</p>
-                </Box>
-              ) : (
-                <Box className={classes.commentsContainer}>
-                  {comments?.map((comment) => {
-                    return (
-                      <CommentItem
-                        comment={comment}
-                        refreshState={refreshState}
-                      />
-                    );
-                  })}
-                </Box>
-              )}
+              <CommentsListWorkItemItem
+                handleChangeEditWorkItem={handleChangeEditWorkItem}
+                workItemToEdit={workItemToEdit}
+                setWorkItemToEdit={setWorkItemToEdit}
+                employeeId={employeeId}
+              />
             </AccordionComponent>
           </Box>
 
