@@ -23,6 +23,12 @@ interface WorkItemCreateModalFormProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    containerForm: {
+      padding: "0 16px 16px",
+    },
+    containerTitle: {
+      borderLeft: "8px solid #009CCC",
+    },
     displayCenter: {
       display: "flex",
       justifyContent: "center",
@@ -37,9 +43,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
+      borderRadius: "5px",
       boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
     },
     titleTaskToCreate: {
       fontFamily: "sans-serif",
@@ -89,27 +94,32 @@ const WorkItemCreateModalForm = ({
 
   const body = (
     <Box className={classes.paper}>
-      <form onSubmit={handleSubmit}>
-        <Box className={classes.displayCenter}>
-          <h2 className={classes.titleTaskToCreate}>Add Work Item</h2>
-        </Box>
-        <TextField label="Name" name="name" onChange={handleChange} /> <br />
-        <TextField
-          label="Description"
-          name="description"
-          onChange={handleChange}
-        />
-        <br />
-        <Box className={classes.displayCenter}>
-          <ButtonComponent
-            text={`Create Work Item`}
-            type="submit"
-            color="primary"
-            variant="contained"
-            marginTop="2rem"
-          />
-        </Box>
-      </form>
+      <Box className={`${classes.displayCenter} ${classes.containerTitle}`}>
+        <h2 className={classes.titleTaskToCreate}>Add Work Item</h2>
+      </Box>
+      <Box className={classes.containerForm}>
+        <form onSubmit={handleSubmit}>
+          <Box>
+            <TextField label="Name" name="name" onChange={handleChange} />
+          </Box>
+          <Box>
+            <TextField
+              label="Description"
+              name="description"
+              onChange={handleChange}
+            />
+          </Box>
+          <Box className={classes.displayCenter}>
+            <ButtonComponent
+              text={`Create Work Item`}
+              type="submit"
+              color="primary"
+              variant="contained"
+              marginTop="2rem"
+            />
+          </Box>
+        </form>
+      </Box>
     </Box>
   );
 
