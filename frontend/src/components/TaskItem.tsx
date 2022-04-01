@@ -9,11 +9,14 @@ import { AssignmentTurnedIn, BugReport } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
 import routes from "../config/routes";
+import useFetchSingleTask from "../hooks/useFetchSingleTask";
 import useFetchTagsPerTask from "../hooks/useFetchTagsPerTask";
+import useRefresh from "../hooks/useRefresh";
 import EmployeeModel from "../models/employeeModels/EmployeeModel";
 import TaskTypeEnum from "../models/enum/TaskTypeEnum";
 import TaskModel from "../models/taskModels/TaskModel";
 import ColorIconStatus from "./ColorIconStatus";
+import LoadingTask from "./loadings/LoadingTask";
 import TaskEmployeeSelectImmediateUpdate from "./selects/TaskEmployeeSelectImmediateUpdate";
 import TaskStatusSelectImmediateUpdate from "./selects/TaskStatusSelectImmediateUpdate";
 import TagComponent from "./TagComponent";
@@ -65,6 +68,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       props.type === TaskTypeEnum[TaskTypeEnum.Task]
         ? "4px solid #F2CB1D"
         : "4px solid #CC293D",
+    minHeight: "101px",
   },
   iconColor: {
     color: (props) =>
@@ -113,62 +117,77 @@ const TaskItem = ({
   refreshState,
 }: TaskItemProps) => {
   const classes = useStyles({ type: task.type as unknown as string });
-
   const [tags] = useFetchTagsPerTask(task.id, refreshState);
 
+  const [refreshTaskState, triggerRefreshTask] = useRefresh();
+  const [taskInfo, isLoading] = useFetchSingleTask(task.id, refreshTaskState);
+
   return (
-    <Grid item key={index} className={classes.taskContainer}>
-      <Box component="div" className={classes.containerTask}>
-        <Box className={classes.containerAvatarIdTitle}>
-          <Box className={classes.containerAvatarId}>
-            <ListItemAvatar className={classes.avatar}>
-              {(task.type as unknown as string) === "Task" ? (
-                <AssignmentTurnedIn
-                  className={classes.iconColor}
-                  fontSize="small"
-                />
-              ) : (
-                <BugReport className={classes.iconColor} fontSize="small" />
-              )}
-            </ListItemAvatar>
-            <span className={classes.taskId}>
-              {task.id.slice(0, 5).toUpperCase()}
-            </span>
-          </Box>
-          <Link
-            to={routes.editTask(task.id)}
-            onClick={() => handleOpenEditTaskItem(task)}
-            className={classes.link}
-          >
-            {task.name}
-          </Link>
+    <>
+      <Grid item key={index} className={classes.taskContainer}>
+        <Box component="div" className={classes.containerTask}>
+          {isLoading ? (
+            <LoadingTask />
+          ) : (
+            <>
+              <Box className={classes.containerAvatarIdTitle}>
+                <Box className={classes.containerAvatarId}>
+                  <ListItemAvatar className={classes.avatar}>
+                    {(task.type as unknown as string) === "Task" ? (
+                      <AssignmentTurnedIn
+                        className={classes.iconColor}
+                        fontSize="small"
+                      />
+                    ) : (
+                      <BugReport
+                        className={classes.iconColor}
+                        fontSize="small"
+                      />
+                    )}
+                  </ListItemAvatar>
+                  <span className={classes.taskId}>
+                    {task.id.slice(0, 5).toUpperCase()}
+                  </span>
+                </Box>
+                <Link
+                  to={routes.editTask(task.id)}
+                  onClick={() => handleOpenEditTaskItem(task)}
+                  className={classes.link}
+                >
+                  {task.name}
+                </Link>
+              </Box>
+
+              <TaskEmployeeSelectImmediateUpdate
+                employees={employees}
+                task={taskInfo}
+                triggerRefresh={triggerRefreshTask}
+              />
+
+              <Box className={classes.boxStatus}>
+                <span className={classes.state}>State </span>
+
+                <Box className={classes.avatarStatus}>
+                  <ColorIconStatus status={task.status} />
+                  <TaskStatusSelectImmediateUpdate
+                    task={task}
+                    triggerRefresh={triggerRefresh}
+                  />
+                </Box>
+              </Box>
+
+              <Box className={classes.containerTags}>
+                {tags
+                  ? tags.map((tag) => (
+                      <TagComponent tag={tag} key={tag.tagId} />
+                    ))
+                  : null}
+              </Box>
+            </>
+          )}
         </Box>
-
-        <TaskEmployeeSelectImmediateUpdate
-          employees={employees}
-          task={task}
-          triggerRefresh={triggerRefresh}
-        />
-
-        <Box className={classes.boxStatus}>
-          <span className={classes.state}>State </span>
-
-          <Box className={classes.avatarStatus}>
-            <ColorIconStatus status={task.status} />
-            <TaskStatusSelectImmediateUpdate
-              task={task}
-              triggerRefresh={triggerRefresh}
-            />
-          </Box>
-        </Box>
-
-        <Box className={classes.containerTags}>
-          {tags
-            ? tags.map((tag) => <TagComponent tag={tag} key={tag.tagId} />)
-            : null}
-        </Box>
-      </Box>
-    </Grid>
+      </Grid>
+    </>
   );
 };
 
