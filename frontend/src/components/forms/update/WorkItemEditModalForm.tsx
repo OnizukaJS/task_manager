@@ -18,6 +18,8 @@ import {
   LockOutlined,
   MoreHorizOutlined,
   SettingsOutlined,
+  OpenInFull,
+  CloseFullscreen,
 } from "@mui/icons-material";
 import ButtonComponent from "../../buttons/ButtonComponent";
 import TaskStatusSelect from "../../selects/TaskStatusSelect";
@@ -53,7 +55,11 @@ interface WorkItemEditModalFormProps {
   employees: EmployeeModel[] | undefined;
 }
 
-const useStyles = makeStyles<Theme>((theme) =>
+export interface StyleProps {
+  fullScreen: boolean;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) =>
   createStyles({
     avatarEditTitle: {
       display: "flex",
@@ -83,8 +89,20 @@ const useStyles = makeStyles<Theme>((theme) =>
     },
     closeIcon: {
       cursor: "pointer",
+      border: "1px solid transparent",
+      display: "flex",
+
+      "&:hover": {
+        borderColor: "black",
+      },
+    },
+    closeAndFullScreenIcons: {
+      display: "flex",
       position: "absolute",
       right: 0,
+    },
+    fullScreenIcon: {
+      cursor: "pointer",
       border: "1px solid transparent",
       display: "flex",
 
@@ -146,7 +164,7 @@ const useStyles = makeStyles<Theme>((theme) =>
         3
       )}px`,
       overflowY: "scroll",
-      height: "265px",
+      height: (props) => (props.fullScreen ? "calc(100% - 15.55rem)" : "265px"),
     },
     deleteIcon: {
       marginRight: theme.spacing(1),
@@ -184,7 +202,9 @@ const useStyles = makeStyles<Theme>((theme) =>
       },
     },
     formContainer: {
-      paddingBottom: theme.spacing(2),
+      paddingBottom: (props) =>
+        props.fullScreen ? theme.spacing(0) : theme.spacing(2),
+      height: (props) => (props.fullScreen ? "100%" : ""),
     },
     fullWidth: {
       width: "100%",
@@ -212,11 +232,12 @@ const useStyles = makeStyles<Theme>((theme) =>
       },
     },
     paper: {
-      position: "absolute",
-      top: "75px",
+      position: (props) => (props.fullScreen ? "relative" : "absolute"),
+      top: (props) => (props.fullScreen ? "0px" : "75px"),
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
-      width: "90%",
+      width: (props) => (props.fullScreen ? "100%" : "90%"),
+      height: (props) => (props.fullScreen ? "100%" : ""),
     },
     settings: {
       cursor: "pointer",
@@ -304,7 +325,10 @@ const WorkItemEditModalForm = ({
   employeeId,
   employees,
 }: WorkItemEditModalFormProps) => {
-  const classes = useStyles();
+  const [fullScreen, setFullScreen] = useState<boolean>(false);
+  const classes = useStyles({
+    fullScreen,
+  });
   const [openDeleteWorkItemDialog, setOpenDeleteWorkItemDialog] =
     useState<boolean>(false);
   const { showMessage: showWarningMessage } = useWarningSnackbar();
@@ -353,6 +377,11 @@ const WorkItemEditModalForm = ({
       .catch(() => console.log("ERROR while updating work item"));
 
     handleCloseWorkItem();
+    setFullScreen(false);
+  };
+
+  const handleFullScreen = () => {
+    setFullScreen(!fullScreen);
   };
 
   const handleDoesNothing = () => {
@@ -374,8 +403,21 @@ const WorkItemEditModalForm = ({
 
   const body = (
     <Box className={classes.paper}>
-      <Box className={classes.closeIcon} onClick={handleCloseWorkItem}>
-        <Close />
+      <Box className={classes.closeAndFullScreenIcons}>
+        <Box className={classes.fullScreenIcon} onClick={handleFullScreen}>
+          <Tooltip
+            title={
+              fullScreen
+                ? "Exit full screen mode (z)"
+                : "Enter full screen mode (z)"
+            }
+          >
+            {fullScreen ? <CloseFullscreen /> : <OpenInFull />}
+          </Tooltip>
+        </Box>
+        <Box className={classes.closeIcon} onClick={handleCloseWorkItem}>
+          <Close />
+        </Box>
       </Box>
       <form onSubmit={handleUpdate} className={classes.formContainer}>
         <Box className={classes.containerHeader}>

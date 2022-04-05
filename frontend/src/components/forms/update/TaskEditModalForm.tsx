@@ -34,6 +34,8 @@ import {
   LockOutlined,
   MoreHorizOutlined,
   SettingsOutlined,
+  OpenInFull,
+  CloseFullscreen,
 } from "@mui/icons-material";
 import DeleteTaskDialog from "../../DeleteTaskDialog";
 import { Tooltip } from "@mui/material";
@@ -60,6 +62,7 @@ interface TaskEditModalFormProps {
 
 export interface StyleProps {
   type: string;
+  fullScreen: boolean;
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) =>
@@ -84,8 +87,20 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     },
     closeIcon: {
       cursor: "pointer",
+      border: "1px solid transparent",
+      display: "flex",
+
+      "&:hover": {
+        borderColor: "black",
+      },
+    },
+    closeAndFullScreenIcons: {
+      display: "flex",
       position: "absolute",
       right: 0,
+    },
+    fullScreenIcon: {
+      cursor: "pointer",
       border: "1px solid transparent",
       display: "flex",
 
@@ -136,7 +151,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
         3
       )}px`,
       overflowY: "scroll",
-      height: "265px",
+      height: (props) => (props.fullScreen ? "calc(100% - 15.55rem)" : "265px"),
     },
     deleteIcon: {
       marginRight: theme.spacing(1),
@@ -168,7 +183,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       width: "100%",
     },
     formContainer: {
-      paddingBottom: theme.spacing(2),
+      paddingBottom: (props) =>
+        props.fullScreen ? theme.spacing(0) : theme.spacing(2),
+      height: (props) => (props.fullScreen ? "100%" : ""),
     },
     fullWidth: {
       width: "100%",
@@ -200,11 +217,12 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       },
     },
     paper: {
-      position: "absolute",
-      top: "75px",
+      position: (props) => (props.fullScreen ? "relative" : "absolute"),
+      top: (props) => (props.fullScreen ? "0px" : "75px"),
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
-      width: "90%",
+      width: (props) => (props.fullScreen ? "100%" : "90%"),
+      height: (props) => (props.fullScreen ? "100%" : ""),
     },
     settings: {
       cursor: "pointer",
@@ -286,7 +304,11 @@ const TaskEditModalForm = ({
   employeeId,
   employees,
 }: TaskEditModalFormProps) => {
-  const classes = useStyles({ type: taskToEdit.type as unknown as string });
+  const [fullScreen, setFullScreen] = useState<boolean>(false);
+  const classes = useStyles({
+    type: taskToEdit.type as unknown as string,
+    fullScreen,
+  });
   const { showMessage: showWarningMessage } = useWarningSnackbar();
   const [openDeleteTaskDialog, setOpenDeleteTaskDialog] =
     useState<boolean>(false);
@@ -332,6 +354,11 @@ const TaskEditModalForm = ({
       .catch(() => console.log("ERROR while posting new task"));
 
     handleClose();
+    setFullScreen(false);
+  };
+
+  const handleFullScreen = () => {
+    setFullScreen(!fullScreen);
   };
 
   const handleDoesNothing = () => {
@@ -353,8 +380,21 @@ const TaskEditModalForm = ({
 
   const body = (
     <Box className={classes.paper}>
-      <Box className={classes.closeIcon} onClick={handleClose}>
-        <Close />
+      <Box className={classes.closeAndFullScreenIcons}>
+        <Box className={classes.fullScreenIcon} onClick={handleFullScreen}>
+          <Tooltip
+            title={
+              fullScreen
+                ? "Exit full screen mode (z)"
+                : "Enter full screen mode (z)"
+            }
+          >
+            {fullScreen ? <CloseFullscreen /> : <OpenInFull />}
+          </Tooltip>
+        </Box>
+        <Box className={classes.closeIcon} onClick={handleClose}>
+          <Close />
+        </Box>
       </Box>
       <form onSubmit={handleUpdate} className={classes.formContainer}>
         <Box className={classes.containerHeader}>
