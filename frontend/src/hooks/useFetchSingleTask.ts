@@ -4,9 +4,17 @@ import TaskModel from "../models/taskModels/TaskModel";
 const useFetchSingleTask = (
   taskId: string,
   refreshState: number
-): [TaskModel | undefined, boolean] => {
+): [TaskModel, boolean] => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [task, setTask] = useState<TaskModel>();
+  const [task, setTask] = useState<TaskModel>({
+    id: "",
+    name: "",
+    description: "",
+    status: 1,
+    type: 1,
+    employeeId: "",
+    workItemId: "",
+  });
 
   useEffect(() => {
     setIsLoading(true);
@@ -19,7 +27,7 @@ const useFetchSingleTask = (
     })
       .then((response) => response.json())
       .then((data) => setTask(data))
-      .then(() => setIsLoading(false))
+      .then(() => setTimeout(() => setIsLoading(false), 500))
       .catch(() => console.log("ERROR while getting task data"));
   }, [refreshState, taskId]);
 
