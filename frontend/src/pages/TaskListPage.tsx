@@ -63,9 +63,6 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
   const [workItems] = useFetchWorkItem(refreshState);
   const [tasks] = useFetchTasks(refreshState);
 
-  console.log("workitem", workItems);
-  console.log("tasks", tasks);
-
   const history = useHistory();
 
   // Check the cookies for the login
