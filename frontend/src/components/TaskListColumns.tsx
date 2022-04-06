@@ -94,8 +94,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       display: "flex",
       alignItems: "center",
     },
-    containerTaskListColumn: {
+    containerTaskList: {
       overflow: "auto",
+    },
+    containerTaskListColumn: {
+      padding: "16px 24px",
     },
     doubleArrowIcon: {
       transform: (props) =>
@@ -363,7 +366,7 @@ const TaskListColumns = ({
   const [, isLoading] = useFetchTasks(refreshState);
 
   return (
-    <>
+    <Box className={classes.containerTaskListColumn}>
       <HeaderTaskListColumn1>
         <Box className={classes.flexAligned}>
           <Box
@@ -524,7 +527,7 @@ const TaskListColumns = ({
         />
       ) : null}
 
-      <Box className={classes.containerTaskListColumn}>
+      <Box className={classes.containerTaskList}>
         <Box className={classes.containerGridColumnScroll}>
           <Grid
             container
@@ -700,7 +703,7 @@ const TaskListColumns = ({
           )}
         </Box>
       </Box>
-    </>
+    </Box>
   );
 };
 

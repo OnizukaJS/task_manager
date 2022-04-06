@@ -12,6 +12,10 @@ const useStyles = makeStyles({
     height: "100%",
     overflow: "hidden",
   },
+  containerRouteComponent: {
+    marginTop: "65px",
+    height: "calc(100% - 4rem)",
+  },
   drawer: {},
   menuList: {
     borderRight: "1px solid",
@@ -33,7 +37,7 @@ const App = () => {
     <Container className={classes.containerApp} maxWidth={false}>
       <Header refreshState={refreshState} triggerRefresh={triggerRefresh} />
 
-      <Box sx={{ marginTop: "65px" }}>
+      <Box className={classes.containerRouteComponent}>
         <Routes />
       </Box>
     </Container>

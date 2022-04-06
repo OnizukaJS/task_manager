@@ -7,9 +7,19 @@ interface Props {
   height?: number;
   width?: number;
   fontSize?: number;
+  border?: string;
+  boxShadow?: string;
 }
 
-const ProfilePicture = ({ name, surname, height, width, fontSize }: Props) => {
+const ProfilePicture = ({
+  name,
+  surname,
+  height,
+  width,
+  fontSize,
+  border,
+  boxShadow,
+}: Props) => {
   const fullName = `${name} ${surname}`;
 
   const nameToColor = () => {
@@ -31,7 +41,16 @@ const ProfilePicture = ({ name, surname, height, width, fontSize }: Props) => {
   };
 
   return (
-    <Avatar style={{ backgroundColor: nameToColor(), height, width, fontSize }}>
+    <Avatar
+      style={{
+        backgroundColor: nameToColor(),
+        height,
+        width,
+        fontSize,
+        border,
+        boxShadow,
+      }}
+    >
       {name?.charAt(0)}
       {surname?.charAt(0)}
     </Avatar>

@@ -11,9 +11,9 @@ import Cookies from "universal-cookie";
 
 const useStyles = makeStyles({
   containerRoutes: {
-    padding: "16px 24px",
     overflow: "hidden",
-    marginLeft: "55px",
+    marginLeft: "51px",
+    height: "100%",
   },
 });
 
@@ -27,11 +27,7 @@ const Routes = () => {
   }, []);
 
   return (
-    <Box
-      className={classes.containerRoutes}
-      component="main"
-      sx={{ flexGrow: 1, p: 3 }}
-    >
+    <Box className={classes.containerRoutes} component="main">
       <Switch>
         <Route exact path={routes.loginPage}>
           <LoginPage triggerRefresh={triggerRefresh} />
