@@ -224,6 +224,8 @@ const MyAccountPage = ({
         password: employee?.password,
         employeeName: employee?.employeeName,
         employeeSurname: employee?.employeeSurname,
+        jobDescription: employee?.jobDescription,
+        phoneNumber: employee?.phoneNumber,
         employeeAge: employee?.employeeAge,
         city: employee?.city,
       }),
@@ -270,7 +272,7 @@ const MyAccountPage = ({
                     </Typography>
 
                     <Box className={classes.employeeJob}>
-                      <Typography>Software Developer</Typography>
+                      <Typography>{employeeData?.jobDescription}</Typography>
                     </Box>
 
                     <Box className={classes.myAccountDetails}>
@@ -281,7 +283,7 @@ const MyAccountPage = ({
                     <Box className={classes.myAccountDetails}>
                       <PhoneIcon className={classes.iconsEmployeeDetails} />
 
-                      <Typography>+34547932654</Typography>
+                      <Typography>{employeeData?.phoneNumber}</Typography>
                     </Box>
 
                     <Box className={classes.myAccountDetails}>

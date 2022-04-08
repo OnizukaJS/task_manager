@@ -67,6 +67,8 @@ const RegistrationPage = () => {
     password: "",
     employeeName: "",
     employeeSurname: "",
+    jobDescription: "",
+    phoneNumber: "",
     employeeAge: 0,
     city: "",
   });
@@ -147,6 +149,28 @@ const RegistrationPage = () => {
             autoComplete="off"
             name="password"
             type="password"
+            onChange={handleChange}
+          />
+        </Box>
+      </Box>
+      <br />
+
+      <Box className={classes.containerBoxFields}>
+        <Box className={classes.containerField}>
+          <Typography component="label">Job</Typography>
+          <InputFields
+            autoComplete="off"
+            name="jobDescription"
+            onChange={handleChange}
+            placeholder="Software Developer"
+          />
+        </Box>
+
+        <Box className={classes.containerField}>
+          <Typography component="label">Phone number</Typography>
+          <InputFields
+            autoComplete="off"
+            name="phoneNumber"
             onChange={handleChange}
           />
         </Box>

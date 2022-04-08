@@ -13,6 +13,8 @@ namespace TaskManager.Models.employee
         public string EmployeeSurname { get; set; } = string.Empty;
         public int EmployeeAge { get; set; }
         public string City { get; set; } = string.Empty;
+        public string JobDescription { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
 
         // Navigation Properties
         public virtual ICollection<Employee> Employees { get; set; } = null!;

@@ -11,5 +11,7 @@ namespace TaskManager.Dtos.employeeDto
         public string EmployeeSurname { get; set; } = null!;
         public int EmployeeAge { get; set; }
         public string City { get; set; } = null!;
+        public string JobDescription { get; set; } = null!;
+        public string PhoneNumber { get; set; } = null!;
     }
 }

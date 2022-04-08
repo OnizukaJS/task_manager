@@ -18,6 +18,8 @@ namespace TaskManager.Mappings
             #region Employee
             CreateMap<Employee, EmployeeResponseModel>();
             CreateMap<EmployeeRegistrationModel, Employee>();
+            CreateMap<EmployeeUpdateModel, Employee>();
+            CreateMap<EmployeeUpdatePasswordModel, Employee>();
             #endregion
 
             #region WorkItem

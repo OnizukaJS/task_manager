@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TaskManager.Dtos.employeeDto;
 using TaskManager.Models.employee;
 
 namespace TaskManager.Interfaces.employee
@@ -11,5 +12,6 @@ namespace TaskManager.Interfaces.employee
         List<Employee> GetEmployeeLogin(string employeeEmail, string employeePassword); // used
         Employee AddEmployee(Employee employee); // used
         Employee EditEmployee(Employee employee); // used
+        Employee EditEmployeePassword(Employee employee);
     }
 }
