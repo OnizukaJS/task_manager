@@ -76,7 +76,9 @@ namespace TaskManager.Controllers.employee
                                    EmployeeName = e.EmployeeName,
                                    EmployeeSurname = e.EmployeeSurname,
                                    EmployeeAge = e.EmployeeAge,
-                                   City = e.City
+                                   City = e.City,
+                                   JobDescription = e.JobDescription,
+                                   PhoneNumber = e.PhoneNumber,
                                };
 
             return Ok(employeesDto);
@@ -112,6 +114,28 @@ namespace TaskManager.Controllers.employee
             }
 
             return Ok(employeeUpdate);
+        }
+
+        [HttpPatch]
+        [Route("api/[controller]/{employeeId}/password")]
+        public IActionResult EditEmployeePassword(EmployeeUpdatePasswordModel employeePassword, Guid employeeId)
+        {
+            var existingEmployee = _employeeData.GetEmployeeById(employeeId);
+
+            if (existingEmployee != null)
+            {
+                if (employeePassword.Password != employeePassword.ConfirmPassword)
+                {
+                    return NotFound("The password and the confirmation do not match");
+                }
+
+                var employee = _mapper.Map<Employee>(employeePassword);
+                employee.EmployeeId = existingEmployee.EmployeeId;
+                _employeeData.EditEmployeePassword(employee);
+                return Ok(employeePassword); 
+            }
+
+            return NotFound($"The employee with the Id: {employeeId} does not exist");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TaskManager.Dtos.employeeDto;
 using TaskManager.Interfaces.employee;
 using TaskManager.Models;
 using TaskManager.Models.employee;
@@ -35,6 +36,20 @@ namespace TaskManager.Controllers.employee
                 existingEmployee.EmployeeAge = employee.EmployeeAge;
                 existingEmployee.Email = employee.Email;
                 existingEmployee.City = employee.City;
+                existingEmployee.JobDescription = employee.JobDescription;
+                existingEmployee.PhoneNumber = employee.PhoneNumber;
+                _taskToDoContext.Employees.Update(existingEmployee);
+                _taskToDoContext.SaveChanges();
+            }
+            return employee;
+        }
+
+        public Employee EditEmployeePassword(Employee employee)
+        {
+            var existingEmployee = _taskToDoContext.Employees.Find(employee.EmployeeId);
+            if (existingEmployee != null)
+            {
+                existingEmployee.Password = employee.Password;
                 _taskToDoContext.Employees.Update(existingEmployee);
                 _taskToDoContext.SaveChanges();
             }
