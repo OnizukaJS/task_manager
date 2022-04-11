@@ -8,6 +8,7 @@ import MyAccountPage from "./MyAccountPage";
 import TasksListPage from "./TaskListPage";
 import routes from "../config/routes";
 import Cookies from "universal-cookie";
+import UpdatePasswordPage from "./UpdatePasswordPage";
 
 const useStyles = makeStyles({
   containerRoutes: {
@@ -44,11 +45,18 @@ const Routes = () => {
           />
         </Route>
 
-        <Route path={routes.myAccount}>
+        <Route exact path={routes.myAccount}>
           <MyAccountPage
             triggerRefresh={triggerRefresh}
             refreshState={refreshState}
             employeeId={employeeId}
+          />
+        </Route>
+
+        <Route exact path={routes.updatePassword}>
+          <UpdatePasswordPage
+            employeeId={employeeId}
+            refreshState={refreshState}
           />
         </Route>
       </Switch>

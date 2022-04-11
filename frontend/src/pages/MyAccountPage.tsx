@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Divider,
-  Link,
   makeStyles,
+  Link,
   Theme,
   Typography,
   withStyles,
 } from "@material-ui/core";
+import { Link as LinkRouterDom } from "react-router-dom";
 import ButtonComponent from "../components/buttons/ButtonComponent";
 import EmployeeUpdate from "../models/employeeModels/EmployeeUpdate";
 import ProfilePicture from "../components/ProfilePicture";
@@ -27,6 +28,7 @@ import {
   ExploreOutlined as LocationIcon,
 } from "@mui/icons-material";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
+import routes from "../config/routes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   closeSession: {
@@ -418,12 +420,14 @@ const MyAccountPage = ({
                 it.
               </Typography>
 
-              <Link
+              <LinkRouterDom
+                to={routes.updatePassword}
                 className={classes.links}
-                underline="hover"
-                onClick={handleDoesNothing}
-              >{`CHANGE PASSWORD >`}</Link>
+              >
+                {`CHANGE PASSWORD >`}
+              </LinkRouterDom>
             </MyAccountCard>
+
             <MyAccountCard
               className={`${classes.myAccountCards} ${classes.organizationsInfo}`}
             >
