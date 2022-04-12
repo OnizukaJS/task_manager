@@ -1,11 +1,11 @@
-﻿using System;
+﻿using BC = BCrypt.Net.BCrypt; // NEW
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaskManager.Dtos.employeeDto;
 using TaskManager.Interfaces.employee;
-using TaskManager.Models;
 using TaskManager.Models.employee;
 using TaskManager.Models.taskToDo;
+using TaskManager.Dtos.employeeDto;
 
 namespace TaskManager.Controllers.employee
 {
@@ -17,9 +17,11 @@ namespace TaskManager.Controllers.employee
             _taskToDoContext = taskToDoContext;
         }
 
-        public Employee AddEmployee(Employee employee)
+        public Employee RegisterEmployee(Employee employee)
         {
             employee.EmployeeId = Guid.NewGuid();
+
+            employee.Password = BC.HashPassword(employee.Password); // NEW
 
             _taskToDoContext.Employees.Add(employee);
             _taskToDoContext.SaveChanges();
@@ -56,11 +58,17 @@ namespace TaskManager.Controllers.employee
             return employee;
         }
 
-        public List<Employee> GetEmployeeLogin(string employeeEmail, string employeePassword)
+        public List<Employee> AuthenticateEmployee(string employeeEmail, string employeePassword)
         {
             return _taskToDoContext.Employees
                 .Where(x => x.Email.Equals(employeeEmail) && x.Password.Equals(employeePassword))
                 .ToList();
+        }
+
+        public Employee AuthenticateNew(EmployeeLoginModel employeeLogin)
+        {
+            return _taskToDoContext.Employees
+                .SingleOrDefault(x => x.Email.Equals(employeeLogin.EmployeeEmail) && x.Password.Equals(employeeLogin.EmployeePassword));
         }
 
         public Employee GetEmployeeById(Guid employeeId)

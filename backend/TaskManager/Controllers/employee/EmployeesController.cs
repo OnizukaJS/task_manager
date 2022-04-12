@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using BC = BCrypt.Net.BCrypt; // NEW
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,11 +28,11 @@ namespace TaskManager.Controllers.employee
 
         [HttpPost]
         [Route("api/[controller]")]
-        public IActionResult AddEmployee(EmployeeRegistrationModel employeeRegistration)
+        public IActionResult RegisterEmployee(EmployeeRegistrationModel employeeRegistration)
         {
             var employee = _mapper.Map<Employee>(employeeRegistration);
 
-            _employeeData.AddEmployee(employee);
+            _employeeData.RegisterEmployee(employee);
 
             var employeeResponse = _mapper.Map<EmployeeResponseModel>(employee);
 
@@ -58,9 +59,9 @@ namespace TaskManager.Controllers.employee
 
         [HttpGet]
         [Route("api/[controller]/{employeeEmail}/{employeePassword}")]
-        public ActionResult<List<Employee>> GetEmployeeLogin(string employeeEmail, string employeePassword)
+        public ActionResult<List<Employee>> AuthenticateEmployee(string employeeEmail, string employeePassword)
         {
-            var employees = _employeeData.GetEmployeeLogin(employeeEmail, employeePassword);
+            var employees = _employeeData.AuthenticateEmployee(employeeEmail, employeePassword);
 
             if (employees == null)
             {
