@@ -29,8 +29,8 @@ jobs:
       - name: npm install, build
         shell: powershell
         run: |
-          npm install "${{ env.WORKING_DIRECTORY_FRONTEND }}"
-          npm run build "${{ env.WORKING_DIRECTORY_FRONTEND }}" --if-present
+          npm install
+          npm run build
         
       - name: Delete wwwroot folder
         shell: powershell
