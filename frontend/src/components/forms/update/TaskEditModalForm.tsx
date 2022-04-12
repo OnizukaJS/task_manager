@@ -67,6 +67,10 @@ export interface StyleProps {
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) =>
   createStyles({
+    avatar: {
+      display: "flex",
+      marginRight: theme.spacing(1),
+    },
     avatarEditTitle: {
       display: "flex",
       alignItems: "center",
