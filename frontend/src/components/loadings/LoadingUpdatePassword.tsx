@@ -15,9 +15,7 @@ const useStyles = makeStyles({
   containerButtons: {
     display: "flex",
   },
-  containerInputs: {
-    margin: "16px 0",
-  },
+  containerInputs: {},
   loadingInputTitle: {
     width: "40%",
     margin: "6px 0",
