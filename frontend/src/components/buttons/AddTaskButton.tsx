@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     link: {
       textDecoration: "none",
+
+      "&:visited": {
+        color: "inherit",
+      },
     },
     popover: {
       pointerEvents: "none",
