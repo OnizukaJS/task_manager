@@ -40,20 +40,14 @@ const TaskStatusSelect = ({ status, handleChange }: TaskStatusSelectProps) => {
         value={TaskStatusEnum[TaskStatusEnum.New]}
         style={{ padding: "8px" }}
       >
-        {TaskStatusEnum[TaskStatusEnum.New]}
+        New
       </option>
-      <option value={TaskStatusEnum[TaskStatusEnum.Active]}>
-        {TaskStatusEnum[TaskStatusEnum.Active]}
-      </option>
-      <option value={TaskStatusEnum[TaskStatusEnum.Resolved]}>
-        {TaskStatusEnum[TaskStatusEnum.Resolved]}
-      </option>
+      <option value={TaskStatusEnum[TaskStatusEnum.Active]}>Active</option>
+      <option value={TaskStatusEnum[TaskStatusEnum.Resolved]}>Resolved</option>
       <option value={TaskStatusEnum[TaskStatusEnum.ReadyForTest]}>
-        {TaskStatusEnum[TaskStatusEnum.ReadyForTest]}
+        Ready for Test
       </option>
-      <option value={TaskStatusEnum[TaskStatusEnum.Closed]}>
-        {TaskStatusEnum[TaskStatusEnum.Closed]}
-      </option>
+      <option value={TaskStatusEnum[TaskStatusEnum.Closed]}>Closed</option>
     </MuiNativeSelectComponent>
   );
 };
