@@ -29,6 +29,7 @@ import {
 } from "@mui/icons-material";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import routes from "../config/routes";
+import LoadingPersonInfo from "../components/loadings/LoadingPersonalInfo";
 
 const useStyles = makeStyles((theme: Theme) => ({
   closeSession: {
@@ -244,9 +245,6 @@ const MyAccountPage = ({
     showWarningMessage({ message: "This button does nothing! :)" });
   };
 
-  // return isLoading ? (
-  //   <LoadingComponent />
-  // ) : (
   return (
     <Box className={classes.containerMyAccountPage}>
       <Box className={classes.containerMyAccount}>
@@ -267,88 +265,39 @@ const MyAccountPage = ({
                     />
                   </Box>
 
-                  <Box className={classes.containerEmployeeDetails}>
-                    <Typography className={classes.employeeName}>
-                      {employeeData?.employeeName}{" "}
-                      {employeeData?.employeeSurname}
-                    </Typography>
+                  {isLoading ? (
+                    <LoadingPersonInfo />
+                  ) : (
+                    <Box className={classes.containerEmployeeDetails}>
+                      <Typography className={classes.employeeName}>
+                        {employeeData?.employeeName}{" "}
+                        {employeeData?.employeeSurname}
+                      </Typography>
 
-                    <Box className={classes.employeeJob}>
-                      <Typography>{employeeData?.jobDescription}</Typography>
-                    </Box>
+                      <Box className={classes.employeeJob}>
+                        <Typography>{employeeData?.jobDescription}</Typography>
+                      </Box>
 
-                    <Box className={classes.myAccountDetails}>
-                      <EmailIcon className={classes.iconsEmployeeDetails} />
-                      <Typography>{employeeData?.email}</Typography>
-                    </Box>
+                      <Box className={classes.myAccountDetails}>
+                        <EmailIcon className={classes.iconsEmployeeDetails} />
+                        <Typography>{employeeData?.email}</Typography>
+                      </Box>
 
-                    <Box className={classes.myAccountDetails}>
-                      <PhoneIcon className={classes.iconsEmployeeDetails} />
+                      <Box className={classes.myAccountDetails}>
+                        <PhoneIcon className={classes.iconsEmployeeDetails} />
 
-                      <Typography>{employeeData?.phoneNumber}</Typography>
-                    </Box>
+                        <Typography>{employeeData?.phoneNumber}</Typography>
+                      </Box>
 
-                    <Box className={classes.myAccountDetails}>
-                      <LocationIcon className={classes.iconsEmployeeDetails} />
-                      <Typography>{employeeData?.city}</Typography>
-                    </Box>
-                  </Box>
-
-                  <Divider />
-                  {/* <form
-                    onSubmit={handleSubmit}
-                    className={classes.formContainer}
-                  >
-                    <Box className={classes.Name}>
-                      <Box className={classes.nameAndSurname}>
-                        <TextField
-                          defaultValue={employeeData?.employeeName}
-                          name="employeeName"
-                          placeholder="Employee Name"
-                          onChange={handleChange}
-                          className={classes.maxWidth}
+                      <Box className={classes.myAccountDetails}>
+                        <LocationIcon
+                          className={classes.iconsEmployeeDetails}
                         />
-                        <br />
-                        <br />
-                        <TextField
-                          defaultValue={employeeData?.employeeSurname}
-                          name="employeeSurname"
-                          placeholder="Employee Surname"
-                          onChange={handleChange}
-                          className={classes.maxWidth}
-                        />
+                        <Typography>{employeeData?.city}</Typography>
                       </Box>
                     </Box>
-                    <br />
-                    <TextField
-                      defaultValue={employeeData?.email}
-                      name="email"
-                      placeholder="Email"
-                      onChange={handleChange}
-                    />
-                    <br />
-                    <TextField
-                      defaultValue={employeeData?.employeeAge}
-                      name="employeeAge"
-                      placeholder="Age"
-                      onChange={handleChange}
-                    />
-                    <br />
-                    <TextField
-                      defaultValue={employeeData?.city}
-                      name="city"
-                      placeholder="City"
-                      onChange={handleChange}
-                    />
-                    <br />
-                    <br />
-                    <ButtonComponent
-                      type="submit"
-                      color="primary"
-                      text="Update Profile"
-                      variant="contained"
-                    />
-                  </form> */}
+                  )}
+                  <Divider />
                 </Box>
 
                 <Box className={classes.containerSignOut}>
