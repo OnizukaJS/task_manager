@@ -26,13 +26,9 @@ jobs:
     steps:  
       - uses: actions/checkout@v2
       
-      - name: npm install, build
-        working-directory: ${{ env.WORKING_DIRECTORY_FRONTEND }}
+      - name: check what is inside backend
         run: |
-          npm install
-          npm run build
-        env:
-          CI: ""
+          cd src/${{ env.WORKING_DIRECTORY_BACKEND }} | ls
         
       - name: Delete wwwroot folder
         working-directory: ${{ env.WORKING_DIRECTORY_BACKEND }}
