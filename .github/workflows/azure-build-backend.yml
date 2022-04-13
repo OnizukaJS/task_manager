@@ -35,9 +35,9 @@ jobs:
           CI: ""
         
       - name: Delete wwwroot folder
-        shell: powershell
+        working-directory: ${{ env.WORKING_DIRECTORY_BACKEND }}
         run: |
-          Remove-Item -Path "src/${{ env.WORKING_DIRECTORY_BACKEND }}/${{ env.APP_NAME }}/${{ env.ROOT }}" -Force -Recurse
+          rm -r ${{ env.APP_NAME }}/${{ env.ROOT }}
           
       - name: Copy paste build folder to wwwroot
         shell: powershell
