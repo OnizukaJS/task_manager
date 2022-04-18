@@ -5,9 +5,12 @@ import EmployeeLogin from "../models/employeeModels/EmployeeLogin";
 import { useHistory } from "react-router-dom";
 import routes from "../config/routes";
 import Box from "@material-ui/core/Box";
-import { makeStyles, TextField, Typography } from "@material-ui/core";
+import { Divider, makeStyles, TextField, Typography } from "@material-ui/core";
 import ButtonComponent from "../components/buttons/ButtonComponent";
 import { withStyles } from "@material-ui/styles";
+import GoogleLoginButton from "../components/buttons/GoogleLoginButton";
+import MicrosoftLoginButton from "../components/buttons/MicrosoftLoginButton";
+import LinkedinLoginButton from "../components/buttons/LinkedinLoginButton";
 
 const useStyles = makeStyles({
   containerLogin: {
@@ -53,7 +56,7 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
   const baseLoginUrl = "https://localhost:44358/api/Employees";
   const [login, setLogin] = useState<EmployeeLogin>({
     employeeEmail: "",
-    password: "",
+    employeePassword: "",
   });
   const cookies = useMemo(() => {
     const cook = new Cookies();
@@ -73,7 +76,7 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
 
   const startSession = async () => {
     await axios
-      .get(baseLoginUrl + `/${login.employeeEmail}/${login.password}`)
+      .get(baseLoginUrl + `/${login.employeeEmail}/${login.employeePassword}`)
       .then((response) => {
         return response.data;
       })
@@ -115,7 +118,6 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
           Sign in to your account
         </Typography>
       </Box>
-
       <Typography component="label">Email</Typography>
       <InputFields
         autoComplete="off"
@@ -123,7 +125,6 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
         onChange={handleChange}
       />
       <br />
-
       <Typography component="label">Password</Typography>
       <InputFields
         autoComplete="off"
@@ -133,13 +134,20 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
         onKeyPress={handleKeyPress}
       />
       <br />
-      <br />
       <ButtonComponent
         text="Login"
         color="primary"
         onClick={startSession}
         variant="contained"
+        marginTop="1rem"
+        marginBottom="2rem"
       />
+
+      <Divider />
+
+      <GoogleLoginButton />
+      <MicrosoftLoginButton />
+      <LinkedinLoginButton />
     </Box>
   );
 };
