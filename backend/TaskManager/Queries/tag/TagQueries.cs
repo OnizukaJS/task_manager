@@ -7,10 +7,10 @@ using TaskManager.Models.taskToDo;
 
 namespace TaskManager.Controllers.tag
 {
-    public class SqlTagData : ITagData
+    public class TagQueries : ITagData
     {
         private TaskToDoContext _taskToDoContext;
-        public SqlTagData(TaskToDoContext taskToDoContext)
+        public TagQueries(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
         }

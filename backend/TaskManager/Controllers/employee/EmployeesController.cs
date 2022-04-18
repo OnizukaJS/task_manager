@@ -32,11 +32,48 @@ namespace TaskManager.Controllers.employee
         {
             var employee = _mapper.Map<Employee>(employeeRegistration);
 
+            if (_context.Employees.Any(e => e.Email == employeeRegistration.Email))
+            {
+                return NotFound("Email already in use.");
+            }
+
             _employeeData.RegisterEmployee(employee);
 
             var employeeResponse = _mapper.Map<EmployeeResponseModel>(employee);
 
             return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + employeeResponse.EmployeeId, employeeResponse);
+        }
+
+        [HttpGet]
+        [Route("api/[controller]/authenticate")]
+        public ActionResult<List<Employee>> AuthenticateEmployee([FromQuery] EmployeeLoginModel employeeLogin)
+        {
+            var employee = _employeeData.GetEmployeeByEmail(employeeLogin.EmployeeEmail);
+
+            if (employee == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            if (!BC.Verify(employeeLogin.EmployeePassword, employee.Password))
+            {
+                return NotFound("Invalid password");
+            }
+
+            var employeesDto = new EmployeeResponseModel()
+            {
+                EmployeeId = employee.EmployeeId,
+                Email = employee.Email,
+                Password = employee.Password,
+                EmployeeName = employee.EmployeeName,
+                EmployeeSurname = employee.EmployeeSurname,
+                EmployeeAge = employee.EmployeeAge,
+                City = employee.City,
+                JobDescription = employee.JobDescription,
+                PhoneNumber = employee.PhoneNumber,
+            };
+
+            return Ok(employeesDto);
         }
 
         [HttpGet]
@@ -55,34 +92,6 @@ namespace TaskManager.Controllers.employee
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
             
-        }
-
-        [HttpGet]
-        [Route("api/[controller]/{employeeEmail}/{employeePassword}")]
-        public ActionResult<List<Employee>> AuthenticateEmployee(string employeeEmail, string employeePassword)
-        {
-            var employees = _employeeData.AuthenticateEmployee(employeeEmail, employeePassword);
-
-            if (employees == null)
-            {
-                return NotFound("Invalid User.");
-            }
-
-            var employeesDto = from e in employees
-                               select new EmployeeResponseModel()
-                               {
-                                   EmployeeId = e.EmployeeId,
-                                   Email = e.Email,
-                                   Password = e.Password,
-                                   EmployeeName = e.EmployeeName,
-                                   EmployeeSurname = e.EmployeeSurname,
-                                   EmployeeAge = e.EmployeeAge,
-                                   City = e.City,
-                                   JobDescription = e.JobDescription,
-                                   PhoneNumber = e.PhoneNumber,
-                               };
-
-            return Ok(employeesDto);
         }
 
         [HttpGet]
@@ -134,6 +143,21 @@ namespace TaskManager.Controllers.employee
                 employee.EmployeeId = existingEmployee.EmployeeId;
                 _employeeData.EditEmployeePassword(employee);
                 return Ok(employeePassword); 
+            }
+
+            return NotFound($"The employee with the Id: {employeeId} does not exist");
+        }
+
+        [HttpDelete]
+        [Route("api/[controller]/delete/{employeeId}")]
+        public IActionResult DeleteEmployee(Guid employeeId)
+        {
+            var employeeToDelete = _employeeData.GetEmployeeById(employeeId);
+
+            if (employeeToDelete != null)
+            {
+                _employeeData.DeleteEmployee(employeeToDelete);
+                return Ok();
             }
 
             return NotFound($"The employee with the Id: {employeeId} does not exist");

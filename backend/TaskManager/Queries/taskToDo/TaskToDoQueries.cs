@@ -9,10 +9,10 @@ using TaskManager.Models.taskToDo;
 
 namespace TaskManager.Controllers.taskToDo
 {
-    public class SqlTaskToDoData : ITaskToDoData
+    public class TaskToDoQueries : ITaskToDoData
     {
         private TaskToDoContext _taskToDoContext;
-        public SqlTaskToDoData(TaskToDoContext taskToDoContext)
+        public TaskToDoQueries(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
         }

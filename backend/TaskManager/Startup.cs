@@ -66,11 +66,11 @@ namespace TaskManager
             services.AddDbContextPool<TaskToDoContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("TaskManagerContextConnectionString")));
 
-            services.AddScoped<IEmployeeData, SqlEmployeeData>();
-            services.AddScoped<IWorkItemData, SqlWorkItemData>();
-            services.AddScoped<ITaskToDoData, SqlTaskToDoData>();
-            services.AddScoped<ICommentData, SqlCommentData>();
-            services.AddScoped<ITagData, SqlTagData>();
+            services.AddScoped<IEmployeeData, EmployeeQueries>();
+            services.AddScoped<IWorkItemData, WorkItemQueries>();
+            services.AddScoped<ITaskToDoData, TaskToDoQueries>();
+            services.AddScoped<ICommentData, CommentQueries>();
+            services.AddScoped<ITagData, TagQueries>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

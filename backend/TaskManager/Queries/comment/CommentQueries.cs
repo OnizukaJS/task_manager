@@ -7,10 +7,10 @@ using TaskManager.Models.taskToDo;
 
 namespace TaskManager.Controllers.comment
 {
-    public class SqlCommentData : ICommentData
+    public class CommentQueries : ICommentData
     {
         private TaskToDoContext _taskToDoContext;
-        public SqlCommentData(TaskToDoContext taskToDoContext)
+        public CommentQueries(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
         }

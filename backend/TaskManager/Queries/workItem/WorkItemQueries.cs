@@ -11,10 +11,10 @@ using TaskManager.Models.workItem;
 
 namespace TaskManager.Controllers.workItem
 {
-    public class SqlWorkItemData : IWorkItemData
+    public class WorkItemQueries : IWorkItemData
     {
         private TaskToDoContext _taskToDoContext;
-        public SqlWorkItemData(TaskToDoContext taskToDoContext)
+        public WorkItemQueries(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
         }

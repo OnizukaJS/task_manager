@@ -8,10 +8,10 @@ namespace TaskManager.Interfaces.workItem
 {
     public interface IWorkItemData
     {
-        List<WorkItem> GetWorkItems(); // used
-        WorkItem GetWorkItem(Guid workItemId); // used
-        WorkItem AddWorkItem(WorkItem workItem); // used
-        void DeleteWorkItem(WorkItem workItem); // used
-        WorkItem EditWorkItem(WorkItem workItem); // used
+        List<WorkItem> GetWorkItems();
+        WorkItem GetWorkItem(Guid workItemId);
+        WorkItem AddWorkItem(WorkItem workItem);
+        void DeleteWorkItem(WorkItem workItem);
+        WorkItem EditWorkItem(WorkItem workItem);
     }
 }

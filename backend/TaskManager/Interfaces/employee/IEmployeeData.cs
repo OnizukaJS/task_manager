@@ -9,10 +9,10 @@ namespace TaskManager.Interfaces.employee
     {
         List<Employee> GetEmployees();
         Employee GetEmployeeById(Guid employeeId);
-        List<Employee> AuthenticateEmployee(string employeeEmail, string employeePassword);
-        Employee AuthenticateNew(EmployeeLoginModel employeeLogin);
+        Employee GetEmployeeByEmail(string employeeEmail);
         Employee RegisterEmployee(Employee employee);
         Employee EditEmployee(Employee employee);
         Employee EditEmployeePassword(Employee employee);
+        void DeleteEmployee(Employee employee);
     }
 }

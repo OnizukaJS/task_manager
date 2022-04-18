@@ -8,12 +8,12 @@ namespace TaskManager.Interfaces.task
 {
     public interface ITaskToDoData
     {
-        List<TaskToDo> GetTasks(); // used
-        List<Comment> GetTaskComments(Guid taskId); // used
-        List<TaskToDo> GetTasksPerWorkItem(Guid workItemId); // used
-        TaskToDo GetTask(Guid taskId); // used
-        TaskToDo AddTask(TaskToDo taskToDo); // used
-        void DeleteTask(TaskToDo taskToDo); // used
-        TaskToDo EditTask(TaskToDo taskToDo); // used
+        List<TaskToDo> GetTasks();
+        List<Comment> GetTaskComments(Guid taskId);
+        List<TaskToDo> GetTasksPerWorkItem(Guid workItemId);
+        TaskToDo GetTask(Guid taskId);
+        TaskToDo AddTask(TaskToDo taskToDo);
+        void DeleteTask(TaskToDo taskToDo);
+        TaskToDo EditTask(TaskToDo taskToDo);
     }
 }

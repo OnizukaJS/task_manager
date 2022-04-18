@@ -6,11 +6,11 @@ namespace TaskManager.Interfaces.tag
 {
     public interface ITagData
     {
-        List<Tag> GetTags(); // used
-        Tag GetTag(Guid tagId); // used
-        List<Tag> GetTagsPerWorkItemOrderedByAlphabeticText(Guid workItemId); // used
-        List<Tag> GetTagsPerTaskToDoOrderedByAlphabeticText(Guid taskId); // used
-        Tag AddTag(Tag tag); // used
-        void DeleteTag(Tag tag); // used
+        List<Tag> GetTags();
+        Tag GetTag(Guid tagId);
+        List<Tag> GetTagsPerWorkItemOrderedByAlphabeticText(Guid workItemId);
+        List<Tag> GetTagsPerTaskToDoOrderedByAlphabeticText(Guid taskId);
+        Tag AddTag(Tag tag);
+        void DeleteTag(Tag tag);
     }
 }

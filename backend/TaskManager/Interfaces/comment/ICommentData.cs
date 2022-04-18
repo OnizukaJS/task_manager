@@ -6,11 +6,11 @@ namespace TaskManager.Interfaces.comment
 {
     public interface ICommentData
     {
-        List<Comment> GetComments(); // used
-        Comment GetComment(Guid commentId); // used
-        List<Comment> GetCommentsPerWorkItemOrderedByCreationDataDesc(Guid workItemId); // used
-        List<Comment> GetCommentsPerTaskToDoOrderedByCreationDataDesc(Guid taskToDoId); // used
-        Comment AddComment(Comment comment); // used
-        void DeleteComment(Comment comment); // used
+        List<Comment> GetComments();
+        Comment GetComment(Guid commentId);
+        List<Comment> GetCommentsPerWorkItemOrderedByCreationDataDesc(Guid workItemId);
+        List<Comment> GetCommentsPerTaskToDoOrderedByCreationDataDesc(Guid taskToDoId);
+        Comment AddComment(Comment comment);
+        void DeleteComment(Comment comment);
     }
 }
