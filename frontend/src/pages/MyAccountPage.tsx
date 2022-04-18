@@ -9,10 +9,8 @@ import {
   withStyles,
 } from "@material-ui/core";
 import { Link as LinkRouterDom } from "react-router-dom";
-import ButtonComponent from "../components/buttons/ButtonComponent";
 import EmployeeUpdate from "../models/employeeModels/EmployeeUpdate";
 import ProfilePicture from "../components/ProfilePicture";
-import LoadingComponent from "../components/LoadingComponent";
 import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 import {
   PersonOutline as SecurityIcon,
@@ -208,11 +206,6 @@ const MyAccountPage = ({
       city: employeeData?.city,
     });
   }, [employeeData]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEmployee({ ...employee, [name]: value });
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | undefined) => {
     e?.preventDefault();

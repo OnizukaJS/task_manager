@@ -1,4 +1,5 @@
 import {
+  Divider,
   makeStyles,
   TextField,
   Typography,
@@ -199,12 +200,13 @@ const RegistrationPage = () => {
         </Box>
       </Box>
       <br />
-      <br />
       <ButtonComponent
         text="Register"
         color="primary"
         onClick={registerEmployee}
         variant="contained"
+        marginTop="1rem"
+        marginBottom="1rem"
       />
     </Box>
   );
