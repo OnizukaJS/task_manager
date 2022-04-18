@@ -1,6 +1,6 @@
 interface EmployeeLogin {
   employeeEmail: string;
-  password: string;
+  employeePassword: string;
 }
 
 export default EmployeeLogin;
