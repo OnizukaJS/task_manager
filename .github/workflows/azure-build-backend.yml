@@ -37,7 +37,7 @@ jobs:
       - name: Delete wwwroot folder
         shell: powershell
         run: |
-          $FolderName = "${{ env.WORKING_DIRECTORY_BACKEND }}/${{ env.ROOT }}"
+          $FolderName = "${{ env.WORKING_DIRECTORY_BACKEND }}/${{ env.APP_NAME }}/${{ env.ROOT }}"
           if (Test-Path $FolderName) {
             Remove-Item -Path $FolderName -Force -Recurse
           }
