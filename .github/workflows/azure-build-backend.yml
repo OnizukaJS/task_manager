@@ -45,7 +45,7 @@ jobs:
       - name: Copy paste build folder to wwwroot
         shell: powershell
         run: |
-          Copy-Item -Path "src/${{ env.WORKING_DIRECTORY_FRONTEND }}/build" -Destination "${{ env.WORKING_DIRECTORY_BACKEND }}/${{ env.APP_NAME }}/${{ env.ROOT }}" -Recurse
+          Copy-Item -Path "${{ env.WORKING_DIRECTORY_FRONTEND }}/build" -Destination "${{ env.WORKING_DIRECTORY_BACKEND }}/${{ env.APP_NAME }}/${{ env.ROOT }}" -Recurse
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
