@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { useState, useMemo } from "react";
 import Cookies from "universal-cookie";
-import apiUrls from "../constants/apiUrls";
+import { CommentUrlBasePath } from "../constants/apiUrls";
 import useFetchCommentsPerWorkItem from "../hooks/useFetchCommentsPerWorkItem";
 import useRefresh from "../hooks/useRefresh";
 import WorkItemModel from "../models/workItemModels/WorkItemModel";
@@ -112,7 +112,7 @@ const CommentsListWorkItemItem = ({
   }, []);
 
   const handleAddCommentWorkItem = () => {
-    fetch(apiUrls.baseCommentUrl, {
+    fetch(CommentUrlBasePath, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

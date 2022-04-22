@@ -33,7 +33,7 @@ const TaskStatusSelectImmediateUpdate = ({
       value: unknown;
     }>
   ) => {
-    fetch(apiUrls.baseTaskUrl + `/${task.id}`, {
+    fetch(apiUrls.task.getTask(task.id), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

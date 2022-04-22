@@ -443,6 +443,8 @@ const TaskListColumns = ({
             </MenuItem>
           </MenuList>
 
+          <Divider orientation="vertical" />
+
           <AddWorkItemButton
             handleOpenCreateWorkItem={handleOpenCreateWorkItem}
           />

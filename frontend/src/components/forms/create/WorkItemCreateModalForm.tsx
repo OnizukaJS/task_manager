@@ -11,7 +11,7 @@ import {
 import ButtonComponent from "../../buttons/ButtonComponent";
 import { useHistory } from "react-router-dom";
 import WorkItemModelToCreate from "../../../models/workItemModels/WorkItemModelToCreate";
-import apiUrls from "../../../constants/apiUrls";
+import { WorkItemUrlBasePath } from "../../../constants/apiUrls";
 
 interface WorkItemCreateModalFormProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -72,7 +72,7 @@ const WorkItemCreateModalForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | undefined) => {
     e?.preventDefault();
 
-    fetch(apiUrls.baseWorkItemUrl, {
+    fetch(WorkItemUrlBasePath, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

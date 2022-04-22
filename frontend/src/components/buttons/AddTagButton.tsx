@@ -9,7 +9,7 @@ import {
 } from "@mui/base";
 import { styled } from "@mui/system";
 import TagModelToCreate from "../../models/tagModels/TagModelToCreate";
-import apiUrls from "../../constants/apiUrls";
+import { TagUrlBasePath } from "../../constants/apiUrls";
 
 const CustomCreateTagButtonRoot = styled("button")`
   background-color: #eff6fc;
@@ -75,7 +75,7 @@ const AddTagButton = ({
     e.preventDefault();
 
     if (e.key === "Enter") {
-      fetch(apiUrls.baseTagUrl, {
+      fetch(TagUrlBasePath, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

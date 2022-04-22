@@ -78,7 +78,7 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
     e?.preventDefault();
     console.log("yo");
 
-    fetch(apiUrls.baseEmployeeUrl + "/authenticate", {
+    fetch(apiUrls.employee.authenticateEmployee, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

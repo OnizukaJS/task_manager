@@ -7,6 +7,7 @@ export const TagUrlBasePath = "https://localhost:44358/api/Tags";
 const apiUrls = {
   comment: {},
   employee: {
+    authenticateEmployee: `${EmployeeUrlBasePath}/authenticate`,
     getEmployee: (employeeId?: string): string =>
       `${EmployeeUrlBasePath}/${employeeId}`,
     getEmployees: `${EmployeeUrlBasePath}`,
