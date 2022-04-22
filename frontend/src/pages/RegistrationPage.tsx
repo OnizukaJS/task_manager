@@ -1,5 +1,4 @@
 import {
-  Divider,
   makeStyles,
   TextField,
   Typography,
@@ -16,6 +15,9 @@ import routes from "../config/routes";
 
 const useStyles = makeStyles({
   containerRegistration: {
+    padding: "40px",
+  },
+  containerRegistrationForm: {
     display: "flex",
     flexDirection: "column",
     padding: "20px 40px 30px 40px",
@@ -25,6 +27,10 @@ const useStyles = makeStyles({
     borderColor: "#3f51b5",
     boxShadow:
       "0 0.1875rem 0.4375rem 0.1875rem rgb(3, 3, 3, 13%), 0 0.6875rem 1.5rem 1rem rgb(3, 3, 3, 12%)",
+  },
+  containerRegistrationPage: {
+    height: "100%",
+    overflow: "auto",
   },
   containerBoxFields: {
     display: "flex",
@@ -99,115 +105,119 @@ const RegistrationPage = () => {
   }, [cookies, history]);
 
   return (
-    <Box className={classes.containerRegistration}>
-      <Box className={classes.containerRegistrationTitle}>
-        <Typography
-          variant="h1"
-          gutterBottom
-          className={classes.registrationTitle}
-        >
-          Register your account
-        </Typography>
+    <Box className={classes.containerRegistrationPage}>
+      <Box className={classes.containerRegistration}>
+        <form className={classes.containerRegistrationForm}>
+          <Box className={classes.containerRegistrationTitle}>
+            <Typography
+              variant="h1"
+              gutterBottom
+              className={classes.registrationTitle}
+            >
+              Register your account
+            </Typography>
+          </Box>
+
+          <Box className={classes.containerBoxFields}>
+            <Box className={classes.containerField}>
+              <Typography component="label">Name</Typography>
+              <InputFields
+                autoComplete="off"
+                name="employeeName"
+                onChange={handleChange}
+                placeholder="John"
+              />
+            </Box>
+
+            <Box className={classes.containerField}>
+              <Typography component="label">Surname</Typography>
+              <InputFields
+                autoComplete="off"
+                name="employeeSurname"
+                onChange={handleChange}
+                placeholder="Doe"
+              />
+            </Box>
+          </Box>
+          <br />
+
+          <Box className={classes.containerBoxFields}>
+            <Box className={classes.containerField}>
+              <Typography component="label">Email</Typography>
+              <InputFields
+                autoComplete="off"
+                name="email"
+                onChange={handleChange}
+                placeholder="test@gmail.com"
+              />
+            </Box>
+
+            <Box className={classes.containerField}>
+              <Typography component="label">Password</Typography>
+              <InputFields
+                autoComplete="off"
+                name="password"
+                type="password"
+                onChange={handleChange}
+              />
+            </Box>
+          </Box>
+          <br />
+
+          <Box className={classes.containerBoxFields}>
+            <Box className={classes.containerField}>
+              <Typography component="label">Job</Typography>
+              <InputFields
+                autoComplete="off"
+                name="jobDescription"
+                onChange={handleChange}
+                placeholder="Software Developer"
+              />
+            </Box>
+
+            <Box className={classes.containerField}>
+              <Typography component="label">Phone number</Typography>
+              <InputFields
+                autoComplete="off"
+                name="phoneNumber"
+                onChange={handleChange}
+              />
+            </Box>
+          </Box>
+          <br />
+
+          <Box className={classes.containerBoxFields}>
+            <Box className={classes.containerField}>
+              <Typography component="label">Age</Typography>
+              <InputFields
+                autoComplete="off"
+                name="age"
+                onChange={handleChange}
+                placeholder="32"
+              />
+            </Box>
+
+            <Box className={classes.containerField}>
+              <Typography component="label">City</Typography>
+              <InputFields
+                autoComplete="off"
+                name="city"
+                onChange={handleChange}
+                placeholder="Barcelona"
+              />
+            </Box>
+          </Box>
+          <br />
+          <ButtonComponent
+            text="Register"
+            color="primary"
+            onClick={registerEmployee}
+            variant="contained"
+            marginTop="1rem"
+            marginBottom="1rem"
+          />
+        </form>
       </Box>
-
-      <Box className={classes.containerBoxFields}>
-        <Box className={classes.containerField}>
-          <Typography component="label">Name</Typography>
-          <InputFields
-            autoComplete="off"
-            name="employeeName"
-            onChange={handleChange}
-            placeholder="John"
-          />
-        </Box>
-
-        <Box className={classes.containerField}>
-          <Typography component="label">Surname</Typography>
-          <InputFields
-            autoComplete="off"
-            name="employeeSurname"
-            onChange={handleChange}
-            placeholder="Doe"
-          />
-        </Box>
-      </Box>
-      <br />
-
-      <Box className={classes.containerBoxFields}>
-        <Box className={classes.containerField}>
-          <Typography component="label">Email</Typography>
-          <InputFields
-            autoComplete="off"
-            name="email"
-            onChange={handleChange}
-            placeholder="test@gmail.com"
-          />
-        </Box>
-
-        <Box className={classes.containerField}>
-          <Typography component="label">Password</Typography>
-          <InputFields
-            autoComplete="off"
-            name="password"
-            type="password"
-            onChange={handleChange}
-          />
-        </Box>
-      </Box>
-      <br />
-
-      <Box className={classes.containerBoxFields}>
-        <Box className={classes.containerField}>
-          <Typography component="label">Job</Typography>
-          <InputFields
-            autoComplete="off"
-            name="jobDescription"
-            onChange={handleChange}
-            placeholder="Software Developer"
-          />
-        </Box>
-
-        <Box className={classes.containerField}>
-          <Typography component="label">Phone number</Typography>
-          <InputFields
-            autoComplete="off"
-            name="phoneNumber"
-            onChange={handleChange}
-          />
-        </Box>
-      </Box>
-      <br />
-
-      <Box className={classes.containerBoxFields}>
-        <Box className={classes.containerField}>
-          <Typography component="label">Age</Typography>
-          <InputFields
-            autoComplete="off"
-            name="age"
-            onChange={handleChange}
-            placeholder="32"
-          />
-        </Box>
-
-        <Box className={classes.containerField}>
-          <Typography component="label">City</Typography>
-          <InputFields
-            autoComplete="off"
-            name="city"
-            onChange={handleChange}
-            placeholder="Barcelona"
-          />
-        </Box>
-      </Box>
-      <br />
-      <ButtonComponent
-        text="Register"
-        color="primary"
-        onClick={registerEmployee}
-        variant="contained"
-        marginTop="1rem"
-        marginBottom="1rem"
-      />
     </Box>
   );
 };

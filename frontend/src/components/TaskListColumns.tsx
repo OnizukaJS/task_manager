@@ -435,15 +435,12 @@ const TaskListColumns = ({
             <MenuItem onClick={handleDoesNothing}>
               <Typography>Capacity</Typography>
             </MenuItem>
-            <MenuItem
-              onClick={handleDoesNothing}
-              style={{ borderRight: "2px solid #C8C8C8" }}
-            >
+            <MenuItem onClick={handleDoesNothing}>
               <Typography>Analytics</Typography>
             </MenuItem>
           </MenuList>
 
-          <Divider orientation="vertical" />
+          <Divider orientation="vertical" flexItem />
 
           <AddWorkItemButton
             handleOpenCreateWorkItem={handleOpenCreateWorkItem}

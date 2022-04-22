@@ -14,6 +14,9 @@ import apiUrls from "../constants/apiUrls";
 
 const useStyles = makeStyles({
   containerLogin: {
+    padding: "40px",
+  },
+  containerLoginForm: {
     display: "flex",
     flexDirection: "column",
     padding: "20px 40px 30px 40px",
@@ -23,6 +26,10 @@ const useStyles = makeStyles({
     borderColor: "#3f51b5",
     boxShadow:
       "0 0.1875rem 0.4375rem 0.1875rem rgb(3, 3, 3, 13%), 0 0.6875rem 1.5rem 1rem rgb(3, 3, 3, 12%)",
+  },
+  containerLoginPage: {
+    height: "100%",
+    overflow: "auto",
   },
   containerLoginTitle: {
     display: "flex",
@@ -111,42 +118,50 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
   };
 
   return (
-    <form className={classes.containerLogin} onSubmit={startSession}>
-      <Box className={classes.containerLoginTitle}>
-        <Typography variant="h1" gutterBottom className={classes.loginTitle}>
-          Sign in to your account
-        </Typography>
+    <Box className={classes.containerLoginPage}>
+      <Box className={classes.containerLogin}>
+        <form className={classes.containerLoginForm} onSubmit={startSession}>
+          <Box className={classes.containerLoginTitle}>
+            <Typography
+              variant="h1"
+              gutterBottom
+              className={classes.loginTitle}
+            >
+              Sign in to your account
+            </Typography>
+          </Box>
+          <Typography component="label">Email</Typography>
+          <InputFields
+            autoComplete="off"
+            name="employeeEmail"
+            onChange={handleChange}
+          />
+          <br />
+          <Typography component="label">Password</Typography>
+          <InputFields
+            autoComplete="off"
+            type="password"
+            name="employeePassword"
+            onChange={handleChange}
+          />
+          <br />
+          <ButtonComponent
+            text="Login"
+            color="primary"
+            type="submit"
+            variant="contained"
+            marginTop="1rem"
+            marginBottom="2rem"
+          />
+
+          <Divider />
+
+          <GoogleLoginButton />
+          <MicrosoftLoginButton />
+          <LinkedinLoginButton />
+        </form>
       </Box>
-      <Typography component="label">Email</Typography>
-      <InputFields
-        autoComplete="off"
-        name="employeeEmail"
-        onChange={handleChange}
-      />
-      <br />
-      <Typography component="label">Password</Typography>
-      <InputFields
-        autoComplete="off"
-        type="password"
-        name="employeePassword"
-        onChange={handleChange}
-      />
-      <br />
-      <ButtonComponent
-        text="Login"
-        color="primary"
-        type="submit"
-        variant="contained"
-        marginTop="1rem"
-        marginBottom="2rem"
-      />
-
-      <Divider />
-
-      <GoogleLoginButton />
-      <MicrosoftLoginButton />
-      <LinkedinLoginButton />
-    </form>
+    </Box>
   );
 };
 

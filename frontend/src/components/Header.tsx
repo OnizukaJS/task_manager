@@ -142,89 +142,75 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
   };
 
   return cookies.get("employeeId") ? (
-    <>
-      <Box className={classes.containerHeaderMenu}>
-        <Box className={classes.containerHeader}>
-          <Box className={classes.containerLogo}>
-            <Link to={routes.tasksList} className={classes.linkToTaskList}>
-              <img
-                src={azureDevopsLogo}
-                alt="Azure DevOps"
-                className={classes.azureLogo}
-              />
-            </Link>
-
-            <Box className={classes.menuItemsLogo}>
-              {menuItemsLogo.map((menuItem, index) => (
-                <>
-                  <MenuItem onClick={handleDoesNothing}>
-                    <Typography>{menuItem}</Typography>
-                  </MenuItem>
-                  {index + 1 !== menuItemsLogo.length && (
-                    <Typography>/</Typography>
-                  )}
-                </>
-              ))}
-            </Box>
-          </Box>
-
-          <MenuList className={classes.menuList}>
-            <CustomInputSearch
-              placeholder="Search"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search className={classes.iconSearch} />
-                  </InputAdornment>
-                ),
-              }}
-              variant="outlined"
+    <Box className={classes.containerHeaderMenu}>
+      <Box className={classes.containerHeader}>
+        <Box className={classes.containerLogo}>
+          <Link to={routes.tasksList} className={classes.linkToTaskList}>
+            <img
+              src={azureDevopsLogo}
+              alt="Azure DevOps"
+              className={classes.azureLogo}
             />
-            <MenuItem
-              className={classes.iconsHeader}
-              onClick={handleDoesNothing}
-            >
-              <FormatListBulletedSharp />
-            </MenuItem>
-            <MenuItem
-              className={classes.iconsHeader}
-              onClick={handleDoesNothing}
-            >
-              <ShoppingBagOutlined />
-            </MenuItem>
-            <MenuItem
-              className={classes.iconsHeader}
-              onClick={handleDoesNothing}
-            >
-              <Tooltip title="Help">
-                <HelpOutlineOutlined />
-              </Tooltip>
-            </MenuItem>
-            <MenuItem
-              className={classes.iconsHeader}
-              onClick={handleDoesNothing}
-            >
-              <Tooltip title="User settings">
-                <PersonOutlineOutlined />
-              </Tooltip>
-            </MenuItem>
+          </Link>
 
-            <LightTooltip
-              title={`Account manager for ${currentEmployeeData?.employeeName} ${currentEmployeeData?.employeeSurname}`}
-            >
-              <MyAccountPopoverMenuItem
-                currentEmployeeData={currentEmployeeData!}
-                triggerRefresh={triggerRefresh}
-              />
-            </LightTooltip>
-          </MenuList>
+          <Box className={classes.menuItemsLogo}>
+            {menuItemsLogo.map((menuItem, index) => (
+              <>
+                <MenuItem onClick={handleDoesNothing}>
+                  <Typography>{menuItem}</Typography>
+                </MenuItem>
+                {index + 1 !== menuItemsLogo.length && (
+                  <Typography>/</Typography>
+                )}
+              </>
+            ))}
+          </Box>
         </Box>
-        <Divider />
-        <DrawerMenu />
+
+        <MenuList className={classes.menuList}>
+          <CustomInputSearch
+            placeholder="Search"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search className={classes.iconSearch} />
+                </InputAdornment>
+              ),
+            }}
+            variant="outlined"
+          />
+          <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
+            <FormatListBulletedSharp />
+          </MenuItem>
+          <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
+            <ShoppingBagOutlined />
+          </MenuItem>
+          <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
+            <Tooltip title="Help">
+              <HelpOutlineOutlined />
+            </Tooltip>
+          </MenuItem>
+          <MenuItem className={classes.iconsHeader} onClick={handleDoesNothing}>
+            <Tooltip title="User settings">
+              <PersonOutlineOutlined />
+            </Tooltip>
+          </MenuItem>
+
+          <LightTooltip
+            title={`Account manager for ${currentEmployeeData?.employeeName} ${currentEmployeeData?.employeeSurname}`}
+          >
+            <MyAccountPopoverMenuItem
+              currentEmployeeData={currentEmployeeData!}
+              triggerRefresh={triggerRefresh}
+            />
+          </LightTooltip>
+        </MenuList>
       </Box>
-    </>
+      <Divider />
+      <DrawerMenu />
+    </Box>
   ) : (
-    <>
+    <Box className={classes.containerHeaderMenu}>
       <Box className={classes.containerHeader}>
         <MenuList className={classes.menuList}>
           <Link to={routes.loginPage} className={classes.link}>
@@ -246,7 +232,7 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
         </MenuList>
       </Box>
       <Divider />
-    </>
+    </Box>
   );
 };
 
