@@ -11,6 +11,7 @@ import AddTagButton from "./buttons/AddTagButton";
 import TagComponent from "./TagComponent";
 import useRefresh from "../hooks/useRefresh";
 import useFetchTagsPerWorkItem from "../hooks/useFetchTagsPerWorkItem";
+import apiUrls from "../constants/apiUrls";
 
 interface TagsListProps {
   workItemId: string;
@@ -60,7 +61,7 @@ const TagsList = ({ workItemId }: TagsListProps) => {
   );
 
   const handleDeleteTag = (tagId: string) => {
-    fetch(`https://localhost:44358/api/WorkItems/${tagId}`, {
+    fetch(apiUrls.tag.deleteTag(tagId), {
       method: "DELETE",
     })
       .then(() => console.log("Tag deleted"))

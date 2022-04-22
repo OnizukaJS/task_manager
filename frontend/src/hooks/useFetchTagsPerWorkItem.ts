@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react";
+import apiUrls from "../constants/apiUrls";
 import TagModel from "../models/tagModels/TagModel";
 
 const useFetchTagsPerWorkItem = (
@@ -12,7 +13,7 @@ const useFetchTagsPerWorkItem = (
   useEffect(() => {
     setIsLoading(true);
 
-    fetch(`https://localhost:44358/api/WorkItems/${workItemId}/tags`, {
+    fetch(apiUrls.workItem.getTagsPerWorkItem(workItemId), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

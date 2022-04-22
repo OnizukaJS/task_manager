@@ -12,6 +12,7 @@ import ButtonComponent from "../../buttons/ButtonComponent";
 import TaskModelToCreate from "../../../models/taskModels/TaskModelToCreate";
 import { useHistory } from "react-router-dom";
 import TaskTypeEnum from "../../../models/enum/TaskTypeEnum";
+import apiUrls from "../../../constants/apiUrls";
 
 interface TaskCreateModalFormProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -79,7 +80,7 @@ const TaskCreateModalForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | undefined) => {
     e?.preventDefault();
 
-    fetch(`https://localhost:44358/api/TasksToDo`, {
+    fetch(apiUrls.baseTaskUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

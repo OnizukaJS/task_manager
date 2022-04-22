@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import apiUrls from "../constants/apiUrls";
 import WorkItemModel from "../models/workItemModels/WorkItemModel";
 
 const useFetchWorkItem = (
@@ -10,7 +11,7 @@ const useFetchWorkItem = (
   useEffect(() => {
     setIsLoading(true);
 
-    fetch("https://localhost:44358/api/workItems", {
+    fetch(apiUrls.workItem.getWorkItems, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import { NativeSelect } from "@material-ui/core";
 import TaskStatusEnum from "../../models/enum/TaskStatusEnum";
 import { withStyles } from "@material-ui/styles";
 import TaskModel from "../../models/taskModels/TaskModel";
+import apiUrls from "../../constants/apiUrls";
 
 interface TaskStatusSelectImmediateUpdateProps {
   task: TaskModel;
@@ -32,7 +33,7 @@ const TaskStatusSelectImmediateUpdate = ({
       value: unknown;
     }>
   ) => {
-    fetch(`https://localhost:44358/api/TasksToDo/${task.id}`, {
+    fetch(apiUrls.baseTaskUrl + `/${task.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

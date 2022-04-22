@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react";
+import apiUrls from "../constants/apiUrls";
 import CommentModel from "../models/commentModels/CommentModel";
 
 const useFetchCommentsPerWorkItem = (
@@ -12,7 +13,7 @@ const useFetchCommentsPerWorkItem = (
   useEffect(() => {
     setIsLoading(true);
 
-    fetch(`https://localhost:44358/api/WorkItems/${workItemId}/comments`, {
+    fetch(apiUrls.workItem.getCommentsPerWorkItem(workItemId), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

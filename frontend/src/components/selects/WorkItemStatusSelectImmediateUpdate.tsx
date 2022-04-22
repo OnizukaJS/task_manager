@@ -3,6 +3,7 @@ import { NativeSelect } from "@material-ui/core";
 import TaskStatusEnum from "../../models/enum/TaskStatusEnum";
 import { withStyles } from "@material-ui/styles";
 import WorkItemModel from "../../models/workItemModels/WorkItemModel";
+import apiUrls from "../../constants/apiUrls";
 
 interface WorkItemStatusSelectImmediateUpdateProps {
   workItem: WorkItemModel;
@@ -32,7 +33,7 @@ const WorkItemStatusSelectImmediateUpdate = ({
       value: unknown;
     }>
   ) => {
-    fetch(`https://localhost:44358/api/WorkItems/${workItem.id}`, {
+    fetch(apiUrls.workItem.getWorkItem(workItem.id), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

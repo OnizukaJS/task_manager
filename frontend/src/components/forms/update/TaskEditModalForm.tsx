@@ -42,6 +42,7 @@ import { Tooltip } from "@mui/material";
 import { useWarningSnackbar } from "../../../hooks/useErrorSnackbar";
 import TagsListTaskItem from "../../TagsListTaskItem";
 import CommentsListTaskItem from "../../CommentsListTaskItem";
+import apiUrls from "../../../constants/apiUrls";
 
 interface TaskEditModalFormProps {
   openEditTaskItem: boolean;
@@ -337,7 +338,7 @@ const TaskEditModalForm = ({
   const handleUpdate = (e: React.FormEvent<HTMLFormElement> | undefined) => {
     e?.preventDefault();
 
-    fetch(`https://localhost:44358/api/TasksToDo/${taskToEdit.id}`, {
+    fetch(apiUrls.task.updateTask(taskToEdit.id), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

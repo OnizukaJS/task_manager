@@ -10,6 +10,7 @@ import EmployeeModel from "../../models/employeeModels/EmployeeModel";
 import WorkItemModel from "../../models/workItemModels/WorkItemModel";
 import ProfilePicture from "../ProfilePicture";
 import { withStyles } from "@material-ui/styles";
+import apiUrls from "../../constants/apiUrls";
 
 interface WorkItemEmployeeSelectImmediateUpdateProps {
   employees: EmployeeModel[] | undefined;
@@ -63,7 +64,7 @@ const WorkItemEmployeeSelectImmediateUpdate = ({
       value: unknown;
     }>
   ) => {
-    fetch(`https://localhost:44358/api/WorkItems/${workItem.id}`, {
+    fetch(apiUrls.workItem.updateWorkItem(workItem.id), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ButtonComponent from "../components/buttons/ButtonComponent";
 import LoadingUpdatePassword from "../components/loadings/LoadingUpdatePassword";
+import apiUrls from "../constants/apiUrls";
 import useErrorSnackbar, {
   useSuccessSnackbar,
 } from "../hooks/useErrorSnackbar";
@@ -84,7 +85,7 @@ const UpdatePasswordPage = ({
   ) => {
     e?.preventDefault();
 
-    fetch(`https://localhost:44358/api/Employees/${employeeId}/password`, {
+    fetch(apiUrls.employee.updatePassword(employeeId), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -11,6 +11,7 @@ import AddTagButton from "./buttons/AddTagButton";
 import TagComponent from "./TagComponent";
 import useRefresh from "../hooks/useRefresh";
 import useFetchTagsPerTask from "../hooks/useFetchTagsPerTask";
+import apiUrls from "../constants/apiUrls";
 
 interface TagsListProps {
   taskId: string;
@@ -57,7 +58,7 @@ const TagsList = ({ taskId }: TagsListProps) => {
   const [tags, isTagLoading] = useFetchTagsPerTask(taskId, refreshTagState);
 
   const handleDeleteTag = (tagId: string) => {
-    fetch(`https://localhost:44358/api/Tags/${tagId}`, {
+    fetch(apiUrls.tag.deleteTag(tagId), {
       method: "DELETE",
     })
       .then(() => console.log("Tag deleted"))

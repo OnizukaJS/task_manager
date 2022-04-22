@@ -28,6 +28,7 @@ import {
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import routes from "../config/routes";
 import LoadingPersonInfo from "../components/loadings/LoadingPersonalInfo";
+import apiUrls from "../constants/apiUrls";
 
 const useStyles = makeStyles((theme: Theme) => ({
   closeSession: {
@@ -210,7 +211,7 @@ const MyAccountPage = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | undefined) => {
     e?.preventDefault();
 
-    fetch(`https://localhost:44358/api/Employees/${employeeData?.employeeId}`, {
+    fetch(apiUrls.employee.getEmployee(employeeData?.employeeId), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

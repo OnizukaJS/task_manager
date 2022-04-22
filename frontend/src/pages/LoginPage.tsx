@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Cookies from "universal-cookie";
-import axios from "axios";
 import EmployeeLogin from "../models/employeeModels/EmployeeLogin";
 import { useHistory } from "react-router-dom";
 import routes from "../config/routes";
@@ -11,6 +10,7 @@ import { withStyles } from "@material-ui/styles";
 import GoogleLoginButton from "../components/buttons/GoogleLoginButton";
 import MicrosoftLoginButton from "../components/buttons/MicrosoftLoginButton";
 import LinkedinLoginButton from "../components/buttons/LinkedinLoginButton";
+import apiUrls from "../constants/apiUrls";
 
 const useStyles = makeStyles({
   containerLogin: {
@@ -53,11 +53,11 @@ interface LoginPageProps {
 const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
   const classes = useStyles();
   const history = useHistory();
-  const baseLoginUrl = "https://localhost:44358/api/Employees";
   const [login, setLogin] = useState<EmployeeLogin>({
     employeeEmail: "",
     employeePassword: "",
   });
+
   const cookies = useMemo(() => {
     const cook = new Cookies();
     return cook;
@@ -74,45 +74,44 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
     setLogin({ ...login, [name]: value });
   };
 
-  const startSession = async () => {
-    await axios
-      .get(baseLoginUrl + `/${login.employeeEmail}/${login.employeePassword}`)
+  const startSession = (e: React.FormEvent<HTMLFormElement> | undefined) => {
+    e?.preventDefault();
+    console.log("yo");
+
+    fetch(apiUrls.baseEmployeeUrl + "/authenticate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        employeeEmail: login.employeeEmail,
+        employeePassword: login.employeePassword,
+      }),
+    })
       .then((response) => {
-        return response.data;
+        return response.json();
       })
       .then((data) => {
-        if (data.length > 0) {
-          const answer = data[0];
-          cookies.set("employeeId", answer.employeeId, { path: "/" });
-          cookies.set("email", answer.email, { path: "/" });
-          cookies.set("password", answer.password, { path: "/" });
-          cookies.set("employeeName", answer.employeeName, { path: "/" });
-          cookies.set("employeeSurname", answer.employeeSurname, { path: "/" });
-          cookies.set("employeeAge", answer.employeeAge, { path: "/" });
-          cookies.set("city", answer.city, { path: "/" });
+        cookies.set("employeeId", data.employeeId, { path: "/" });
+        cookies.set("email", data.email, { path: "/" });
+        cookies.set("password", data.password, { path: "/" });
+        cookies.set("employeeName", data.employeeName, { path: "/" });
+        cookies.set("employeeSurname", data.employeeSurname, { path: "/" });
+        cookies.set("employeeAge", data.employeeAge, { path: "/" });
+        cookies.set("city", data.city, { path: "/" });
+        cookies.set("jobDescription", data.jobDescription, { path: "/" });
+        cookies.set("phoneNumber", data.phoneNumber, { path: "/" });
 
-          alert(
-            "Welcome: " + answer.employeeName + " " + answer.employeeSurname
-          );
-          history.push(routes.tasksList);
-          triggerRefresh();
-        } else {
-          alert("The email or the password are incorrects");
-        }
+        history.push(routes.tasksList);
+        triggerRefresh();
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const handleKeyPress = (e: any) => {
-    if (e.code === "Enter") {
-      startSession();
-    }
-  };
-
   return (
-    <Box className={classes.containerLogin}>
+    <form className={classes.containerLogin} onSubmit={startSession}>
       <Box className={classes.containerLoginTitle}>
         <Typography variant="h1" gutterBottom className={classes.loginTitle}>
           Sign in to your account
@@ -129,15 +128,14 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
       <InputFields
         autoComplete="off"
         type="password"
-        name="password"
+        name="employeePassword"
         onChange={handleChange}
-        onKeyPress={handleKeyPress}
       />
       <br />
       <ButtonComponent
         text="Login"
         color="primary"
-        onClick={startSession}
+        type="submit"
         variant="contained"
         marginTop="1rem"
         marginBottom="2rem"
@@ -148,7 +146,7 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
       <GoogleLoginButton />
       <MicrosoftLoginButton />
       <LinkedinLoginButton />
-    </Box>
+    </form>
   );
 };
 

@@ -10,6 +10,7 @@ import EmployeeModel from "../../models/employeeModels/EmployeeModel";
 import TaskModel from "../../models/taskModels/TaskModel";
 import ProfilePicture from "../ProfilePicture";
 import { withStyles } from "@material-ui/styles";
+import apiUrls from "../../constants/apiUrls";
 
 interface TaskEmployeeSelectImmediateUpdateProps {
   employees: EmployeeModel[] | undefined;
@@ -63,7 +64,7 @@ const TaskEmployeeSelectImmediateUpdate = ({
       value: unknown;
     }>
   ) => {
-    fetch(`https://localhost:44358/api/TasksToDo/${task.id}`, {
+    fetch(apiUrls.task.updateTask(task.id), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

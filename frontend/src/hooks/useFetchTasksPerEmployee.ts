@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import apiUrls from "../constants/apiUrls";
 import TaskModel from "../models/taskModels/TaskModel";
 
 const useFetchTasksPerEmployee = (
@@ -10,7 +11,7 @@ const useFetchTasksPerEmployee = (
   useEffect(() => {
     setIsLoading(true);
 
-    fetch(`https://localhost:44358/api/TasksToDo/employee/${employeeId}`, {
+    fetch(apiUrls.task.getTasksPerEmployee(employeeId), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

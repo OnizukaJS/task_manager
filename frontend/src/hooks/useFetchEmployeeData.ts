@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import apiUrls from "../constants/apiUrls";
 import EmployeeModel from "../models/employeeModels/EmployeeModel";
 
 const useFetchEmployeeData = (
@@ -11,7 +12,7 @@ const useFetchEmployeeData = (
   useEffect(() => {
     setIsLoading(true);
 
-    fetch(`https://localhost:44358/api/Employees/${employeeId}`, {
+    fetch(apiUrls.employee.getEmployee(employeeId), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -9,6 +9,7 @@ import {
 } from "@mui/base";
 import { styled } from "@mui/system";
 import TagModelToCreate from "../../models/tagModels/TagModelToCreate";
+import apiUrls from "../../constants/apiUrls";
 
 const CustomCreateTagButtonRoot = styled("button")`
   background-color: #eff6fc;
@@ -74,7 +75,7 @@ const AddTagButton = ({
     e.preventDefault();
 
     if (e.key === "Enter") {
-      fetch(`https://localhost:44358/api/Tags`, {
+      fetch(apiUrls.baseTagUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

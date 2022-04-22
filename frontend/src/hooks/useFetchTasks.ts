@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import apiUrls from "../constants/apiUrls";
 import TaskModel from "../models/taskModels/TaskModel";
 
 const useFetchTasks = (
@@ -10,7 +11,7 @@ const useFetchTasks = (
   useEffect(() => {
     setIsLoading(true);
 
-    fetch("https://localhost:44358/api/TasksToDo", {
+    fetch(apiUrls.task.getTasks, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

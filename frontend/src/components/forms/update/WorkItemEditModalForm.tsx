@@ -37,6 +37,7 @@ import { useWarningSnackbar } from "../../../hooks/useErrorSnackbar";
 import DeleteTaskDialog from "../../DeleteTaskDialog";
 import TagsListWorkItem from "../../TagsListWorkItem";
 import CommentsListWorkItemItem from "../../CommentsListWorkItem";
+import apiUrls from "../../../constants/apiUrls";
 
 interface WorkItemEditModalFormProps {
   openEditWorkItem: boolean;
@@ -360,7 +361,7 @@ const WorkItemEditModalForm = ({
   const handleUpdate = (e: React.FormEvent<HTMLFormElement> | undefined) => {
     e?.preventDefault();
 
-    fetch(`https://localhost:44358/api/WorkItems/${workItemToEdit.id}`, {
+    fetch(apiUrls.workItem.updateWorkItem(workItemToEdit.id), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

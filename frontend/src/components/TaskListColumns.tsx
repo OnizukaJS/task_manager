@@ -48,6 +48,7 @@ import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import sprintImage from "../images/sprint_image.png";
 import useFetchTasks from "../hooks/useFetchTasks";
 import LoadingTasksList from "./loadings/LoadingTasksList";
+import apiUrls from "../constants/apiUrls";
 
 export interface StyleProps {
   expandedWorkItem: string[];
@@ -312,7 +313,7 @@ const TaskListColumns = ({
 
   const [taskDragged, setTaskDragged] = useState<TaskModel>();
   const onDragStart = (result: DragStart) => {
-    fetch(`https://localhost:44358/api/TasksToDo/${result.draggableId}`, {
+    fetch(apiUrls.task.getTask(result.draggableId), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -335,7 +336,7 @@ const TaskListColumns = ({
     )
       return;
 
-    fetch(`https://localhost:44358/api/TasksToDo/${draggableId}`, {
+    fetch(apiUrls.task.getTask(draggableId), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

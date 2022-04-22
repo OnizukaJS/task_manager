@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { useState, useMemo } from "react";
 import Cookies from "universal-cookie";
+import apiUrls from "../constants/apiUrls";
 import useFetchCommentsPerTask from "../hooks/useFetchCommentsPerTask";
 import useRefresh from "../hooks/useRefresh";
 import TaskModel from "../models/taskModels/TaskModel";
@@ -111,7 +112,7 @@ const CommentsListTaskItem = ({
   }, []);
 
   const handleAddCommentTask = () => {
-    fetch("https://localhost:44358/api/Comments", {
+    fetch(apiUrls.baseCommentUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

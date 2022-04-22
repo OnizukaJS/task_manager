@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react";
+import apiUrls from "../constants/apiUrls";
 import CommentModel from "../models/commentModels/CommentModel";
 
 const useFetchCommentsPerTask = (
@@ -12,7 +13,7 @@ const useFetchCommentsPerTask = (
   useEffect(() => {
     setIsLoading(true);
 
-    fetch(`https://localhost:44358/api/TasksToDo/${taskId}/comments`, {
+    fetch(apiUrls.task.getCommentsPerTask(taskId), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
