@@ -8,10 +8,13 @@ import { MenuBook } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
 import routes from "../config/routes";
+import useFetchSingleWorkItem from "../hooks/useFetchSingleWorkItem";
 import useFetchTagsPerWorkItem from "../hooks/useFetchTagsPerWorkItem";
+import useRefresh from "../hooks/useRefresh";
 import EmployeeModel from "../models/employeeModels/EmployeeModel";
 import WorkItemModel from "../models/workItemModels/WorkItemModel";
 import ColorIconStatus from "./ColorIconStatus";
+import LoadingTask from "./loadings/LoadingTask";
 import WorkItemEmployeeSelectImmediateUpdate from "./selects/WorkItemEmployeeSelectImmediateUpdate";
 import WorkItemStatusSelectImmediateUpdate from "./selects/WorkItemStatusSelectImmediateUpdate";
 import TagComponent from "./TagComponent";
@@ -87,48 +90,61 @@ const WorkItemItem = ({
   refreshState,
 }: WorkItemProps) => {
   const classes = useStyles();
-
   const [tags] = useFetchTagsPerWorkItem(workItem.id, refreshState);
+
+  const [refreshWorkItemState, triggerRefreshWorkItem] = useRefresh();
+  const [workItemInfo, isLoading] = useFetchSingleWorkItem(
+    workItem.id,
+    refreshWorkItemState
+  );
 
   return (
     <Box component="div" className={classes.containerWorkItem}>
-      <Box className={classes.containerAvatarTitle}>
-        <ListItemAvatar className={classes.avatar}>
-          <MenuBook className={classes.workItemType} fontSize="small" />
-        </ListItemAvatar>
-        <Box>
-          <span className={classes.workItemId}>
-            {workItem.id.slice(0, 5).toUpperCase()}
-          </span>
-          <Link
-            to={routes.editTask(workItem.id)}
-            onClick={() => handleOpenEditWorkItem(workItem)}
-            className={classes.link}
-          >
-            {workItem.name}
-          </Link>
-        </Box>
-      </Box>
+      {isLoading ? (
+        <LoadingTask />
+      ) : (
+        <>
+          <Box className={classes.containerAvatarTitle}>
+            <ListItemAvatar className={classes.avatar}>
+              <MenuBook className={classes.workItemType} fontSize="small" />
+            </ListItemAvatar>
+            <Box>
+              <span className={classes.workItemId}>
+                {workItem.id.slice(0, 5).toUpperCase()}
+              </span>
+              <Link
+                to={routes.editTask(workItem.id)}
+                onClick={() => handleOpenEditWorkItem(workItem)}
+                className={classes.link}
+              >
+                {workItem.name}
+              </Link>
+            </Box>
+          </Box>
 
-      <WorkItemEmployeeSelectImmediateUpdate
-        employees={employees}
-        workItem={workItem}
-        triggerRefresh={triggerRefresh}
-      />
-
-      <Box className={classes.boxStatus}>
-        <span className={classes.state}>State </span>
-
-        <Box className={classes.avatarStatus}>
-          <ColorIconStatus status={workItem.status} />
-          <WorkItemStatusSelectImmediateUpdate
-            workItem={workItem}
-            triggerRefresh={triggerRefresh}
+          <WorkItemEmployeeSelectImmediateUpdate
+            employees={employees}
+            workItem={workItemInfo}
+            triggerRefresh={triggerRefreshWorkItem}
           />
-        </Box>
-      </Box>
 
-      <Box>{tags ? tags.map((tag) => <TagComponent tag={tag} />) : null}</Box>
+          <Box className={classes.boxStatus}>
+            <span className={classes.state}>State </span>
+
+            <Box className={classes.avatarStatus}>
+              <ColorIconStatus status={workItem.status} />
+              <WorkItemStatusSelectImmediateUpdate
+                workItem={workItem}
+                triggerRefresh={triggerRefresh}
+              />
+            </Box>
+          </Box>
+
+          <Box>
+            {tags ? tags.map((tag) => <TagComponent tag={tag} />) : null}
+          </Box>
+        </>
+      )}
     </Box>
   );
 };
