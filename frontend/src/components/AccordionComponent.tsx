@@ -8,7 +8,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 
 const useStyles = makeStyles<Theme>((theme) =>
   createStyles({
@@ -66,21 +66,14 @@ interface AccordionComponentProps {
 
 const AccordionComponent = ({ title, children }: AccordionComponentProps) => {
   const classes = useStyles();
-  const [expanded, setExpanded] = useState<boolean>(true);
-  const handleIsExpanded = () => {
-    setExpanded(!expanded);
-  };
 
   return (
-    <>
-      {/* <MuiAccordionComponent expanded={expanded} onClick={handleIsExpanded}> */}
-      <MuiAccordionComponent onClick={handleIsExpanded}>
-        <MuiAccordionSummary expandIcon={<ExpandMore />}>
-          <h3 className={classes.subTitlesTexts}>{title}</h3>
-        </MuiAccordionSummary>
-        <MuiAccordionDetailsComponent>{children}</MuiAccordionDetailsComponent>
-      </MuiAccordionComponent>
-    </>
+    <MuiAccordionComponent defaultExpanded>
+      <MuiAccordionSummary expandIcon={<ExpandMore />}>
+        <h3 className={classes.subTitlesTexts}>{title}</h3>
+      </MuiAccordionSummary>
+      <MuiAccordionDetailsComponent>{children}</MuiAccordionDetailsComponent>
+    </MuiAccordionComponent>
   );
 };
 

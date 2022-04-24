@@ -51,7 +51,7 @@ import LoadingTasksList from "./loadings/LoadingTasksList";
 import apiUrls from "../constants/apiUrls";
 
 export interface StyleProps {
-  expandedWorkItem: string[];
+  expandedWorkItem: boolean;
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) =>
@@ -103,9 +103,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     },
     doubleArrowIcon: {
       transform: (props) =>
-        props.expandedWorkItem && props.expandedWorkItem.length !== 0
-          ? "rotate(270deg)"
-          : "rotate(90deg)",
+        props.expandedWorkItem ? "rotate(90deg)" : "rotate(270deg)",
     },
     expandButton: {
       display: "flex",
@@ -258,12 +256,7 @@ const TaskListColumns = ({
   const [addedToFavorite, setAddedToFavorite] = useState<boolean>(false);
   const [popoverToDisplay, setPopoverToDisplay] = useState<string>("");
   const [displayFilterBar, setDisplayFilterBar] = useState<boolean>(false);
-  const workItemIds: string[] | undefined = workItems?.map((workItem) => {
-    return workItem.id;
-  });
-  const [expandedWorkItem, setExpandedWorkItem] = useState<Array<string>>(
-    workItemIds!
-  );
+  const [expandedWorkItem, setExpandedWorkItem] = useState<boolean>(true);
   const classes = useStyles({ expandedWorkItem });
   const cookies = new Cookies();
 
@@ -272,21 +265,8 @@ const TaskListColumns = ({
     refreshState
   );
 
-  const handleIsExpanded =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      if (newExpanded) {
-        setExpandedWorkItem([...expandedWorkItem, panel]);
-      } else {
-        setExpandedWorkItem(expandedWorkItem.filter((item) => item !== panel));
-      }
-    };
-
-  const handleExpandOrCloseAll = () => {
-    if (expandedWorkItem && expandedWorkItem.length === 0) {
-      setExpandedWorkItem(workItemIds!);
-    } else {
-      setExpandedWorkItem([]);
-    }
+  const handleIsExpanded = () => {
+    setExpandedWorkItem(!expandedWorkItem);
   };
 
   const handleOpenCreateWorkItem = () => {
@@ -543,16 +523,14 @@ const TaskListColumns = ({
               <Box>
                 <button
                   className={classes.expandButton}
-                  onClick={() => handleExpandOrCloseAll()}
+                  onClick={handleIsExpanded}
                 >
                   <DoubleArrow
                     fontSize="small"
                     className={classes.doubleArrowIcon}
                   />{" "}
                   <p className={`${classes.titleGridContainer}`}>
-                    {expandedWorkItem && expandedWorkItem.length === 0
-                      ? "Expand all"
-                      : "Collapse all"}
+                    {expandedWorkItem ? "Expand all" : "Collapse all"}
                   </p>
                 </button>
               </Box>
@@ -617,10 +595,7 @@ const TaskListColumns = ({
                     onDragEnd={onDragEnd}
                     onDragStart={onDragStart}
                   >
-                    <Accordion
-                    // expanded={expandedWorkItem?.includes(workItem.id)}
-                    // onChange={handleIsExpanded(workItem.id)}
-                    >
+                    <Accordion defaultExpanded={expandedWorkItem}>
                       <AccordionSummary>
                         <MenuBook
                           className={classes.workItemType}
