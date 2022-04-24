@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Divider,
@@ -9,6 +9,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import { Link as LinkRouterDom } from "react-router-dom";
+import { useHistory } from "react-router";
 import EmployeeUpdate from "../models/employeeModels/EmployeeUpdate";
 import ProfilePicture from "../components/ProfilePicture";
 import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
@@ -29,6 +30,7 @@ import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import routes from "../config/routes";
 import LoadingPersonInfo from "../components/loadings/LoadingPersonalInfo";
 import apiUrls from "../constants/apiUrls";
+import Cookies from "universal-cookie";
 
 const useStyles = makeStyles((theme: Theme) => ({
   closeSession: {
@@ -235,6 +237,26 @@ const MyAccountPage = ({
       .catch(() => console.log("ERROR while updating employee"));
   };
 
+  const cookies = useMemo(() => {
+    const cook = new Cookies();
+    return cook;
+  }, []);
+
+  const history = useHistory();
+
+  const handleSignOut = () => {
+    cookies.remove("employeeId", { path: "/" });
+    cookies.remove("email", { path: "/" });
+    cookies.remove("password", { path: "/" });
+    cookies.remove("employeeName", { path: "/" });
+    cookies.remove("employeeSurname", { path: "/" });
+    cookies.remove("employeeAge", { path: "/" });
+    cookies.remove("city", { path: "/" });
+
+    history.push("/");
+    triggerRefresh();
+  };
+
   const handleDoesNothing = () => {
     showWarningMessage({ message: "This button does nothing! :)" });
   };
@@ -296,9 +318,11 @@ const MyAccountPage = ({
 
                 <Box className={classes.containerSignOut}>
                   <Divider />
-                  <Typography className={classes.signOut}>
-                    Sign out everywhere
-                  </Typography>
+                  <Box onClick={handleSignOut}>
+                    <Typography className={classes.signOut}>
+                      Sign out everywhere
+                    </Typography>
+                  </Box>
                 </Box>
               </MyAccountCard>
             </Box>
