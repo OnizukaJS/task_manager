@@ -44,9 +44,9 @@ namespace TaskManager.Controllers.employee
             return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + employeeResponse.EmployeeId, employeeResponse);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/[controller]/authenticate")]
-        public ActionResult<List<Employee>> AuthenticateEmployee([FromQuery] EmployeeLoginModel employeeLogin)
+        public ActionResult<List<Employee>> AuthenticateEmployee([FromBody] EmployeeLoginModel employeeLogin)
         {
             var employee = _employeeData.GetEmployeeByEmail(employeeLogin.EmployeeEmail);
 
