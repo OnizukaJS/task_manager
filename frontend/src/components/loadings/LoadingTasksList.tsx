@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     marginBottom: "8px",
   },
   containerrLoadingTasksList: {
-    display: "flex",
+    height: "244.46px",
   },
   containerTask: {
     flex: 1,
@@ -16,7 +16,9 @@ const useStyles = makeStyles({
   },
   gridContainerRow: {
     display: "flex",
+    padding: "10px 0",
   },
+  header: {},
   taskItemColumn: {
     flex: 1,
     margin: "0 3px",
@@ -31,83 +33,47 @@ const LoadingTasksList = () => {
   const classes = useStyles();
 
   return (
-    <Box>
+    <Box className={classes.containerrLoadingTasksList}>
+      <Skeleton
+        variant="rectangular"
+        height={48}
+        animation="wave"
+        className={classes.header}
+      />
       <Box className={classes.gridContainerRow}>
         <Stack className={classes.workItemColumn}>
           <Box>
-            <Skeleton variant="text" height={50} animation="wave" />
-            <Skeleton
-              variant="circular"
-              height={40}
-              animation="wave"
-              className={classes.avatar}
-            />
-            <Skeleton variant="rectangular" height={120} animation="wave" />
+            <Skeleton variant="rectangular" height={173.46} animation="wave" />
           </Box>
         </Stack>
 
         <Stack className={classes.taskItemColumn}>
           <Box>
-            <Skeleton variant="text" height={50} animation="wave" />
-            <Skeleton
-              variant="circular"
-              height={40}
-              animation="wave"
-              className={classes.avatar}
-            />
-            <Skeleton variant="rectangular" height={120} animation="wave" />
+            <Skeleton variant="rectangular" height={173.46} animation="wave" />
           </Box>
         </Stack>
 
         <Stack className={classes.taskItemColumn}>
           <Box>
-            <Skeleton variant="text" height={50} animation="wave" />
-            <Skeleton
-              variant="circular"
-              height={40}
-              animation="wave"
-              className={classes.avatar}
-            />
-            <Skeleton variant="rectangular" height={120} animation="wave" />
+            <Skeleton variant="rectangular" height={173.46} animation="wave" />
           </Box>
         </Stack>
 
         <Stack className={classes.taskItemColumn}>
           <Box>
-            <Skeleton variant="text" height={50} animation="wave" />
-            <Skeleton
-              variant="circular"
-              height={40}
-              animation="wave"
-              className={classes.avatar}
-            />
-            <Skeleton variant="rectangular" height={120} animation="wave" />
+            <Skeleton variant="rectangular" height={173.46} animation="wave" />
           </Box>
         </Stack>
 
         <Stack className={classes.taskItemColumn}>
           <Box>
-            <Skeleton variant="text" height={50} animation="wave" />
-            <Skeleton
-              variant="circular"
-              height={40}
-              animation="wave"
-              className={classes.avatar}
-            />
-            <Skeleton variant="rectangular" height={120} animation="wave" />
+            <Skeleton variant="rectangular" height={173.46} animation="wave" />
           </Box>
         </Stack>
 
         <Stack className={classes.taskItemColumn}>
           <Box>
-            <Skeleton variant="text" height={50} animation="wave" />
-            <Skeleton
-              variant="circular"
-              height={40}
-              animation="wave"
-              className={classes.avatar}
-            />
-            <Skeleton variant="rectangular" height={120} animation="wave" />
+            <Skeleton variant="rectangular" height={173.46} animation="wave" />
           </Box>
         </Stack>
       </Box>

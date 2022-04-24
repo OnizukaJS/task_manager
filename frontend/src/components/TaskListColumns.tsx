@@ -585,7 +585,6 @@ const TaskListColumns = ({
           {isLoading ? (
             <>
               <LoadingTasksList />
-              <LoadingTasksList />
             </>
           ) : (
             <Grid className={classes.containerGridColumnTasks}>

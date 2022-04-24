@@ -5,10 +5,16 @@ import React from "react";
 const useStyles = makeStyles({
   avatar: {
     width: "30px",
-    margin: "6px 0",
+    margin: "5px 0",
   },
   gridContainerRow: {
     display: "flex",
+  },
+  rectangular2: {
+    marginBottom: "2px",
+  },
+  rectangular3: {
+    marginTop: "2px",
   },
   taskItemColumn: {
     flex: 1,
@@ -23,14 +29,26 @@ const LoadingTask = () => {
     <Box className={classes.gridContainerRow}>
       <Stack className={classes.taskItemColumn}>
         <Box>
-          <Skeleton variant="text" height={26} animation="wave" />
+          <Skeleton variant="rectangular" height={17.5} animation="wave" />
           <Skeleton
             variant="circular"
-            height={30}
+            height={36}
+            width={36}
             animation="wave"
             className={classes.avatar}
           />
-          <Skeleton variant="text" height={33} animation="wave" />
+          <Skeleton
+            variant="rectangular"
+            height={24.63}
+            animation="wave"
+            className={classes.rectangular2}
+          />
+          <Skeleton
+            variant="rectangular"
+            height={20.33}
+            animation="wave"
+            className={classes.rectangular3}
+          />
         </Box>
       </Stack>
     </Box>
