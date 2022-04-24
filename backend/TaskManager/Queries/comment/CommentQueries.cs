@@ -27,7 +27,8 @@ namespace TaskManager.Controllers.comment
 
         public void DeleteComment(Comment comment)
         {
-            throw new NotImplementedException();
+            _taskToDoContext.Comments.Remove(comment);
+            _taskToDoContext.SaveChanges();
         }
 
         public Comment GetComment(Guid commentId)
