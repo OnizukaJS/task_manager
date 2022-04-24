@@ -33,6 +33,7 @@ const useStyles = makeStyles({
   isTagsLoading: {
     display: "flex",
     alignItems: "center",
+    height: "21px",
   },
 });
 
