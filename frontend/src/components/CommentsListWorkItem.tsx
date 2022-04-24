@@ -152,6 +152,10 @@ const CommentsListWorkItemItem = ({
             onClick={handleAddCommentWorkItem}
             color="primary"
             variant="contained"
+            borderRadius="0"
+            boxShadow="none"
+            backgroundColor="#0078d4"
+            onHoverColor="#106ebe"
           />
         </Box>
       </Box>
