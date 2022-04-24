@@ -90,6 +90,7 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
     history.push("/task");
     tagHasBeenAdded && triggerRefresh();
     setTagHasBeenAdded(false);
+    setIsEditButtonDisabled(true);
   };
 
   const handleCloseWorkItem = () => {
@@ -97,17 +98,22 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
     history.push("/task");
     tagHasBeenAdded && triggerRefresh();
     setTagHasBeenAdded(false);
+    setIsEditButtonDisabled(true);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskToCreate({ ...taskToCreate, [e.target.name]: e.target.value });
   };
 
+  const [isEditButtonDisabled, setIsEditButtonDisabled] =
+    useState<boolean>(true);
+
   const handleChangeEditTaskItem = (
     e: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
     const name = e.target.name as keyof typeof taskToEdit;
     setTaskToEdit({ ...taskToEdit, [name]: e.target.value });
+    setIsEditButtonDisabled(false);
   };
 
   const handleChangeEditWorkItem = (
@@ -115,6 +121,7 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
   ) => {
     const name = e.target.name as keyof typeof taskToEdit;
     setWorkItemToEdit({ ...workItemToEdit, [name]: e.target.value });
+    setIsEditButtonDisabled(false);
   };
 
   return (
@@ -154,6 +161,8 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
         employees={employees}
         tagHasBeenAdded={tagHasBeenAdded}
         setTagHasBeenAdded={setTagHasBeenAdded}
+        isEditButtonDisabled={isEditButtonDisabled}
+        setIsEditButtonDisabled={setIsEditButtonDisabled}
       />
 
       <WorkItemCreateModalForm
@@ -177,6 +186,8 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
         employees={employees}
         tagHasBeenAdded={tagHasBeenAdded}
         setTagHasBeenAdded={setTagHasBeenAdded}
+        isEditButtonDisabled={isEditButtonDisabled}
+        setIsEditButtonDisabled={setIsEditButtonDisabled}
       />
     </>
   );

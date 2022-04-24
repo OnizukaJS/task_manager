@@ -17,6 +17,7 @@ interface ButtonComponentProps {
   startIcon?: ReactElement;
   endIcon?: ReactElement;
   backgroundColor?: string;
+  disabled?: boolean;
 }
 
 const ButtonComponent = ({
@@ -34,6 +35,7 @@ const ButtonComponent = ({
   startIcon,
   endIcon,
   backgroundColor,
+  disabled,
 }: ButtonComponentProps) => {
   const useStyles = makeStyles((theme) =>
     createStyles({
@@ -59,6 +61,7 @@ const ButtonComponent = ({
       startIcon={startIcon ? startIcon : null}
       endIcon={endIcon ? endIcon : null}
       className={classes.customButton}
+      disabled={disabled}
     >
       {text}
     </Button>

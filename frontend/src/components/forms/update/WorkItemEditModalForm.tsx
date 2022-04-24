@@ -56,6 +56,8 @@ interface WorkItemEditModalFormProps {
   employees: EmployeeModel[] | undefined;
   tagHasBeenAdded: boolean;
   setTagHasBeenAdded: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditButtonDisabled: boolean;
+  setIsEditButtonDisabled: (value: React.SetStateAction<boolean>) => void;
 }
 
 export interface StyleProps {
@@ -331,6 +333,8 @@ const WorkItemEditModalForm = ({
   employees,
   tagHasBeenAdded,
   setTagHasBeenAdded,
+  isEditButtonDisabled,
+  setIsEditButtonDisabled,
 }: WorkItemEditModalFormProps) => {
   const [fullScreen, setFullScreen] = useState<boolean>(false);
   const classes = useStyles({
@@ -380,6 +384,7 @@ const WorkItemEditModalForm = ({
         return response.json();
       })
       .then((data) => console.log("data to edit", data))
+      .then(() => setIsEditButtonDisabled(true))
       .then(() => triggerRefresh())
       .catch(() => console.log("ERROR while updating work item"));
 
@@ -489,6 +494,7 @@ const WorkItemEditModalForm = ({
                   backgroundColor="#0078d4"
                   onHoverColor="#106ebe"
                   startIcon={<Save />}
+                  disabled={isEditButtonDisabled}
                 />
               </Tooltip>
 

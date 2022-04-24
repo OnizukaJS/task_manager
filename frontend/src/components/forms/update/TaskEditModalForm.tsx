@@ -61,6 +61,8 @@ interface TaskEditModalFormProps {
   employees: EmployeeModel[] | undefined;
   tagHasBeenAdded: boolean;
   setTagHasBeenAdded: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditButtonDisabled: boolean;
+  setIsEditButtonDisabled: (value: React.SetStateAction<boolean>) => void;
 }
 
 export interface StyleProps {
@@ -310,6 +312,8 @@ const TaskEditModalForm = ({
   employees,
   tagHasBeenAdded,
   setTagHasBeenAdded,
+  isEditButtonDisabled,
+  setIsEditButtonDisabled,
 }: TaskEditModalFormProps) => {
   const [fullScreen, setFullScreen] = useState<boolean>(false);
   const classes = useStyles({
@@ -359,6 +363,7 @@ const TaskEditModalForm = ({
         return response.json();
       })
       .then((data) => console.log("data to edit", data))
+      .then(() => setIsEditButtonDisabled(true))
       .then(() => triggerRefresh())
       .catch(() => console.log("ERROR while posting new task"));
 
@@ -474,6 +479,7 @@ const TaskEditModalForm = ({
                   backgroundColor="#0078d4"
                   onHoverColor="#106ebe"
                   startIcon={<Save />}
+                  disabled={isEditButtonDisabled}
                 />
               </Tooltip>
 
