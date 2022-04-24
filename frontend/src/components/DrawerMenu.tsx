@@ -49,7 +49,7 @@ const DrawerCustom = withStyles({
   root: {
     "& .MuiDrawer-paper": {
       backgroundColor: "#EAEAEA",
-      top: "4.14em",
+      top: "4.73em",
       display: "flex",
       maxWidth: "50px",
     },
