@@ -197,6 +197,8 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 ))(({ theme }) => ({
   flexDirection: "row-reverse",
   backgroundColor: "#f4f4f4!important",
+  minHeight: "48px!important",
+  maxHeight: "48px",
 
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(45deg)",
