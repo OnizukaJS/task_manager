@@ -54,6 +54,8 @@ interface WorkItemEditModalFormProps {
   refreshState: number;
   employeeId: string | undefined;
   employees: EmployeeModel[] | undefined;
+  tagHasBeenAdded: boolean;
+  setTagHasBeenAdded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface StyleProps {
@@ -69,7 +71,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     avatarEditTitle: {
       display: "flex",
       alignItems: "center",
-      paddingTop: theme.spacing(1.66),
+      paddingTop: theme.spacing(0.375),
     },
     avatarIcon: {
       marginRight: theme.spacing(1),
@@ -207,8 +209,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       },
     },
     formContainer: {
-      paddingBottom: (props) =>
-        props.fullScreen ? theme.spacing(0) : theme.spacing(2),
       height: (props) => (props.fullScreen ? "100%" : ""),
     },
     fullWidth: {
@@ -218,7 +218,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       display: "flex",
       alignItems: "center",
       marginRight: theme.spacing(1),
-      paddingBottom: theme.spacing(1.66),
+      paddingBottom: theme.spacing(0.375),
     },
     modal: {
       display: "flex",
@@ -329,6 +329,8 @@ const WorkItemEditModalForm = ({
   refreshState,
   employeeId,
   employees,
+  tagHasBeenAdded,
+  setTagHasBeenAdded,
 }: WorkItemEditModalFormProps) => {
   const [fullScreen, setFullScreen] = useState<boolean>(false);
   const classes = useStyles({
@@ -465,7 +467,11 @@ const WorkItemEditModalForm = ({
                 {comments?.length} Comment{comments?.length! > 1 ? "s" : null}
               </Box>
 
-              <TagsListWorkItem workItemId={workItemToEdit.id} />
+              <TagsListWorkItem
+                workItemId={workItemToEdit.id}
+                tagHasBeenAdded={tagHasBeenAdded}
+                setTagHasBeenAdded={setTagHasBeenAdded}
+              />
             </Box>
 
             <Box

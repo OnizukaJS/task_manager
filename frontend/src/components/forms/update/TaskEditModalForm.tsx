@@ -59,6 +59,8 @@ interface TaskEditModalFormProps {
   refreshState: number;
   employeeId: string | undefined;
   employees: EmployeeModel[] | undefined;
+  tagHasBeenAdded: boolean;
+  setTagHasBeenAdded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface StyleProps {
@@ -75,7 +77,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     avatarEditTitle: {
       display: "flex",
       alignItems: "center",
-      paddingTop: theme.spacing(1.66),
+      paddingTop: theme.spacing(0.375),
     },
     avatarIcon: {
       marginRight: theme.spacing(1),
@@ -188,8 +190,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       width: "100%",
     },
     formContainer: {
-      paddingBottom: (props) =>
-        props.fullScreen ? theme.spacing(0) : theme.spacing(2),
       height: (props) => (props.fullScreen ? "100%" : ""),
     },
     fullWidth: {
@@ -199,7 +199,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       display: "flex",
       alignItems: "center",
       marginRight: theme.spacing(1),
-      paddingBottom: theme.spacing(1.66),
+      paddingBottom: theme.spacing(0.375),
     },
     isTagsLoading: {
       display: "flex",
@@ -308,6 +308,8 @@ const TaskEditModalForm = ({
   refreshState,
   employeeId,
   employees,
+  tagHasBeenAdded,
+  setTagHasBeenAdded,
 }: TaskEditModalFormProps) => {
   const [fullScreen, setFullScreen] = useState<boolean>(false);
   const classes = useStyles({
@@ -323,6 +325,8 @@ const TaskEditModalForm = ({
   });
 
   const [comments] = useFetchCommentsPerTask(taskToEdit.id, refreshState);
+
+  console.log("tagIsAdded", tagHasBeenAdded);
 
   useMemo(() => {
     const cookie = new Cookies();
@@ -448,7 +452,11 @@ const TaskEditModalForm = ({
                 {comments?.length} Comment{comments?.length! > 1 ? "s" : null}
               </Box>
 
-              <TagsListTaskItem taskId={taskToEdit.id} />
+              <TagsListTaskItem
+                taskId={taskToEdit.id}
+                tagHasBeenAdded={tagHasBeenAdded}
+                setTagHasBeenAdded={setTagHasBeenAdded}
+              />
             </Box>
 
             <Box

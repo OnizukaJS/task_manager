@@ -56,6 +56,7 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
   const [openEditTaskItem, setOpenEditTaskItem] = useState<boolean>(false);
   const [openEditWorkItem, setOpenEditWorkItem] = useState<boolean>(false);
   const [employeeId, setEmployeeId] = useState<string>();
+  const [tagHasBeenAdded, setTagHasBeenAdded] = useState<boolean>(false);
 
   const [openCreateTaskItem, setOpenCreateTaskItem] = useState<boolean>(false);
   const [openCreateWorkItem, setOpenCreateWorkItem] = useState<boolean>(false);
@@ -87,11 +88,15 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
   const handleClose = () => {
     setOpenEditTaskItem(false);
     history.push("/task");
+    tagHasBeenAdded && triggerRefresh();
+    setTagHasBeenAdded(false);
   };
 
   const handleCloseWorkItem = () => {
     setOpenEditWorkItem(false);
     history.push("/task");
+    tagHasBeenAdded && triggerRefresh();
+    setTagHasBeenAdded(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -147,6 +152,8 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
         refreshState={refreshState}
         employeeId={employeeId}
         employees={employees}
+        tagHasBeenAdded={tagHasBeenAdded}
+        setTagHasBeenAdded={setTagHasBeenAdded}
       />
 
       <WorkItemCreateModalForm
@@ -168,6 +175,8 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
         refreshState={refreshState}
         employeeId={employeeId}
         employees={employees}
+        tagHasBeenAdded={tagHasBeenAdded}
+        setTagHasBeenAdded={setTagHasBeenAdded}
       />
     </>
   );

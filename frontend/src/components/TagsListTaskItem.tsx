@@ -15,6 +15,8 @@ import apiUrls from "../constants/apiUrls";
 
 interface TagsListProps {
   taskId: string;
+  tagHasBeenAdded: boolean;
+  setTagHasBeenAdded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const useStyles = makeStyles({
@@ -51,7 +53,11 @@ const DeleteTagButton = withStyles({
   },
 })(IconButton);
 
-const TagsList = ({ taskId }: TagsListProps) => {
+const TagsList = ({
+  taskId,
+  tagHasBeenAdded,
+  setTagHasBeenAdded,
+}: TagsListProps) => {
   const [refreshTagState, triggerRefreshTag] = useRefresh();
   const classes = useStyles();
 
@@ -92,6 +98,8 @@ const TagsList = ({ taskId }: TagsListProps) => {
           tags={tags}
           taskId={taskId}
           triggerRefreshTag={triggerRefreshTag}
+          tagHasBeenAdded={tagHasBeenAdded}
+          setTagHasBeenAdded={setTagHasBeenAdded}
         />
       </Box>
     );

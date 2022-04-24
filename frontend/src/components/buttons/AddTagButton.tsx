@@ -48,6 +48,8 @@ interface AddTagButtonProps {
   taskId?: string;
   workItemId?: string;
   triggerRefreshTag: () => void;
+  tagHasBeenAdded: boolean;
+  setTagHasBeenAdded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddTagButton = ({
@@ -55,6 +57,8 @@ const AddTagButton = ({
   taskId,
   workItemId,
   triggerRefreshTag,
+  tagHasBeenAdded,
+  setTagHasBeenAdded,
 }: AddTagButtonProps) => {
   const [displayInput, setDisplayInput] = useState<boolean>(false);
   const [tagToCreate, setTagToCreate] = useState<TagModelToCreate>({
@@ -73,6 +77,8 @@ const AddTagButton = ({
 
   const handlePressEnter = (e: KeyboardEvent) => {
     e.preventDefault();
+
+    setTagHasBeenAdded(true);
 
     if (e.key === "Enter") {
       fetch(TagUrlBasePath, {
