@@ -6,6 +6,7 @@ on:
       - master
 
 env:
+  APP_NAME: TaskManager
   AZURE_WEBAPP_NAME: mytaskmanagerappservices
   AZURE_WEBAPP_PACKAGE_PATH: TaskManager/publish
   AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_82D214FB6D02423FA5031BE9F887AEA3 }}
@@ -16,6 +17,7 @@ env:
   WORKING_DIRECTORY_FRONTEND: frontend
   NAME: TaskManager/TaskManager.csproj
   NODE_VERSION: '14.x'
+  ROOT: wwwroot
 
 jobs:
   build:
@@ -23,6 +25,27 @@ jobs:
 
     steps:  
       - uses: actions/checkout@v2
+      
+      - name: npm install, build
+        working-directory: ${{ env.WORKING_DIRECTORY_FRONTEND }}
+        run: |
+          npm install
+          npm run build
+        env:
+          CI: ""
+        
+      - name: Delete wwwroot folder
+        shell: powershell
+        run: |
+          $FolderName = "${{ env.WORKING_DIRECTORY_BACKEND }}/${{ env.APP_NAME }}/${{ env.ROOT }}"
+          if (Test-Path $FolderName) {
+            Remove-Item -Path $FolderName -Force -Recurse
+          }
+          
+      - name: Copy paste build folder to wwwroot
+        shell: powershell
+        run: |
+          Copy-Item -Path "${{ env.WORKING_DIRECTORY_FRONTEND }}/build" -Destination "${{ env.WORKING_DIRECTORY_BACKEND }}/${{ env.APP_NAME }}/${{ env.ROOT }}" -Recurse
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
@@ -41,21 +64,6 @@ jobs:
         with:
           name: .net-app
           path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-                
-      - name: npm install, build
-        run: |
-          npm install "${{ env.WORKING_DIRECTORY_FRONTEND }}"
-          npm run build "${{ env.WORKING_DIRECTORY_FRONTEND }}" --if-present
-          
-      - name: copy files
-        uses: andstor/copycat-action@v3
-        with:
-          personal_token: ${{ env.PERSONAL_TOKEN }}
-          src_path: frontend/build
-          dst_owner: OnizukaJS
-          dst_repo_name: backend/TaskManager/wwwroot
-          dst_branch: master
-          src_branch: master
     
   deploy:
     runs-on: windows-latest
