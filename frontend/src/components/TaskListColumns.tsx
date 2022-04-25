@@ -100,6 +100,8 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     },
     containerTaskListColumn: {
       padding: "16px 24px",
+      overflow: "auto",
+      height: "calc(100% - 2rem)",
     },
     doubleArrowIcon: {
       transform: (props) =>
@@ -239,6 +241,7 @@ interface TaskListColumnsProps {
   triggerRefresh: () => void;
   refreshState: number;
   employees: EmployeeModel[] | undefined;
+  modifiedTaskId: string;
 }
 
 const TaskListColumns = ({
@@ -253,6 +256,7 @@ const TaskListColumns = ({
   triggerRefresh,
   refreshState,
   employees,
+  modifiedTaskId,
 }: TaskListColumnsProps) => {
   const { showMessage: showWarningMessage } = useWarningSnackbar();
   const [addedToFavorite, setAddedToFavorite] = useState<boolean>(false);
@@ -628,6 +632,7 @@ const TaskListColumns = ({
                             handleUpdateTaskItemType={handleUpdateTaskItemType}
                             popoverToDisplay={popoverToDisplay}
                             setPopoverToDisplay={setPopoverToDisplay}
+                            modifiedTaskId={modifiedTaskId}
                           />
 
                           <TaskColumn
@@ -638,6 +643,7 @@ const TaskListColumns = ({
                             handleOpenEditTaskItem={handleOpenEditTaskItem}
                             triggerRefresh={triggerRefresh}
                             refreshState={refreshState}
+                            modifiedTaskId={modifiedTaskId}
                           />
 
                           <TaskColumn
@@ -648,6 +654,7 @@ const TaskListColumns = ({
                             handleOpenEditTaskItem={handleOpenEditTaskItem}
                             triggerRefresh={triggerRefresh}
                             refreshState={refreshState}
+                            modifiedTaskId={modifiedTaskId}
                           />
 
                           <TaskColumn
@@ -658,6 +665,7 @@ const TaskListColumns = ({
                             handleOpenEditTaskItem={handleOpenEditTaskItem}
                             triggerRefresh={triggerRefresh}
                             refreshState={refreshState}
+                            modifiedTaskId={modifiedTaskId}
                           />
 
                           <TaskColumn
@@ -668,6 +676,7 @@ const TaskListColumns = ({
                             handleOpenEditTaskItem={handleOpenEditTaskItem}
                             triggerRefresh={triggerRefresh}
                             refreshState={refreshState}
+                            modifiedTaskId={modifiedTaskId}
                           />
                         </Grid>
                       </AccordionDetails>
