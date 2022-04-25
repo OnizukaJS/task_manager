@@ -27,7 +27,7 @@ const useFetchSingleWorkItem = (
     })
       .then((response) => response.json())
       .then((data) => setWorkItem(data))
-      .then(() => setTimeout(() => setIsLoading(false), 500))
+      .then(() => setTimeout(() => setIsLoading(false), 200))
       .catch(() => console.log("ERROR while getting work item data"));
   }, [refreshState, workItemId]);
 

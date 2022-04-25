@@ -13,7 +13,7 @@ import TaskCreateModalForm from "../components/forms/create/TaskCreateModalForm"
 import TaskListColumns from "../components/TaskListColumns";
 import useFetchEmployees from "../hooks/useFetchEmployees";
 import useFetchTasks from "../hooks/useFetchTasks";
-import useFetchWorkItem from "../hooks/useFetchWorkItem";
+import useFetchWorkItem from "../hooks/useFetchWorkItems";
 import WorkItemCreateModalForm from "../components/forms/create/WorkItemCreateModalForm";
 import WorkItemModel from "../models/workItemModels/WorkItemModel";
 
