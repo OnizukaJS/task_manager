@@ -246,10 +246,12 @@ const MyAccountPage = ({
 
   const handleSignOut = () => {
     cookies.remove("employeeId", { path: "/" });
-    cookies.remove("email", { path: "/" });
-    cookies.remove("password", { path: "/" });
     cookies.remove("employeeName", { path: "/" });
     cookies.remove("employeeSurname", { path: "/" });
+    cookies.remove("email", { path: "/" });
+    cookies.remove("password", { path: "/" });
+    cookies.remove("jobDescription", { path: "/" });
+    cookies.remove("phoneNumber", { path: "/" });
     cookies.remove("employeeAge", { path: "/" });
     cookies.remove("city", { path: "/" });
 
