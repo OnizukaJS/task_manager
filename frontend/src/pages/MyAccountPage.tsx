@@ -29,7 +29,6 @@ import {
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import routes from "../config/routes";
 import LoadingPersonInfo from "../components/loadings/LoadingPersonalInfo";
-import apiUrls from "../constants/apiUrls";
 import Cookies from "universal-cookie";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -191,7 +190,7 @@ const MyAccountPage = ({
   const classes = useStyles();
   const { showMessage: showWarningMessage } = useWarningSnackbar();
 
-  const [employee, setEmployee] = useState<EmployeeUpdate>();
+  const [, setEmployee] = useState<EmployeeUpdate>();
 
   const [employeeData, isLoading] = useFetchEmployeeData(
     employeeId,
@@ -209,33 +208,6 @@ const MyAccountPage = ({
       city: employeeData?.city,
     });
   }, [employeeData]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | undefined) => {
-    e?.preventDefault();
-
-    fetch(apiUrls.employee.getEmployee(employeeData?.employeeId), {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: employee?.email,
-        password: employee?.password,
-        employeeName: employee?.employeeName,
-        employeeSurname: employee?.employeeSurname,
-        jobDescription: employee?.jobDescription,
-        phoneNumber: employee?.phoneNumber,
-        employeeAge: employee?.employeeAge,
-        city: employee?.city,
-      }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => console.log("employee updated" + data))
-      .then(() => triggerRefresh())
-      .catch(() => console.log("ERROR while updating employee"));
-  };
 
   const cookies = useMemo(() => {
     const cook = new Cookies();
