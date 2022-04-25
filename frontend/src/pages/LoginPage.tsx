@@ -83,7 +83,6 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
 
   const startSession = (e: React.FormEvent<HTMLFormElement> | undefined) => {
     e?.preventDefault();
-    console.log("yo");
 
     fetch(apiUrls.employee.authenticateEmployee, {
       method: "POST",

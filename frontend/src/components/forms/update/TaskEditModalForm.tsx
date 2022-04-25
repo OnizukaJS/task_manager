@@ -330,8 +330,6 @@ const TaskEditModalForm = ({
 
   const [comments] = useFetchCommentsPerTask(taskToEdit.id, refreshState);
 
-  console.log("tagIsAdded", tagHasBeenAdded);
-
   useMemo(() => {
     const cookie = new Cookies();
 
