@@ -632,7 +632,6 @@ const TaskListColumns = ({
                             handleUpdateTaskItemType={handleUpdateTaskItemType}
                             popoverToDisplay={popoverToDisplay}
                             setPopoverToDisplay={setPopoverToDisplay}
-                            modifiedTaskId={modifiedTaskId}
                           />
 
                           <TaskColumn
@@ -643,7 +642,6 @@ const TaskListColumns = ({
                             handleOpenEditTaskItem={handleOpenEditTaskItem}
                             triggerRefresh={triggerRefresh}
                             refreshState={refreshState}
-                            modifiedTaskId={modifiedTaskId}
                           />
 
                           <TaskColumn
@@ -654,7 +652,6 @@ const TaskListColumns = ({
                             handleOpenEditTaskItem={handleOpenEditTaskItem}
                             triggerRefresh={triggerRefresh}
                             refreshState={refreshState}
-                            modifiedTaskId={modifiedTaskId}
                           />
 
                           <TaskColumn
@@ -665,7 +662,6 @@ const TaskListColumns = ({
                             handleOpenEditTaskItem={handleOpenEditTaskItem}
                             triggerRefresh={triggerRefresh}
                             refreshState={refreshState}
-                            modifiedTaskId={modifiedTaskId}
                           />
 
                           <TaskColumn
@@ -676,7 +672,6 @@ const TaskListColumns = ({
                             handleOpenEditTaskItem={handleOpenEditTaskItem}
                             triggerRefresh={triggerRefresh}
                             refreshState={refreshState}
-                            modifiedTaskId={modifiedTaskId}
                           />
                         </Grid>
                       </AccordionDetails>
