@@ -101,15 +101,15 @@ namespace TaskManager
                     .AllowAnyHeader();
             });
 
+            // To access files under wwwroot
             app.UseStaticFiles();
-            app.UseDefaultFiles();
-            // TODO: Map Fallback
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("/index.html"); // to redirect when url doesn't exist
             });
         }
     }
