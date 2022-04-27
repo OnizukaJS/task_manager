@@ -241,7 +241,6 @@ interface TaskListColumnsProps {
   triggerRefresh: () => void;
   refreshState: number;
   employees: EmployeeModel[] | undefined;
-  modifiedTaskId: string;
 }
 
 const TaskListColumns = ({
@@ -256,7 +255,6 @@ const TaskListColumns = ({
   triggerRefresh,
   refreshState,
   employees,
-  modifiedTaskId,
 }: TaskListColumnsProps) => {
   const { showMessage: showWarningMessage } = useWarningSnackbar();
   const [addedToFavorite, setAddedToFavorite] = useState<boolean>(false);
