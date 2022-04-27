@@ -56,6 +56,7 @@ export interface StyleProps {
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) =>
   createStyles({
+    accordion: {},
     arrowDownIcon: {
       color: "rgba(102,102,102,1)",
     },
@@ -192,6 +193,9 @@ const Accordion = styled((props: AccordionProps) => (
   },
   "&:before": {
     display: "none",
+  },
+  "&.MuiAccordion-root.Mui-expanded": {
+    margin: 0,
   },
 }));
 
@@ -599,7 +603,10 @@ const TaskListColumns = ({
                     onDragEnd={onDragEnd}
                     onDragStart={onDragStart}
                   >
-                    <Accordion defaultExpanded={expandedWorkItem}>
+                    <Accordion
+                      defaultExpanded={expandedWorkItem}
+                      className={classes.accordion}
+                    >
                       <AccordionSummary>
                         <MenuBook
                           className={classes.workItemType}
