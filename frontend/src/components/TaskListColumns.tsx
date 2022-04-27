@@ -97,11 +97,12 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
     },
     containerTaskList: {
       overflow: "auto",
+      height: "calc(100% - 11rem)",
     },
     containerTaskListColumn: {
       padding: "16px 24px",
       overflow: "auto",
-      height: "calc(100% - 2rem)",
+      height: "100%",
     },
     doubleArrowIcon: {
       transform: (props) =>
