@@ -30,8 +30,6 @@ import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import routes from "../config/routes";
 import LoadingPersonInfo from "../components/loadings/LoadingPersonalInfo";
 import Cookies from "universal-cookie";
-import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
-import apiUrls from "../constants/apiUrls";
 
 const useStyles = makeStyles((theme: Theme) => ({
   closeSession: {
@@ -194,37 +192,6 @@ const MyAccountPage = ({
 
   const [, setEmployee] = useState<EmployeeUpdate>();
 
-  const [profilePic, setProfilePic] = useState<File>();
-  const [fileSelected, setFileSelect] = useState<FormData>();
-
-  const onImageChange = (event: any) => {
-    event.preventDefault();
-
-    const target = event.target as HTMLInputElement;
-    const file: File = (target.files as FileList)[0];
-
-    let form = new FormData();
-    form.append("file", file);
-
-    setFileSelect(form);
-  };
-
-  const uploadFile = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    fetch(apiUrls.blob.uploadProfilePic, {
-      method: "POST",
-      body: fileSelected,
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log("file", data);
-      })
-      .catch((error) => console.log(error));
-  };
-
   const [employeeData, isLoading] = useFetchEmployeeData(
     employeeId,
     refreshState
@@ -321,23 +288,6 @@ const MyAccountPage = ({
                     </Box>
                   )}
                   <Divider />
-                </Box>
-
-                {/* TEST */}
-                <Box>
-                  <form
-                    id="form"
-                    onSubmit={uploadFile}
-                    encType="multipart/form-data"
-                  >
-                    <input
-                      name="Avatar"
-                      id="img"
-                      onChange={onImageChange}
-                      type="file"
-                    />
-                    <button type="submit">Upload</button>
-                  </form>
                 </Box>
 
                 <Box className={classes.containerSignOut}>

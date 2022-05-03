@@ -9,8 +9,6 @@ using TaskManager.Dtos.employeeDto;
 using TaskManager.Interfaces.employee;
 using TaskManager.Models.employee;
 using TaskManager.Models.taskToDo;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace TaskManager.Controllers.employee
 {
@@ -122,10 +120,10 @@ namespace TaskManager.Controllers.employee
                 var employee = _mapper.Map<Employee>(employeeUpdate);
                 employee.EmployeeId = existingEmployee.EmployeeId;
                 _employeeData.EditEmployee(employee);
-                return Ok(employeeUpdate);
+
             }
 
-            return NotFound($"The employee with the Id: {employeeId} does not exist");
+            return Ok(employeeUpdate);
         }
 
         [HttpPatch]
@@ -163,23 +161,6 @@ namespace TaskManager.Controllers.employee
             }
 
             return NotFound($"The employee with the Id: {employeeId} does not exist");
-        }
-
-        [HttpPost]
-        [Route("api/[controller]/{employeeId}/profilePicture")]
-        public async Task<IActionResult> UpdateEmployeeProfilePicture([FromForm] IFormFile profilePicture)
-        {
-            string name = profilePicture.FileName;
-            string extension = Path.GetExtension(name);
-
-            // read the file
-            using(var memoryStream = new MemoryStream())
-            {
-                profilePicture.CopyTo(memoryStream);
-            }
-
-            // do something with the file here
-            return null;
         }
     }
 }

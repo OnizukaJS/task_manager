@@ -1,5 +1,4 @@
 using AutoMapper;
-using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -16,14 +15,12 @@ using TaskManager.Controllers.employee;
 using TaskManager.Controllers.tag;
 using TaskManager.Controllers.taskToDo;
 using TaskManager.Controllers.workItem;
-using TaskManager.Interfaces.blob;
 using TaskManager.Interfaces.comment;
 using TaskManager.Interfaces.employee;
 using TaskManager.Interfaces.tag;
 using TaskManager.Interfaces.task;
 using TaskManager.Interfaces.workItem;
 using TaskManager.Models.taskToDo;
-using TaskManager.Queries.blob;
 
 // We need to add our contexts to Startup.cs to inject the services
 
@@ -50,11 +47,6 @@ namespace TaskManager
                 var enumConverter = new JsonStringEnumConverter();
                 opts.JsonSerializerOptions.Converters.Add(enumConverter);
             });
-
-            // Name specified under appsettings.json
-            services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
-
-            services.AddSingleton<IBlobData, BlobQueries>();
 
             services.AddSwaggerGen(options => 
             {

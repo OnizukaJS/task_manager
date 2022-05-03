@@ -3,7 +3,6 @@ export const TaskUrlBasePath = "https://localhost:44358/api/TasksToDo";
 export const WorkItemUrlBasePath = "https://localhost:44358/api/WorkItems";
 export const CommentUrlBasePath = "https://localhost:44358/api/Comments";
 export const TagUrlBasePath = "https://localhost:44358/api/Tags";
-export const blobBathPath = "https://localhost:44358/api/Blobs";
 
 const apiUrls = {
   comment: {},
@@ -39,11 +38,6 @@ const apiUrls = {
       `${WorkItemUrlBasePath}/${workItemId}/tags`,
     updateWorkItem: (workItemId: string): string =>
       `${WorkItemUrlBasePath}/${workItemId}`,
-  },
-  blob: {
-    uploadFileBlobAsync: `${blobBathPath}/uploadfile`,
-    uploadContentBlobAsync: `${blobBathPath}/uploadcontent`,
-    uploadProfilePic: `${blobBathPath}/profilePic`,
   },
 };
 
