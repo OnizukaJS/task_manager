@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaskManager.Models.blob;
 
@@ -10,6 +11,7 @@ namespace TaskManager.Interfaces.blob
         public Task<IEnumerable<string>> ListBlobsAsync();
         public Task UploadFileBlobAsync(string filePath, string fileName);
         public Task UploadContentBlobAsync(string content, string fileName);
+        //public Task UploadAttachment(IFormFile file);
         public Task DeleteBlobAsync(string blobName);
     }
 }

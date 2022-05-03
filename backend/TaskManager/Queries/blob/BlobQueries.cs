@@ -1,5 +1,9 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -13,15 +17,17 @@ namespace TaskManager.Queries.blob
     public class BlobQueries : IBlobData
     {
         private readonly BlobServiceClient _blobServiceClient;
+        private IHostEnvironment _env;
 
-        public BlobQueries(BlobServiceClient blobServiceClient)
+        public BlobQueries(BlobServiceClient blobServiceClient, IHostEnvironment env)
         {
             _blobServiceClient = blobServiceClient;
+            _env = env;
         }
 
         public async Task<BlobModel> GetBlobAsync(string name)
         {
-            // To access data inside that container
+            // container's name on azure
             var containerClient = _blobServiceClient.GetBlobContainerClient("profilepicture");
             var blobClient = containerClient.GetBlobClient(name);
             var blobDownloadInfo = await blobClient.DownloadAsync();
@@ -41,6 +47,18 @@ namespace TaskManager.Queries.blob
 
             return items;
         }
+
+        //public IActionResult uploadAttachment(IFormFile file)
+        //{
+        //    var dir = _env.ContentRootPath;
+
+        //    using (var fileStream = new FileStream(Path.Combine(dir, "file.png"), FileMode.Create, FileAccess.Write))
+        //    {
+        //        file.CopyTo(fileStream);
+        //    }
+
+
+        //}
 
         public async Task UploadFileBlobAsync(string filePath, string fileName)
         {
