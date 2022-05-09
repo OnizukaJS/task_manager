@@ -98,6 +98,7 @@ const CommentsListWorkItemItem = ({
   const [employeeLogged, setEmployeeLogged] = useState({
     nameEmployeeLogged: "",
     surnameEmployeeLogged: "",
+    profilePictureEmployeeLogged: "",
   });
 
   useMemo(() => {
@@ -107,6 +108,7 @@ const CommentsListWorkItemItem = ({
       ...employeeLogged,
       nameEmployeeLogged: cookie.get("employeeName"),
       surnameEmployeeLogged: cookie.get("employeeSurname"),
+      profilePictureEmployeeLogged: cookie.get("profilePictureBlobStorage"),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -136,6 +138,9 @@ const CommentsListWorkItemItem = ({
           <ProfilePicture
             name={employeeLogged.nameEmployeeLogged}
             surname={employeeLogged.surnameEmployeeLogged}
+            profilePictureBlobStorage={
+              employeeLogged.profilePictureEmployeeLogged
+            }
           />
         </Box>
         <Box className={`${classes.fullWidth}`}>

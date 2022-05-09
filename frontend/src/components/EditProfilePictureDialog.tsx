@@ -77,18 +77,6 @@ const EditProfilePictureDialog = ({
         showSuccessMessage({ message: "Profile picture properly deleted." })
       )
       .then(() => console.log("ERROR while deleting profile picture"));
-
-    // try {
-    //   await axios.delete(apiUrls.profilePicture.deleteProfilePicture, {
-    //     data: {
-    //       formData,
-    //     },
-    //   });
-    //   setOpenEditProfilePictureDialog(false);
-    //   showSuccessMessage({ message: "Profile picture properly deleted." });
-    // } catch (ex) {
-    //   console.log(ex);
-    // }
   };
 
   const handleClose = () => {

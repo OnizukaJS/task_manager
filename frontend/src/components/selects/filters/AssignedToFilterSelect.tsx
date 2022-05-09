@@ -99,6 +99,7 @@ const AssignedToFilterSelect = ({ employees }: AssignedToFilterSelectProps) => {
             <ProfilePicture
               name={employee.employeeName}
               surname={employee.employeeSurname}
+              profilePictureBlobStorage={employee.profilePicture}
               height={25}
               width={25}
               fontSize={10}

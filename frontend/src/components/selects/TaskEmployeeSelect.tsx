@@ -58,6 +58,7 @@ const TaskEmployeeSelect = ({
             <ProfilePicture
               name={employee.employeeName}
               surname={employee.employeeSurname}
+              profilePictureBlobStorage={employee.profilePicture}
               height={30}
               width={30}
               fontSize={12}

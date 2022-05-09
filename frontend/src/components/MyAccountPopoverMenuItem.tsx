@@ -140,6 +140,7 @@ const MyAccountPopoverMenuItem = ({
           <ProfilePicture
             name={currentEmployeeData?.employeeName!}
             surname={currentEmployeeData?.employeeSurname!}
+            profilePictureBlobStorage={currentEmployeeData?.profilePicture}
             height={37}
             width={37}
             fontSize={17}
