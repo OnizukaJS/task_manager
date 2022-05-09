@@ -20,11 +20,7 @@ const useFetchEmployeeData = (
     })
       .then((response) => response.json())
       .then((data) => setEmployeeData(data))
-      .then(() =>
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000)
-      )
+      .then(() => setIsLoading(false))
       .catch(() => console.log("ERROR while getting employee data"));
   }, [refreshState, employeeId]);
 
