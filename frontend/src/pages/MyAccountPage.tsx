@@ -30,6 +30,8 @@ import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import routes from "../config/routes";
 import LoadingPersonInfo from "../components/loadings/LoadingPersonalInfo";
 import Cookies from "universal-cookie";
+import axios from "axios";
+import apiUrls from "../constants/apiUrls";
 
 const useStyles = makeStyles((theme: Theme) => ({
   closeSession: {
@@ -235,6 +237,33 @@ const MyAccountPage = ({
     showWarningMessage({ message: "This button does nothing! :)" });
   };
 
+  // Test
+  const [file, setFile] = useState<File>();
+  const [fileName, setFileName] = useState<string>();
+
+  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files![0]);
+    setFile(e.target.files![0]);
+    setFileName(e.target.files![0].name);
+  };
+
+  const uploadFile = async () => {
+    console.log(file);
+    const formData = new FormData();
+    formData.append("formFile", file!);
+    formData.append("fileName", fileName!);
+
+    try {
+      const res = await axios.post(
+        apiUrls.profilePicture.uploadProfilePicture,
+        formData
+      );
+      console.log("res", res);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
   return (
     <Box className={classes.containerMyAccountPage}>
       <Box className={classes.containerMyAccount}>
@@ -253,6 +282,14 @@ const MyAccountPage = ({
                       border="6px solid white"
                       boxShadow="0px 0px 8px rgb(0 0 0 / 40%)"
                     />
+                    <input
+                      type="file"
+                      name="profilePic"
+                      id="profilePic"
+                      accept="image/*"
+                      onChange={saveFile}
+                    />
+                    <input type="button" value="upload" onClick={uploadFile} />
                   </Box>
 
                   {isLoading ? (

@@ -3,6 +3,8 @@ export const TaskUrlBasePath = "https://localhost:44358/api/TasksToDo";
 export const WorkItemUrlBasePath = "https://localhost:44358/api/WorkItems";
 export const CommentUrlBasePath = "https://localhost:44358/api/Comments";
 export const TagUrlBasePath = "https://localhost:44358/api/Tags";
+export const ProfilePictureBasePath =
+  "https://localhost:44358/api/ProfilePictures";
 
 const apiUrls = {
   comment: {},
@@ -13,6 +15,9 @@ const apiUrls = {
     getEmployees: `${EmployeeUrlBasePath}`,
     updatePassword: (employeeId: string): string =>
       `${EmployeeUrlBasePath}/${employeeId}/password`,
+  },
+  profilePicture: {
+    uploadProfilePicture: `${ProfilePictureBasePath}`,
   },
   tag: {
     deleteTag: (tagId: string): string => `${TagUrlBasePath}/${tagId}`,
