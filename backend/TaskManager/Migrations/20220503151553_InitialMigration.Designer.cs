@@ -10,8 +10,8 @@ using TaskManager.Models.taskToDo;
 namespace TaskManager.Migrations
 {
     [DbContext(typeof(TaskToDoContext))]
-    [Migration("20220408135903_AddedPhoneAndJobDescriptionColumn")]
-    partial class AddedPhoneAndJobDescriptionColumn
+    [Migration("20220503151553_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
