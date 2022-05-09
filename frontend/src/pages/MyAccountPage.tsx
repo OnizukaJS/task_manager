@@ -26,15 +26,13 @@ import {
   PhoneOutlined as PhoneIcon,
   ExploreOutlined as LocationIcon,
 } from "@mui/icons-material";
-import {
-  useSuccessSnackbar,
-  useWarningSnackbar,
-} from "../hooks/useErrorSnackbar";
+import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import routes from "../config/routes";
 import LoadingPersonInfo from "../components/loadings/LoadingPersonalInfo";
 import Cookies from "universal-cookie";
-import axios from "axios";
-import apiUrls from "../constants/apiUrls";
+import EditProfilePictureDialog from "../components/EditProfilePictureDialog";
+import { Tooltip } from "@mui/material";
+import LoadingProfilePicture from "../components/loadings/LoadingProfilePicture";
 
 const useStyles = makeStyles((theme: Theme) => ({
   closeSession: {
@@ -159,6 +157,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "center",
     top: "-3.5rem",
+    cursor: "pointer",
   },
   securityInfo: {
     margin: "8px 0",
@@ -194,7 +193,6 @@ const MyAccountPage = ({
 }: MyAccountPageProps) => {
   const classes = useStyles();
   const { showMessage: showWarningMessage } = useWarningSnackbar();
-  const { showMessage: showSuccessMessage } = useSuccessSnackbar();
 
   const [, setEmployee] = useState<EmployeeUpdate>();
 
@@ -202,8 +200,6 @@ const MyAccountPage = ({
     employeeId,
     refreshState
   );
-
-  console.log("employee", employeeData);
 
   useEffect(() => {
     setEmployee({
@@ -243,288 +239,280 @@ const MyAccountPage = ({
     showWarningMessage({ message: "This button does nothing! :)" });
   };
 
-  // Test
-  const [file, setFile] = useState<File>();
-  const [fileName, setFileName] = useState<string>();
-
-  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files![0]);
-    setFile(e.target.files![0]);
-    setFileName(e.target.files![0].name);
-  };
-
-  const uploadFile = async () => {
-    console.log(file);
-    const formData = new FormData();
-    formData.append("formFile", file!);
-    formData.append("fileName", fileName!);
-    formData.append("employeeId", employeeId);
-
-    try {
-      const res = await axios.post(
-        apiUrls.profilePicture.uploadProfilePicture,
-        formData
-      );
-      console.log("res", res);
-      showSuccessMessage({ message: "Profile picture properly updated." });
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
+  const [openEditProfilePictureDialog, setOpenEditProfilePictureDialog] =
+    useState<boolean>(false);
 
   return (
-    <Box className={classes.containerMyAccountPage}>
-      <Box className={classes.containerMyAccount}>
-        <Box className={classes.contentMyAccount}>
-          <Box className={classes.MyAccountSecurityDevicesInfo}>
-            <Box className={classes.containerMyAccountInfo}>
-              <MyAccountCard className={classes.myAccountInfo}>
-                <Box className={classes.containerProfilePicForm}>
-                  <Box className={classes.profilePicture}>
-                    <ProfilePicture
-                      name={employeeData?.employeeName!}
-                      surname={employeeData?.employeeSurname!}
-                      profilePictureBlobStorage={employeeData?.profilePicture}
-                      height={100}
-                      width={100}
-                      fontSize={35}
-                      border="6px solid white"
-                      boxShadow="0px 0px 8px rgb(0 0 0 / 40%)"
-                    />
-                    <input
-                      type="file"
-                      name="profilePic"
-                      id="profilePic"
-                      accept="image/*"
-                      onChange={saveFile}
-                    />
-                    <input type="button" value="upload" onClick={uploadFile} />
+    <>
+      <Box className={classes.containerMyAccountPage}>
+        <Box className={classes.containerMyAccount}>
+          <Box className={classes.contentMyAccount}>
+            <Box className={classes.MyAccountSecurityDevicesInfo}>
+              <Box className={classes.containerMyAccountInfo}>
+                <MyAccountCard className={classes.myAccountInfo}>
+                  <Box className={classes.containerProfilePicForm}>
+                    <Tooltip title="Update profile picture" arrow>
+                      <Box
+                        className={classes.profilePicture}
+                        onClick={() => setOpenEditProfilePictureDialog(true)}
+                      >
+                        {isLoading ? (
+                          <LoadingProfilePicture />
+                        ) : (
+                          <ProfilePicture
+                            name={employeeData?.employeeName!}
+                            surname={employeeData?.employeeSurname!}
+                            profilePictureBlobStorage={
+                              employeeData?.profilePicture
+                            }
+                            height={100}
+                            width={100}
+                            fontSize={35}
+                            border="6px solid white"
+                            boxShadow="0px 0px 8px rgb(0 0 0 / 40%)"
+                          />
+                        )}
+                      </Box>
+                    </Tooltip>
+
+                    {isLoading ? (
+                      <LoadingPersonInfo />
+                    ) : (
+                      <Box className={classes.containerEmployeeDetails}>
+                        <Typography className={classes.employeeName}>
+                          {employeeData?.employeeName}{" "}
+                          {employeeData?.employeeSurname}
+                        </Typography>
+
+                        <Box className={classes.employeeJob}>
+                          <Typography>
+                            {employeeData?.jobDescription}
+                          </Typography>
+                        </Box>
+
+                        <Box className={classes.myAccountDetails}>
+                          <EmailIcon className={classes.iconsEmployeeDetails} />
+                          <Typography>{employeeData?.email}</Typography>
+                        </Box>
+
+                        <Box className={classes.myAccountDetails}>
+                          <PhoneIcon className={classes.iconsEmployeeDetails} />
+
+                          <Typography>{employeeData?.phoneNumber}</Typography>
+                        </Box>
+
+                        <Box className={classes.myAccountDetails}>
+                          <LocationIcon
+                            className={classes.iconsEmployeeDetails}
+                          />
+                          <Typography>{employeeData?.city}</Typography>
+                        </Box>
+                      </Box>
+                    )}
+                    <Divider />
                   </Box>
 
-                  {isLoading ? (
-                    <LoadingPersonInfo />
-                  ) : (
-                    <Box className={classes.containerEmployeeDetails}>
-                      <Typography className={classes.employeeName}>
-                        {employeeData?.employeeName}{" "}
-                        {employeeData?.employeeSurname}
+                  <Box className={classes.containerSignOut}>
+                    <Divider />
+                    <Box onClick={handleSignOut}>
+                      <Typography className={classes.signOut}>
+                        Sign out everywhere
                       </Typography>
-
-                      <Box className={classes.employeeJob}>
-                        <Typography>{employeeData?.jobDescription}</Typography>
-                      </Box>
-
-                      <Box className={classes.myAccountDetails}>
-                        <EmailIcon className={classes.iconsEmployeeDetails} />
-                        <Typography>{employeeData?.email}</Typography>
-                      </Box>
-
-                      <Box className={classes.myAccountDetails}>
-                        <PhoneIcon className={classes.iconsEmployeeDetails} />
-
-                        <Typography>{employeeData?.phoneNumber}</Typography>
-                      </Box>
-
-                      <Box className={classes.myAccountDetails}>
-                        <LocationIcon
-                          className={classes.iconsEmployeeDetails}
-                        />
-                        <Typography>{employeeData?.city}</Typography>
-                      </Box>
                     </Box>
-                  )}
-                  <Divider />
-                </Box>
-
-                <Box className={classes.containerSignOut}>
-                  <Divider />
-                  <Box onClick={handleSignOut}>
-                    <Typography className={classes.signOut}>
-                      Sign out everywhere
-                    </Typography>
                   </Box>
-                </Box>
+                </MyAccountCard>
+              </Box>
+
+              <Box
+                className={`${classes.containerInfos} ${classes.containerSecurityDevicesInfo}`}
+              >
+                <MyAccountCard
+                  className={`${classes.myAccountCards} ${classes.securityInfo}`}
+                >
+                  <Typography className={classes.titleSection}>
+                    Security Info
+                  </Typography>
+
+                  <SecurityIcon className={classes.icons} />
+
+                  <Typography className={classes.descriptions}>
+                    Keep your verification methods and security info up to date.
+                  </Typography>
+
+                  <Link
+                    className={classes.links}
+                    underline="hover"
+                    onClick={handleDoesNothing}
+                  >{`UPDATE INFO >`}</Link>
+                </MyAccountCard>
+
+                <MyAccountCard
+                  className={`${classes.myAccountCards} ${classes.devicesInfo}`}
+                >
+                  <Typography className={classes.titleSection}>
+                    Devices
+                  </Typography>
+
+                  <DevicesIcon className={classes.icons} />
+
+                  <Typography className={classes.descriptions}>
+                    Disable a lost device and review your connected devices.
+                  </Typography>
+
+                  <Link
+                    className={classes.links}
+                    underline="hover"
+                    onClick={handleDoesNothing}
+                  >{`MANAGE DEVICES >`}</Link>
+                </MyAccountCard>
+              </Box>
+            </Box>
+
+            <Box
+              className={`${classes.containerInfos} ${classes.containerPasswordOrganizationsInfo}`}
+            >
+              <MyAccountCard
+                className={`${classes.myAccountCards} ${classes.passwordInfo}`}
+              >
+                <Typography className={classes.titleSection}>
+                  Password
+                </Typography>
+
+                <PasswordIcon className={classes.icons} />
+
+                <Typography className={classes.descriptions}>
+                  Make your password stronger, or change it if someone else
+                  knows it.
+                </Typography>
+
+                <LinkRouterDom
+                  to={routes.updatePassword}
+                  className={classes.links}
+                >
+                  {`CHANGE PASSWORD >`}
+                </LinkRouterDom>
+              </MyAccountCard>
+
+              <MyAccountCard
+                className={`${classes.myAccountCards} ${classes.organizationsInfo}`}
+              >
+                <Typography className={classes.titleSection}>
+                  Organizations
+                </Typography>
+
+                <OrganizationsIcon className={classes.icons} />
+
+                <Typography className={classes.descriptions}>
+                  See all the organizations that you're a part of.
+                </Typography>
+
+                <Link
+                  className={classes.links}
+                  underline="hover"
+                  onClick={handleDoesNothing}
+                >{`MANAGE ORGANIZATIONS >`}</Link>
               </MyAccountCard>
             </Box>
 
             <Box
-              className={`${classes.containerInfos} ${classes.containerSecurityDevicesInfo}`}
+              className={`${classes.containerInfos} ${classes.containerSettingsMySignInsInfo}`}
             >
               <MyAccountCard
-                className={`${classes.myAccountCards} ${classes.securityInfo}`}
+                className={`${classes.myAccountCards} ${classes.settingsInfo}`}
               >
                 <Typography className={classes.titleSection}>
-                  Security Info
+                  Settings & Privacy
                 </Typography>
 
-                <SecurityIcon className={classes.icons} />
+                <SettingsIcon className={classes.icons} />
 
                 <Typography className={classes.descriptions}>
-                  Keep your verification methods and security info up to date.
+                  Personalize your account settings and see how your data is
+                  used.
                 </Typography>
 
                 <Link
                   className={classes.links}
                   underline="hover"
                   onClick={handleDoesNothing}
-                >{`UPDATE INFO >`}</Link>
+                >{`VIEW SETTINGS AND PRIVACY >`}</Link>
               </MyAccountCard>
-
               <MyAccountCard
-                className={`${classes.myAccountCards} ${classes.devicesInfo}`}
+                className={`${classes.myAccountCards} ${classes.mySignInsInfo}`}
               >
                 <Typography className={classes.titleSection}>
-                  Devices
+                  My Sign-Ins
                 </Typography>
 
-                <DevicesIcon className={classes.icons} />
+                <SignInsIcon className={classes.icons} />
 
                 <Typography className={classes.descriptions}>
-                  Disable a lost device and review your connected devices.
+                  See when and where you’ve signed in and check if anything
+                  looks unusual.
                 </Typography>
 
                 <Link
                   className={classes.links}
                   underline="hover"
                   onClick={handleDoesNothing}
-                >{`MANAGE DEVICES >`}</Link>
+                >{`REVIEW RECENT ACTIVITY >`}</Link>
+              </MyAccountCard>
+            </Box>
+
+            <Box
+              className={`${classes.containerInfos} ${classes.containerOfficeSubscriptionInfo}`}
+            >
+              <MyAccountCard
+                className={`${classes.myAccountCards} ${classes.officeAppsInfo}`}
+              >
+                <Typography className={classes.titleSection}>
+                  Offices Apps
+                </Typography>
+
+                <OfficeAppsIcon className={classes.icons} />
+
+                <Typography className={classes.descriptions}>
+                  Install and manage Office applications
+                </Typography>
+
+                <Link
+                  className={classes.links}
+                  underline="hover"
+                  onClick={handleDoesNothing}
+                >{`MANAGE >`}</Link>
+              </MyAccountCard>
+              <MyAccountCard
+                className={`${classes.myAccountCards} ${classes.subscriptionsInfo}`}
+              >
+                <Typography className={classes.titleSection}>
+                  Subscriptions
+                </Typography>
+
+                <SubscriptionsIcon className={classes.icons} />
+
+                <Typography className={classes.descriptions}>
+                  Licenses assigned to you
+                </Typography>
+
+                <Link
+                  className={classes.links}
+                  underline="hover"
+                  onClick={handleDoesNothing}
+                >{`VIEW >`}</Link>
               </MyAccountCard>
             </Box>
           </Box>
-
-          <Box
-            className={`${classes.containerInfos} ${classes.containerPasswordOrganizationsInfo}`}
-          >
-            <MyAccountCard
-              className={`${classes.myAccountCards} ${classes.passwordInfo}`}
-            >
-              <Typography className={classes.titleSection}>Password</Typography>
-
-              <PasswordIcon className={classes.icons} />
-
-              <Typography className={classes.descriptions}>
-                Make your password stronger, or change it if someone else knows
-                it.
-              </Typography>
-
-              <LinkRouterDom
-                to={routes.updatePassword}
-                className={classes.links}
-              >
-                {`CHANGE PASSWORD >`}
-              </LinkRouterDom>
-            </MyAccountCard>
-
-            <MyAccountCard
-              className={`${classes.myAccountCards} ${classes.organizationsInfo}`}
-            >
-              <Typography className={classes.titleSection}>
-                Organizations
-              </Typography>
-
-              <OrganizationsIcon className={classes.icons} />
-
-              <Typography className={classes.descriptions}>
-                See all the organizations that you're a part of.
-              </Typography>
-
-              <Link
-                className={classes.links}
-                underline="hover"
-                onClick={handleDoesNothing}
-              >{`MANAGE ORGANIZATIONS >`}</Link>
-            </MyAccountCard>
-          </Box>
-
-          <Box
-            className={`${classes.containerInfos} ${classes.containerSettingsMySignInsInfo}`}
-          >
-            <MyAccountCard
-              className={`${classes.myAccountCards} ${classes.settingsInfo}`}
-            >
-              <Typography className={classes.titleSection}>
-                Settings & Privacy
-              </Typography>
-
-              <SettingsIcon className={classes.icons} />
-
-              <Typography className={classes.descriptions}>
-                Personalize your account settings and see how your data is used.
-              </Typography>
-
-              <Link
-                className={classes.links}
-                underline="hover"
-                onClick={handleDoesNothing}
-              >{`VIEW SETTINGS AND PRIVACY >`}</Link>
-            </MyAccountCard>
-            <MyAccountCard
-              className={`${classes.myAccountCards} ${classes.mySignInsInfo}`}
-            >
-              <Typography className={classes.titleSection}>
-                My Sign-Ins
-              </Typography>
-
-              <SignInsIcon className={classes.icons} />
-
-              <Typography className={classes.descriptions}>
-                See when and where you’ve signed in and check if anything looks
-                unusual.
-              </Typography>
-
-              <Link
-                className={classes.links}
-                underline="hover"
-                onClick={handleDoesNothing}
-              >{`REVIEW RECENT ACTIVITY >`}</Link>
-            </MyAccountCard>
-          </Box>
-
-          <Box
-            className={`${classes.containerInfos} ${classes.containerOfficeSubscriptionInfo}`}
-          >
-            <MyAccountCard
-              className={`${classes.myAccountCards} ${classes.officeAppsInfo}`}
-            >
-              <Typography className={classes.titleSection}>
-                Offices Apps
-              </Typography>
-
-              <OfficeAppsIcon className={classes.icons} />
-
-              <Typography className={classes.descriptions}>
-                Install and manage Office applications
-              </Typography>
-
-              <Link
-                className={classes.links}
-                underline="hover"
-                onClick={handleDoesNothing}
-              >{`MANAGE >`}</Link>
-            </MyAccountCard>
-            <MyAccountCard
-              className={`${classes.myAccountCards} ${classes.subscriptionsInfo}`}
-            >
-              <Typography className={classes.titleSection}>
-                Subscriptions
-              </Typography>
-
-              <SubscriptionsIcon className={classes.icons} />
-
-              <Typography className={classes.descriptions}>
-                Licenses assigned to you
-              </Typography>
-
-              <Link
-                className={classes.links}
-                underline="hover"
-                onClick={handleDoesNothing}
-              >{`VIEW >`}</Link>
-            </MyAccountCard>
-          </Box>
         </Box>
       </Box>
-    </Box>
+
+      <EditProfilePictureDialog
+        openEditProfilePictureDialog={openEditProfilePictureDialog}
+        setOpenEditProfilePictureDialog={setOpenEditProfilePictureDialog}
+        employeeId={employeeId}
+        employeeData={employeeData!}
+        triggerRefresh={triggerRefresh}
+      />
+    </>
   );
 };
 

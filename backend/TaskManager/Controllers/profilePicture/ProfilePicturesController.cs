@@ -55,12 +55,12 @@ namespace TaskManager.Controllers.profilePicture
         }
 
         [HttpDelete]
-        [Route("api/[controller]")]
-        public void DeleteProfilePicture([FromForm] ProfilePicture profilePicture)
+        [Route("api/[controller]/{fileName}/{employeeId}")]
+        public void DeleteProfilePicture(string fileName, Guid employeeId)
         {
-            BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, profilePicture.FileName);
+            BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, fileName);
             blobClient.Delete();
-            _employeeQueries.DeleteEmployeeProfilePicture(profilePicture.EmployeeId);
+            _employeeQueries.DeleteEmployeeProfilePicture(employeeId);
             _taskToDoContext.SaveChanges();
         }
     }

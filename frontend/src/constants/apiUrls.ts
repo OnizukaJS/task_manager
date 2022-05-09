@@ -18,6 +18,8 @@ const apiUrls = {
   },
   profilePicture: {
     uploadProfilePicture: `${ProfilePictureBasePath}`,
+    deleteProfilePicture: (fileName: string, employeeId: string): string =>
+      `${ProfilePictureBasePath}/${fileName}/${employeeId}`,
   },
   tag: {
     deleteTag: (tagId: string): string => `${TagUrlBasePath}/${tagId}`,
