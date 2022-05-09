@@ -104,9 +104,6 @@ namespace TaskManager.Migrations
                     b.Property<int>("EmployeeAge")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("EmployeeId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("EmployeeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -127,9 +124,10 @@ namespace TaskManager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EmployeeId");
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("EmployeeId1");
+                    b.HasKey("EmployeeId");
 
                     b.ToTable("Employees");
                 });
@@ -236,13 +234,6 @@ namespace TaskManager.Migrations
                     b.Navigation("WorkItem");
                 });
 
-            modelBuilder.Entity("TaskManager.Models.employee.Employee", b =>
-                {
-                    b.HasOne("TaskManager.Models.employee.Employee", null)
-                        .WithMany("Employees")
-                        .HasForeignKey("EmployeeId1");
-                });
-
             modelBuilder.Entity("TaskManager.Models.tag.Tag", b =>
                 {
                     b.HasOne("TaskManager.Models.TaskToDo", "TaskToDo")
@@ -280,8 +271,6 @@ namespace TaskManager.Migrations
 
             modelBuilder.Entity("TaskManager.Models.employee.Employee", b =>
                 {
-                    b.Navigation("Employees");
-
                     b.Navigation("TasksToDo");
 
                     b.Navigation("WorkItems");

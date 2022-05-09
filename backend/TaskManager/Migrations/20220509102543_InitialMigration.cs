@@ -20,17 +20,11 @@ namespace TaskManager.Migrations
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     JobDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeeId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.EmployeeId);
-                    table.ForeignKey(
-                        name: "FK_Employees_Employees_EmployeeId1",
-                        column: x => x.EmployeeId1,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -159,11 +153,6 @@ namespace TaskManager.Migrations
                 name: "IX_Comments_WorkItemId",
                 table: "Comments",
                 column: "WorkItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employees_EmployeeId1",
-                table: "Employees",
-                column: "EmployeeId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tags_TaskToDoId",

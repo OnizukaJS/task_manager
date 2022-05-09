@@ -5,6 +5,7 @@ using System.Linq;
 using TaskManager.Interfaces.employee;
 using TaskManager.Models.employee;
 using TaskManager.Models.taskToDo;
+using TaskManager.Models.profilePicture;
 
 namespace TaskManager.Controllers.employee
 {
@@ -79,6 +80,36 @@ namespace TaskManager.Controllers.employee
         {
             _taskToDoContext.Employees.Remove(employee);
             _taskToDoContext.SaveChanges();
+        }
+
+        public Employee EditEmployeeProfilePicture(Guid employeeId, string profilePicture)
+        {
+            var existingEmployee = _taskToDoContext.Employees.Find(employeeId);
+
+            if (existingEmployee != null)
+            {
+                existingEmployee.ProfilePicture = profilePicture;
+                _taskToDoContext.Employees.Update(existingEmployee);
+                _taskToDoContext.SaveChanges();
+
+                return existingEmployee;
+            }
+
+            return existingEmployee;
+        }
+
+        public Employee DeleteEmployeeProfilePicture(Guid employeeId)
+        {
+            var existingEmployee = _taskToDoContext.Employees.Find(employeeId);
+
+            if (existingEmployee != null)
+            {
+                existingEmployee.ProfilePicture = null;
+                _taskToDoContext.Employees.Update(existingEmployee);
+                _taskToDoContext.SaveChanges();
+            }
+
+            return existingEmployee;
         }
     }
 }

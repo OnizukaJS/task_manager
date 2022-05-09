@@ -26,7 +26,10 @@ import {
   PhoneOutlined as PhoneIcon,
   ExploreOutlined as LocationIcon,
 } from "@mui/icons-material";
-import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
+import {
+  useSuccessSnackbar,
+  useWarningSnackbar,
+} from "../hooks/useErrorSnackbar";
 import routes from "../config/routes";
 import LoadingPersonInfo from "../components/loadings/LoadingPersonalInfo";
 import Cookies from "universal-cookie";
@@ -191,6 +194,7 @@ const MyAccountPage = ({
 }: MyAccountPageProps) => {
   const classes = useStyles();
   const { showMessage: showWarningMessage } = useWarningSnackbar();
+  const { showMessage: showSuccessMessage } = useSuccessSnackbar();
 
   const [, setEmployee] = useState<EmployeeUpdate>();
 
@@ -198,6 +202,8 @@ const MyAccountPage = ({
     employeeId,
     refreshState
   );
+
+  console.log("employee", employeeData);
 
   useEffect(() => {
     setEmployee({
@@ -252,6 +258,7 @@ const MyAccountPage = ({
     const formData = new FormData();
     formData.append("formFile", file!);
     formData.append("fileName", fileName!);
+    formData.append("employeeId", employeeId);
 
     try {
       const res = await axios.post(
@@ -259,6 +266,7 @@ const MyAccountPage = ({
         formData
       );
       console.log("res", res);
+      showSuccessMessage({ message: "Profile picture properly updated." });
     } catch (ex) {
       console.log(ex);
     }
@@ -276,6 +284,7 @@ const MyAccountPage = ({
                     <ProfilePicture
                       name={employeeData?.employeeName!}
                       surname={employeeData?.employeeSurname!}
+                      profilePictureBlobStorage={employeeData?.profilePicture}
                       height={100}
                       width={100}
                       fontSize={35}

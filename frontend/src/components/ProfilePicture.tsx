@@ -4,6 +4,7 @@ import React from "react";
 interface Props {
   name: string;
   surname: string;
+  profilePictureBlobStorage?: string;
   height?: number;
   width?: number;
   fontSize?: number;
@@ -14,6 +15,7 @@ interface Props {
 const ProfilePicture = ({
   name,
   surname,
+  profilePictureBlobStorage,
   height,
   width,
   fontSize,
@@ -40,7 +42,7 @@ const ProfilePicture = ({
     return color;
   };
 
-  return (
+  return profilePictureBlobStorage === null ? (
     <Avatar
       style={{
         backgroundColor: nameToColor(),
@@ -54,6 +56,18 @@ const ProfilePicture = ({
       {name?.charAt(0)}
       {surname?.charAt(0)}
     </Avatar>
+  ) : (
+    <Avatar
+      style={{
+        backgroundColor: nameToColor(),
+        height,
+        width,
+        fontSize,
+        border,
+        boxShadow,
+      }}
+      src={`https://mytaskmanagerblobstorage.blob.core.windows.net/profilepicture/${profilePictureBlobStorage}`}
+    />
   );
 };
 

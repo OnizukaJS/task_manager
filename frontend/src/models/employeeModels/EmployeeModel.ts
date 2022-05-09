@@ -8,6 +8,7 @@ interface EmployeeModel {
   phoneNumber: string;
   employeeAge: number;
   city: string;
+  profilePicture: string;
 }
 
 export default EmployeeModel;

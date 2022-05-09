@@ -10,7 +10,7 @@ using TaskManager.Models.taskToDo;
 namespace TaskManager.Migrations
 {
     [DbContext(typeof(TaskToDoContext))]
-    [Migration("20220503151553_InitialMigration")]
+    [Migration("20220509102543_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,9 +106,6 @@ namespace TaskManager.Migrations
                     b.Property<int>("EmployeeAge")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("EmployeeId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("EmployeeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -129,9 +126,10 @@ namespace TaskManager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EmployeeId");
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("EmployeeId1");
+                    b.HasKey("EmployeeId");
 
                     b.ToTable("Employees");
                 });
@@ -238,13 +236,6 @@ namespace TaskManager.Migrations
                     b.Navigation("WorkItem");
                 });
 
-            modelBuilder.Entity("TaskManager.Models.employee.Employee", b =>
-                {
-                    b.HasOne("TaskManager.Models.employee.Employee", null)
-                        .WithMany("Employees")
-                        .HasForeignKey("EmployeeId1");
-                });
-
             modelBuilder.Entity("TaskManager.Models.tag.Tag", b =>
                 {
                     b.HasOne("TaskManager.Models.TaskToDo", "TaskToDo")
@@ -282,8 +273,6 @@ namespace TaskManager.Migrations
 
             modelBuilder.Entity("TaskManager.Models.employee.Employee", b =>
                 {
-                    b.Navigation("Employees");
-
                     b.Navigation("TasksToDo");
 
                     b.Navigation("WorkItems");

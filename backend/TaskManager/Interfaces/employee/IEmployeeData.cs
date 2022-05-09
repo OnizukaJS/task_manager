@@ -14,5 +14,7 @@ namespace TaskManager.Interfaces.employee
         Employee EditEmployee(Employee employee);
         Employee EditEmployeePassword(Employee employee);
         void DeleteEmployee(Employee employee);
+        Employee EditEmployeeProfilePicture(Guid employeeId, string profilePicture);
+        Employee DeleteEmployeeProfilePicture(Guid employeeId);
     }
 }

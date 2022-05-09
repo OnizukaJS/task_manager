@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ProfilePictures\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
