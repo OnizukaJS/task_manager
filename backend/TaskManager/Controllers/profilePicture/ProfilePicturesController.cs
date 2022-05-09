@@ -40,22 +40,5 @@ namespace TaskManager.Controllers.profilePicture
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-
-        private string GenerateFileName(string fileName, string CustomerName)
-        {
-            try
-            {
-                string strFileName = string.Empty;
-                string[] strName = fileName.Split('.');
-                strFileName = CustomerName + DateTime.Now.ToUniversalTime().ToString("yyy-MM-dd") + "/"
-                    + DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssfff") + "."
-                    + strName[strName.Length - 1];
-                return strFileName;
-            }
-            catch (Exception ex)
-            {
-                return fileName;
-            }
-        }
     }
 }
