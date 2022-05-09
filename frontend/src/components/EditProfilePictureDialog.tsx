@@ -19,6 +19,7 @@ interface EditProfilePictureDialogProps {
   employeeId: string;
   employeeData: EmployeeModel;
   triggerRefresh: () => void;
+  triggerRefreshHeader: () => void;
 }
 
 const EditProfilePictureDialog = ({
@@ -27,6 +28,7 @@ const EditProfilePictureDialog = ({
   employeeId,
   employeeData,
   triggerRefresh,
+  triggerRefreshHeader,
 }: EditProfilePictureDialogProps) => {
   const { showMessage: showSuccessMessage } = useSuccessSnackbar();
 
@@ -48,6 +50,7 @@ const EditProfilePictureDialog = ({
       await axios.post(apiUrls.profilePicture.uploadProfilePicture, formData);
       setOpenEditProfilePictureDialog(false);
       triggerRefresh();
+      triggerRefreshHeader();
       showSuccessMessage({ message: "Profile picture properly updated." });
     } catch (ex) {
       console.log(ex);
@@ -73,6 +76,7 @@ const EditProfilePictureDialog = ({
     )
       .then(() => setOpenEditProfilePictureDialog(false))
       .then(() => triggerRefresh())
+      .then(() => triggerRefreshHeader())
       .then(() =>
         showSuccessMessage({ message: "Profile picture properly deleted." })
       )

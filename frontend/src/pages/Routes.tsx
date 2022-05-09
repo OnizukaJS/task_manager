@@ -18,7 +18,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Routes = () => {
+interface RoutesProps {
+  triggerRefreshHeader: () => void;
+}
+
+const Routes = ({ triggerRefreshHeader }: RoutesProps) => {
   const [refreshState, triggerRefresh] = useRefresh();
   const classes = useStyles();
 
@@ -48,6 +52,7 @@ const Routes = () => {
         <Route exact path={routes.myAccount}>
           <MyAccountPage
             triggerRefresh={triggerRefresh}
+            triggerRefreshHeader={triggerRefreshHeader}
             refreshState={refreshState}
             employeeId={employeeId}
           />

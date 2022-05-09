@@ -182,12 +182,14 @@ const MyAccountCard = withStyles({})(Box);
 
 interface MyAccountPageProps {
   triggerRefresh: () => void;
+  triggerRefreshHeader: () => void;
   refreshState: number;
   employeeId: string;
 }
 
 const MyAccountPage = ({
   triggerRefresh,
+  triggerRefreshHeader,
   refreshState,
   employeeId,
 }: MyAccountPageProps) => {
@@ -511,6 +513,7 @@ const MyAccountPage = ({
         employeeId={employeeId}
         employeeData={employeeData!}
         triggerRefresh={triggerRefresh}
+        triggerRefreshHeader={triggerRefreshHeader}
       />
     </>
   );

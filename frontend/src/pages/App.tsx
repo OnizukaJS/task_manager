@@ -38,7 +38,7 @@ const App = () => {
       <Header refreshState={refreshState} triggerRefresh={triggerRefresh} />
 
       <Box className={classes.containerRouteComponent}>
-        <Routes />
+        <Routes triggerRefreshHeader={triggerRefresh} />
       </Box>
     </Container>
   );
