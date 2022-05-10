@@ -40,9 +40,6 @@ const EditProfilePictureDialog = ({
     setFileName(e.target.files![0].name);
   };
 
-  const employeeFolderNameBlobStorage = employeeData?.employeeName;
-  console.log(employeeFolderNameBlobStorage);
-
   const uploadFile = async () => {
     const formData = new FormData();
     formData.append("formFile", file!);

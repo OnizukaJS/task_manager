@@ -157,12 +157,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "center",
     top: "-3.5rem",
-    cursor: "pointer",
-    transition: "transform .2s",
-
-    "&:hover": {
-      transform: "scale(1.03)",
-    },
   },
   securityInfo: {
     margin: "8px 0",

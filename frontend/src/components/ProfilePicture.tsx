@@ -1,6 +1,16 @@
-import { Avatar } from "@material-ui/core";
+import { Avatar, makeStyles } from "@material-ui/core";
 import React from "react";
 
+const useStyles = makeStyles(() => ({
+  avatarProfilePic: {
+    cursor: "pointer",
+    transition: "transform .2s",
+
+    "&:hover": {
+      transform: "scale(1.03)",
+    },
+  },
+}));
 interface Props {
   name: string;
   surname: string;
@@ -22,9 +32,8 @@ const ProfilePicture = ({
   border,
   boxShadow,
 }: Props) => {
+  const classes = useStyles();
   const fullName = `${name} ${surname}`;
-  console.log("fullName", fullName);
-  console.log("profile", profilePictureBlobStorage);
 
   const nameToColor = () => {
     let hash = 0;
@@ -65,6 +74,7 @@ const ProfilePicture = ({
         border,
         boxShadow,
       }}
+      className={classes.avatarProfilePic}
     >
       {name?.charAt(0)}
       {surname?.charAt(0)}
@@ -79,6 +89,7 @@ const ProfilePicture = ({
         border,
         boxShadow,
       }}
+      className={classes.avatarProfilePic}
       src={`https://mytaskmanagerblobstorage.blob.core.windows.net/profilepicture/${profilePictureBlobStorage}`}
     />
   );
