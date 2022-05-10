@@ -40,6 +40,9 @@ const EditProfilePictureDialog = ({
     setFileName(e.target.files![0].name);
   };
 
+  const employeeFolderNameBlobStorage = employeeData?.employeeName;
+  console.log(employeeFolderNameBlobStorage);
+
   const uploadFile = async () => {
     const formData = new FormData();
     formData.append("formFile", file!);
@@ -58,22 +61,9 @@ const EditProfilePictureDialog = ({
   };
 
   const handleDelete = async () => {
-    console.log(employeeData.profilePicture);
-    console.log(file);
-    const formData = new FormData();
-    formData.append("formFile", file!);
-    formData.append("fileName", employeeData.profilePicture!);
-    formData.append("employeeId", employeeId);
-
-    fetch(
-      apiUrls.profilePicture.deleteProfilePicture(
-        employeeData.profilePicture,
-        employeeId
-      ),
-      {
-        method: "DELETE",
-      }
-    )
+    fetch(apiUrls.profilePicture.deleteProfilePicture(employeeId), {
+      method: "DELETE",
+    })
       .then(() => setOpenEditProfilePictureDialog(false))
       .then(() => triggerRefresh())
       .then(() => triggerRefreshHeader())

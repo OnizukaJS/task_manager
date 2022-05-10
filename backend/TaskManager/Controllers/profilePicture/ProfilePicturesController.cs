@@ -27,9 +27,24 @@ namespace TaskManager.Controllers.profilePicture
         [Route("api/[controller]")]
         public ActionResult UpdateProfilePicture([FromForm] ProfilePicture profilePicture)
         {
+            var existingEmployee = _employeeQueries.GetEmployeeById(profilePicture.EmployeeId);
+
+            if (existingEmployee == null)
+            {
+                return NotFound("The employee does not exist");
+            }
+
+            var currentFileName = existingEmployee.ProfilePicture;
+
+            if (currentFileName != null)
+            {
+                DeleteProfilePicture(profilePicture.EmployeeId);
+            }
+
             try
             {
-                var filename = profilePicture.FileName;
+                var folderName = existingEmployee.EmployeeName;
+                var filename = folderName + "/" + profilePicture.FileName;
                 var fileUrl = "";
                 var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
 
@@ -44,7 +59,7 @@ namespace TaskManager.Controllers.profilePicture
 
                     _employeeQueries.EditEmployeeProfilePicture(profilePicture.EmployeeId, filename);
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
                 var result = fileUrl;
                 return Ok(result);
             }
@@ -55,9 +70,12 @@ namespace TaskManager.Controllers.profilePicture
         }
 
         [HttpDelete]
-        [Route("api/[controller]/{fileName}/{employeeId}")]
-        public void DeleteProfilePicture(string fileName, Guid employeeId)
+        [Route("api/[controller]/{employeeId}")]
+        public void DeleteProfilePicture(Guid employeeId)
         {
+            var existingEmployee = _employeeQueries.GetEmployeeById(employeeId);
+            var fileName = existingEmployee.ProfilePicture;
+
             BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, fileName);
             blobClient.Delete();
             _employeeQueries.DeleteEmployeeProfilePicture(employeeId);

@@ -23,6 +23,8 @@ const ProfilePicture = ({
   boxShadow,
 }: Props) => {
   const fullName = `${name} ${surname}`;
+  console.log("fullName", fullName);
+  console.log("profile", profilePictureBlobStorage);
 
   const nameToColor = () => {
     let hash = 0;
@@ -42,7 +44,18 @@ const ProfilePicture = ({
     return color;
   };
 
-  return profilePictureBlobStorage === null ? (
+  const profilePictureIsNotFound = (): boolean => {
+    if (
+      profilePictureBlobStorage === null ||
+      profilePictureBlobStorage === "" ||
+      profilePictureBlobStorage === undefined
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  return profilePictureIsNotFound() ? (
     <Avatar
       style={{
         backgroundColor: nameToColor(),
