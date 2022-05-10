@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) =>
       display: "flex",
       alignItems: "center",
     },
+    menuItem: {
+      paddingLeft: "5px",
+    },
   })
 );
 
@@ -94,7 +97,11 @@ const WorkItemEmployeeSelectImmediateUpdate = ({
       className={classes.containerEmployeeSelect}
     >
       {employees?.map((employee) => (
-        <MenuItem key={employee.employeeName} value={employee.employeeId}>
+        <MenuItem
+          key={employee.employeeName}
+          value={employee.employeeId}
+          className={classes.menuItem}
+        >
           <Box className={classes.containerMenuItem}>
             <ProfilePicture
               name={employee.employeeName}
