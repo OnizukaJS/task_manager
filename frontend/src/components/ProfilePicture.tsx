@@ -23,8 +23,6 @@ const ProfilePicture = ({
   boxShadow,
 }: Props) => {
   const fullName = `${name} ${surname}`;
-  console.log("fullName", fullName);
-  console.log("profile", profilePictureBlobStorage);
 
   const nameToColor = () => {
     let hash = 0;
