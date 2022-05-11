@@ -108,8 +108,6 @@ const EditProfilePictureDialog = ({
     setTimeout(() => setShowPreview(null), 200);
   };
 
-  console.log(showPreview);
-
   return (
     <Dialog open={openEditProfilePictureDialog} onClose={handleClose}>
       <DialogTitle>Update profile picture</DialogTitle>
