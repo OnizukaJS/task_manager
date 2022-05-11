@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogActions,
   makeStyles,
+  Avatar,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import axios from "axios";
@@ -137,7 +138,7 @@ const EditProfilePictureDialog = ({
             marginRight="2rem"
           />
         ) : (
-          <img
+          <Avatar
             src={
               showPreview !== null
                 ? (showPreview as string)
