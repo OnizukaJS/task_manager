@@ -50,7 +50,9 @@ const EditProfilePictureDialog = ({
 
   const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>();
-  const [showPreview, setShowPreview] = useState<any>(null);
+  const [showPreview, setShowPreview] = useState<
+    string | ArrayBuffer | null | undefined
+  >(null);
 
   const handleChangeProfilePicture = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -115,7 +117,7 @@ const EditProfilePictureDialog = ({
         <img
           src={
             showPreview !== null
-              ? showPreview
+              ? (showPreview as string)
               : `https://mytaskmanagerblobstorage.blob.core.windows.net/profilepicture/${employeeData.profilePicture}`
           }
           className={classes.image}
