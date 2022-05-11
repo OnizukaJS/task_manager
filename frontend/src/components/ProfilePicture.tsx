@@ -10,6 +10,7 @@ interface Props {
   fontSize?: number;
   border?: string;
   boxShadow?: string;
+  marginRight?: string;
 }
 
 const ProfilePicture = ({
@@ -21,6 +22,7 @@ const ProfilePicture = ({
   fontSize,
   border,
   boxShadow,
+  marginRight,
 }: Props) => {
   const fullName = `${name} ${surname}`;
 
@@ -62,6 +64,7 @@ const ProfilePicture = ({
         fontSize,
         border,
         boxShadow,
+        marginRight,
       }}
     >
       {name?.charAt(0)}

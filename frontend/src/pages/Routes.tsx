@@ -9,6 +9,7 @@ import TasksListPage from "./TaskListPage";
 import routes from "../config/routes";
 import Cookies from "universal-cookie";
 import UpdatePasswordPage from "./UpdatePasswordPage";
+import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 
 const useStyles = makeStyles({
   containerRoutes: {
@@ -30,6 +31,8 @@ const Routes = ({ triggerRefreshHeader }: RoutesProps) => {
     const cookie = new Cookies();
     return cookie.get("employeeId");
   }, []);
+
+  const [employeeData] = useFetchEmployeeData(employeeId, refreshState);
 
   return (
     <Box className={classes.containerRoutes} component="main">
@@ -55,6 +58,7 @@ const Routes = ({ triggerRefreshHeader }: RoutesProps) => {
             triggerRefreshHeader={triggerRefreshHeader}
             refreshState={refreshState}
             employeeId={employeeId}
+            employeeData={employeeData!}
           />
         </Route>
 

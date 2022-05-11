@@ -12,7 +12,6 @@ import { Link as LinkRouterDom } from "react-router-dom";
 import { useHistory } from "react-router";
 import EmployeeUpdate from "../models/employeeModels/EmployeeUpdate";
 import ProfilePicture from "../components/ProfilePicture";
-import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 import {
   PersonOutline as SecurityIcon,
   ComputerOutlined as DevicesIcon,
@@ -28,11 +27,10 @@ import {
 } from "@mui/icons-material";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 import routes from "../config/routes";
-import LoadingPersonInfo from "../components/loadings/LoadingPersonalInfo";
 import Cookies from "universal-cookie";
 import EditProfilePictureDialog from "../components/EditProfilePictureDialog";
 import { Tooltip } from "@mui/material";
-import LoadingProfilePicture from "../components/loadings/LoadingProfilePicture";
+import EmployeeModel from "../models/employeeModels/EmployeeModel";
 
 const useStyles = makeStyles((theme: Theme) => ({
   closeSession: {
@@ -190,6 +188,7 @@ interface MyAccountPageProps {
   triggerRefreshHeader: () => void;
   refreshState: number;
   employeeId: string;
+  employeeData: EmployeeModel;
 }
 
 const MyAccountPage = ({
@@ -197,16 +196,12 @@ const MyAccountPage = ({
   triggerRefreshHeader,
   refreshState,
   employeeId,
+  employeeData,
 }: MyAccountPageProps) => {
   const classes = useStyles();
   const { showMessage: showWarningMessage } = useWarningSnackbar();
 
   const [, setEmployee] = useState<EmployeeUpdate>();
-
-  const [employeeData, isLoading] = useFetchEmployeeData(
-    employeeId,
-    refreshState
-  );
 
   useEffect(() => {
     setEmployee({
@@ -217,6 +212,8 @@ const MyAccountPage = ({
       employeeSurname: employeeData?.employeeSurname,
       employeeAge: employeeData?.employeeAge,
       city: employeeData?.city,
+      phoneNumber: employeeData?.phoneNumber,
+      jobDescription: employeeData?.jobDescription,
     });
   }, [employeeData]);
 
@@ -263,59 +260,49 @@ const MyAccountPage = ({
                         className={classes.profilePicture}
                         onClick={() => setOpenEditProfilePictureDialog(true)}
                       >
-                        {isLoading ? (
-                          <LoadingProfilePicture />
-                        ) : (
-                          <ProfilePicture
-                            name={employeeData?.employeeName!}
-                            surname={employeeData?.employeeSurname!}
-                            profilePictureBlobStorage={
-                              employeeData?.profilePicture
-                            }
-                            height={100}
-                            width={100}
-                            fontSize={35}
-                            border="6px solid white"
-                            boxShadow="0px 0px 8px rgb(0 0 0 / 40%)"
-                          />
-                        )}
+                        <ProfilePicture
+                          name={employeeData?.employeeName!}
+                          surname={employeeData?.employeeSurname!}
+                          profilePictureBlobStorage={
+                            employeeData?.profilePicture
+                          }
+                          height={100}
+                          width={100}
+                          fontSize={35}
+                          border="6px solid white"
+                          boxShadow="0px 0px 8px rgb(0 0 0 / 40%)"
+                        />
                       </Box>
                     </Tooltip>
 
-                    {isLoading ? (
-                      <LoadingPersonInfo />
-                    ) : (
-                      <Box className={classes.containerEmployeeDetails}>
-                        <Typography className={classes.employeeName}>
-                          {employeeData?.employeeName}{" "}
-                          {employeeData?.employeeSurname}
-                        </Typography>
+                    <Box className={classes.containerEmployeeDetails}>
+                      <Typography className={classes.employeeName}>
+                        {employeeData?.employeeName}{" "}
+                        {employeeData?.employeeSurname}
+                      </Typography>
 
-                        <Box className={classes.employeeJob}>
-                          <Typography>
-                            {employeeData?.jobDescription}
-                          </Typography>
-                        </Box>
-
-                        <Box className={classes.myAccountDetails}>
-                          <EmailIcon className={classes.iconsEmployeeDetails} />
-                          <Typography>{employeeData?.email}</Typography>
-                        </Box>
-
-                        <Box className={classes.myAccountDetails}>
-                          <PhoneIcon className={classes.iconsEmployeeDetails} />
-
-                          <Typography>{employeeData?.phoneNumber}</Typography>
-                        </Box>
-
-                        <Box className={classes.myAccountDetails}>
-                          <LocationIcon
-                            className={classes.iconsEmployeeDetails}
-                          />
-                          <Typography>{employeeData?.city}</Typography>
-                        </Box>
+                      <Box className={classes.employeeJob}>
+                        <Typography>{employeeData?.jobDescription}</Typography>
                       </Box>
-                    )}
+
+                      <Box className={classes.myAccountDetails}>
+                        <EmailIcon className={classes.iconsEmployeeDetails} />
+                        <Typography>{employeeData?.email}</Typography>
+                      </Box>
+
+                      <Box className={classes.myAccountDetails}>
+                        <PhoneIcon className={classes.iconsEmployeeDetails} />
+
+                        <Typography>{employeeData?.phoneNumber}</Typography>
+                      </Box>
+
+                      <Box className={classes.myAccountDetails}>
+                        <LocationIcon
+                          className={classes.iconsEmployeeDetails}
+                        />
+                        <Typography>{employeeData?.city}</Typography>
+                      </Box>
+                    </Box>
                     <Divider />
                   </Box>
 
@@ -516,7 +503,7 @@ const MyAccountPage = ({
         openEditProfilePictureDialog={openEditProfilePictureDialog}
         setOpenEditProfilePictureDialog={setOpenEditProfilePictureDialog}
         employeeId={employeeId}
-        employeeData={employeeData!}
+        employeeData={employeeData}
         triggerRefresh={triggerRefresh}
         triggerRefreshHeader={triggerRefreshHeader}
       />

@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.11.2",
     "@mui/base": "^5.0.0-alpha.65",
     "@mui/icons-material": "^5.0.5",
+    "@mui/lab": "^5.0.0-alpha.81",
     "@mui/material": "^5.0.6",
     "@types/react": "^17.0.0",
     "@types/react-beautiful-dnd": "^13.1.2",
