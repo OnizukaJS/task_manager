@@ -234,6 +234,12 @@ const MyAccountPage = ({
     cookies.remove("phoneNumber", { path: "/" });
     cookies.remove("employeeAge", { path: "/" });
     cookies.remove("city", { path: "/" });
+    cookies.remove("jobDescription", { path: "/" });
+    cookies.remove("phoneNumber", { path: "/" });
+    cookies.remove("profilePicture", { path: "/" });
+    cookies.remove("sasUriProfilPicture", {
+      path: "/",
+    });
 
     history.push("/");
     triggerRefresh();
@@ -271,6 +277,12 @@ const MyAccountPage = ({
                           fontSize={35}
                           border="6px solid white"
                           boxShadow="0px 0px 8px rgb(0 0 0 / 40%)"
+                        />
+
+                        <img
+                          src={employeeData.sasUriProfilPicture}
+                          alt="test!"
+                          style={{ width: "100px", height: "100px" }}
                         />
                       </Box>
                     </Tooltip>

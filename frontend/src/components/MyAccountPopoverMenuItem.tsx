@@ -122,6 +122,12 @@ const MyAccountPopoverMenuItem = ({
     cookies.remove("phoneNumber", { path: "/" });
     cookies.remove("employeeAge", { path: "/" });
     cookies.remove("city", { path: "/" });
+    cookies.remove("jobDescription", { path: "/" });
+    cookies.remove("phoneNumber", { path: "/" });
+    cookies.remove("profilePicture", { path: "/" });
+    cookies.remove("sasUriProfilPicture", {
+      path: "/",
+    });
 
     history.push("/");
     triggerRefresh();

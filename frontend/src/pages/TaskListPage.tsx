@@ -20,9 +20,14 @@ import WorkItemModel from "../models/workItemModels/WorkItemModel";
 interface TaskListItemProps {
   triggerRefresh: () => void;
   refreshState: number;
+  setEmployeeIdRoutes: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
-const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
+const TasksListPage = ({
+  refreshState,
+  triggerRefresh,
+  setEmployeeIdRoutes,
+}: TaskListItemProps) => {
   const cookies = useMemo(() => {
     const cook = new Cookies();
     return cook;
@@ -72,6 +77,7 @@ const TasksListPage = ({ refreshState, triggerRefresh }: TaskListItemProps) => {
       history.push(routes.loginPage);
     }
     setEmployeeId(cookies.get("employeeId"));
+    setEmployeeIdRoutes(cookies.get("employeeId"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

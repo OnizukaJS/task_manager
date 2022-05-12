@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Box, makeStyles } from "@material-ui/core";
 import LoginPage from "./LoginPage";
@@ -7,7 +7,6 @@ import RegistrationPage from "./RegistrationPage";
 import MyAccountPage from "./MyAccountPage";
 import TasksListPage from "./TaskListPage";
 import routes from "../config/routes";
-import Cookies from "universal-cookie";
 import UpdatePasswordPage from "./UpdatePasswordPage";
 import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 
@@ -27,12 +26,8 @@ const Routes = ({ triggerRefreshHeader }: RoutesProps) => {
   const [refreshState, triggerRefresh] = useRefresh();
   const classes = useStyles();
 
-  const employeeId = useMemo(() => {
-    const cookie = new Cookies();
-    return cookie.get("employeeId");
-  }, []);
-
-  const [employeeData] = useFetchEmployeeData(employeeId, refreshState);
+  const [employeeId, setEmployeeId] = useState<string>();
+  const [employeeData] = useFetchEmployeeData(employeeId!, refreshState);
 
   return (
     <Box className={classes.containerRoutes} component="main">
@@ -52,6 +47,7 @@ const Routes = ({ triggerRefreshHeader }: RoutesProps) => {
           <TasksListPage
             refreshState={refreshState}
             triggerRefresh={triggerRefresh}
+            setEmployeeIdRoutes={setEmployeeId}
           />
         </Route>
 
@@ -60,14 +56,14 @@ const Routes = ({ triggerRefreshHeader }: RoutesProps) => {
             triggerRefresh={triggerRefresh}
             triggerRefreshHeader={triggerRefreshHeader}
             refreshState={refreshState}
-            employeeId={employeeId}
+            employeeId={employeeId!}
             employeeData={employeeData!}
           />
         </Route>
 
         <Route exact path={routes.updatePassword}>
           <UpdatePasswordPage
-            employeeId={employeeId}
+            employeeId={employeeId!}
             refreshState={refreshState}
           />
         </Route>
