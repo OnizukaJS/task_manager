@@ -55,9 +55,13 @@ const InputFields = withStyles({
 
 interface LoginPageProps {
   triggerRefresh: () => void;
+  triggerRefreshHeader: () => void;
 }
 
-const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
+const LoginPage = ({
+  triggerRefresh,
+  triggerRefreshHeader,
+}: LoginPageProps) => {
   const classes = useStyles();
   const history = useHistory();
   const [login, setLogin] = useState<EmployeeLogin>({
@@ -107,9 +111,14 @@ const LoginPage = ({ triggerRefresh }: LoginPageProps) => {
         cookies.set("city", data.city, { path: "/" });
         cookies.set("jobDescription", data.jobDescription, { path: "/" });
         cookies.set("phoneNumber", data.phoneNumber, { path: "/" });
+        cookies.set("profilePicture", data.profilePicture, { path: "/" });
+        cookies.set("sasUriProfilPicture", data.sasUriProfilPicture, {
+          path: "/",
+        });
 
         history.push(routes.tasksList);
         triggerRefresh();
+        triggerRefreshHeader();
       })
       .catch((error) => {
         console.log(error);

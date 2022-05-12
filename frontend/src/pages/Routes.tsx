@@ -38,7 +38,10 @@ const Routes = ({ triggerRefreshHeader }: RoutesProps) => {
     <Box className={classes.containerRoutes} component="main">
       <Switch>
         <Route exact path={routes.loginPage}>
-          <LoginPage triggerRefresh={triggerRefresh} />
+          <LoginPage
+            triggerRefresh={triggerRefresh}
+            triggerRefreshHeader={triggerRefreshHeader}
+          />
         </Route>
 
         <Route path={routes.registrationPage}>
