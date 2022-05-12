@@ -12,7 +12,10 @@ import apiUrls from "../constants/apiUrls";
 import { useSuccessSnackbar } from "../hooks/useErrorSnackbar";
 import EmployeeModel from "../models/employeeModels/EmployeeModel";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Send as SendIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import {
+  Delete as DeleteIcon,
+  CloudUpload as CloudUploadIcon,
+} from "@mui/icons-material";
 import ProfilePicture from "./ProfilePicture";
 
 const useStyles = makeStyles(() => ({
@@ -175,7 +178,7 @@ const EditProfilePictureDialog = ({
 
         <LoadingButton
           onClick={uploadFile}
-          endIcon={<SendIcon />}
+          endIcon={<CloudUploadIcon />}
           loading={isUploadButtonLoading}
           loadingPosition="end"
           variant="contained"
