@@ -46,7 +46,7 @@ const CommentItem = ({ comment, refreshState }: CommentItemProps) => {
         <ProfilePicture
           name={employeeData?.employeeName!}
           surname={employeeData?.employeeSurname!}
-          profilePictureBlobStorage={employeeData.profilePicture}
+          sasUriProfilPicture={employeeData.sasUriProfilPicture}
         />
       </Box>
       <Box className={classes.comment}>

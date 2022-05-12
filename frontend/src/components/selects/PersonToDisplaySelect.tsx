@@ -91,7 +91,7 @@ const PersonToDisplaySelect = ({
             <ProfilePicture
               name={employee.employeeName}
               surname={employee.employeeSurname}
-              profilePictureBlobStorage={employee.profilePicture}
+              sasUriProfilPicture={employee.sasUriProfilPicture}
               height={25}
               width={25}
               fontSize={10}

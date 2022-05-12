@@ -6,10 +6,10 @@ import {
   Theme,
   withStyles,
 } from "@material-ui/core";
-import React, { useState, useMemo } from "react";
-import Cookies from "universal-cookie";
+import React from "react";
 import { CommentUrlBasePath } from "../constants/apiUrls";
 import useFetchCommentsPerTask from "../hooks/useFetchCommentsPerTask";
+import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 import useRefresh from "../hooks/useRefresh";
 import TaskModel from "../models/taskModels/TaskModel";
 import ButtonComponent from "./buttons/ButtonComponent";
@@ -95,23 +95,10 @@ const CommentsListTaskItem = ({
     refreshCommentsState
   );
 
-  const [employeeLogged, setEmployeeLogged] = useState({
-    nameEmployeeLogged: "",
-    surnameEmployeeLogged: "",
-    profilePictureEmployeeLogged: "",
-  });
-
-  useMemo(() => {
-    const cookie = new Cookies();
-
-    setEmployeeLogged({
-      ...employeeLogged,
-      nameEmployeeLogged: cookie.get("employeeName"),
-      surnameEmployeeLogged: cookie.get("employeeSurname"),
-      profilePictureEmployeeLogged: cookie.get("profilePictureBlobStorage"),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [employeeData] = useFetchEmployeeData(
+    employeeId!,
+    refreshCommentsState
+  );
 
   const handleAddCommentTask = () => {
     fetch(CommentUrlBasePath, {
@@ -136,11 +123,9 @@ const CommentsListTaskItem = ({
       <Box className={classes.myAvatarDiscussion}>
         <Box className={classes.avatar}>
           <ProfilePicture
-            name={employeeLogged.nameEmployeeLogged}
-            surname={employeeLogged.surnameEmployeeLogged}
-            profilePictureBlobStorage={
-              employeeLogged.profilePictureEmployeeLogged
-            }
+            name={employeeData?.employeeName!}
+            surname={employeeData?.employeeSurname!}
+            sasUriProfilPicture={employeeData?.sasUriProfilPicture!}
           />
         </Box>
         <Box className={`${classes.fullWidth}`}>

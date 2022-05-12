@@ -89,8 +89,15 @@ namespace TaskManager.Controllers.employee
             try
             {
                 var employees = _employeeData.GetEmployees();
-
                 var employeesDto = _mapper.Map<IEnumerable<EmployeeResponseModel>>(employees);
+
+                foreach (var employee in employeesDto)
+                {
+                    var filename = employee.ProfilePicture;
+                    BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, filename);
+                    employee.SasUriProfilPicture = _profilePictureData.GetServiceSasUriForBlob(blobClient);
+                }
+
                 return Ok(employeesDto);
             }
             catch(Exception ex)
@@ -110,21 +117,22 @@ namespace TaskManager.Controllers.employee
 
             if (existingEmployee != null)
             {
-                //var employeeDto = _mapper.Map<EmployeeResponseModel>(existingEmployee);
-                var employeeDto = new EmployeeResponseModel()
-                {
-                    EmployeeId = existingEmployee.EmployeeId,
-                    Email = existingEmployee.Email,
-                    Password = existingEmployee.Password,
-                    EmployeeName = existingEmployee.EmployeeName,
-                    EmployeeSurname = existingEmployee.EmployeeSurname,
-                    EmployeeAge = existingEmployee.EmployeeAge,
-                    City = existingEmployee.City,
-                    JobDescription = existingEmployee.JobDescription,
-                    PhoneNumber = existingEmployee.PhoneNumber,
-                    ProfilePicture = existingEmployee.ProfilePicture,
-                    SasUriProfilPicture = _profilePictureData.GetServiceSasUriForBlob(blobClient),
-                };
+                var employeeDto = _mapper.Map<EmployeeResponseModel>(existingEmployee);
+                employeeDto.SasUriProfilPicture = filename != null ? _profilePictureData.GetServiceSasUriForBlob(blobClient) : null;
+                //var employeeDto = new EmployeeResponseModel()
+                //{
+                //    EmployeeId = existingEmployee.EmployeeId,
+                //    Email = existingEmployee.Email,
+                //    Password = existingEmployee.Password,
+                //    EmployeeName = existingEmployee.EmployeeName,
+                //    EmployeeSurname = existingEmployee.EmployeeSurname,
+                //    EmployeeAge = existingEmployee.EmployeeAge,
+                //    City = existingEmployee.City,
+                //    JobDescription = existingEmployee.JobDescription,
+                //    PhoneNumber = existingEmployee.PhoneNumber,
+                //    ProfilePicture = existingEmployee.ProfilePicture,
+                //    SasUriProfilPicture = filename != null ? _profilePictureData.GetServiceSasUriForBlob(blobClient) : null,
+                //};
 
                 return Ok(employeeDto);
             }

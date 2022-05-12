@@ -67,6 +67,8 @@ const AssignedToFilterSelect = ({ employees }: AssignedToFilterSelectProps) => {
     setEmployeesSelected([]);
   };
 
+  console.log(employees);
+
   return (
     <FormControl
       sx={{ minWidth: 100 }}
@@ -99,7 +101,7 @@ const AssignedToFilterSelect = ({ employees }: AssignedToFilterSelectProps) => {
             <ProfilePicture
               name={employee.employeeName}
               surname={employee.employeeSurname}
-              profilePictureBlobStorage={employee.profilePicture}
+              sasUriProfilPicture={employee.sasUriProfilPicture}
               height={25}
               width={25}
               fontSize={10}

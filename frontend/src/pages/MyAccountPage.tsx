@@ -252,6 +252,8 @@ const MyAccountPage = ({
   const [openEditProfilePictureDialog, setOpenEditProfilePictureDialog] =
     useState<boolean>(false);
 
+  console.log(employeeData);
+
   return (
     <>
       <Box className={classes.containerMyAccountPage}>
@@ -269,20 +271,12 @@ const MyAccountPage = ({
                         <ProfilePicture
                           name={employeeData?.employeeName!}
                           surname={employeeData?.employeeSurname!}
-                          profilePictureBlobStorage={
-                            employeeData?.profilePicture
-                          }
+                          sasUriProfilPicture={employeeData.sasUriProfilPicture}
                           height={100}
                           width={100}
                           fontSize={35}
                           border="6px solid white"
                           boxShadow="0px 0px 8px rgb(0 0 0 / 40%)"
-                        />
-
-                        <img
-                          src={employeeData.sasUriProfilPicture}
-                          alt="test!"
-                          style={{ width: "100px", height: "100px" }}
                         />
                       </Box>
                     </Tooltip>

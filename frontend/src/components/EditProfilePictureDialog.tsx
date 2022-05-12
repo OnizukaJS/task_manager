@@ -129,7 +129,7 @@ const EditProfilePictureDialog = ({
     <Dialog open={openEditProfilePictureDialog} onClose={handleClose}>
       <DialogTitle>Update profile picture</DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        {showPreview === null && employeeData.profilePicture === null ? (
+        {showPreview === null && employeeData.sasUriProfilPicture === null ? (
           <ProfilePicture
             name={employeeData.employeeName}
             surname={employeeData.employeeSurname}
@@ -145,7 +145,7 @@ const EditProfilePictureDialog = ({
             src={
               showPreview !== null
                 ? (showPreview as string)
-                : `https://mytaskmanagerblobstorage.blob.core.windows.net/profilepicture/${employeeData.profilePicture}`
+                : employeeData.sasUriProfilPicture
             }
             className={classes.image}
             alt="profile"
@@ -172,6 +172,7 @@ const EditProfilePictureDialog = ({
             borderRadius: 0,
             boxShadow: "none",
           }}
+          disabled={employeeData.profilePicture === null}
         >
           Delete
         </LoadingButton>

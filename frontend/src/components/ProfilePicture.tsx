@@ -5,6 +5,7 @@ interface Props {
   name: string;
   surname: string;
   profilePictureBlobStorage?: string;
+  sasUriProfilPicture?: string;
   height?: number;
   width?: number;
   fontSize?: number;
@@ -17,6 +18,7 @@ const ProfilePicture = ({
   name,
   surname,
   profilePictureBlobStorage,
+  sasUriProfilPicture,
   height,
   width,
   fontSize,
@@ -44,18 +46,18 @@ const ProfilePicture = ({
     return color;
   };
 
-  const profilePictureIsNotFound = (): boolean => {
+  const sasUriProfilPictureIsNotFound = (): boolean => {
     if (
-      profilePictureBlobStorage === null ||
-      profilePictureBlobStorage === "" ||
-      profilePictureBlobStorage === undefined
+      sasUriProfilPicture === null ||
+      sasUriProfilPicture === "" ||
+      sasUriProfilPicture === undefined
     ) {
       return true;
     }
     return false;
   };
 
-  return profilePictureIsNotFound() ? (
+  return sasUriProfilPictureIsNotFound() ? (
     <Avatar
       style={{
         backgroundColor: nameToColor(),
@@ -80,7 +82,7 @@ const ProfilePicture = ({
         border,
         boxShadow,
       }}
-      src={`https://mytaskmanagerblobstorage.blob.core.windows.net/profilepicture/${profilePictureBlobStorage}`}
+      src={sasUriProfilPicture}
     />
   );
 };

@@ -146,7 +146,7 @@ const MyAccountPopoverMenuItem = ({
           <ProfilePicture
             name={currentEmployeeData?.employeeName!}
             surname={currentEmployeeData?.employeeSurname!}
-            profilePictureBlobStorage={currentEmployeeData?.profilePicture}
+            sasUriProfilPicture={currentEmployeeData?.sasUriProfilPicture}
             height={37}
             width={37}
             fontSize={17}
@@ -186,7 +186,7 @@ const MyAccountPopoverMenuItem = ({
               <ProfilePicture
                 name={currentEmployeeData?.employeeName!}
                 surname={currentEmployeeData?.employeeSurname!}
-                profilePictureBlobStorage={currentEmployeeData?.profilePicture}
+                sasUriProfilPicture={currentEmployeeData?.sasUriProfilPicture}
                 height={88}
                 width={88}
                 fontSize={40}

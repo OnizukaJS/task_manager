@@ -107,7 +107,7 @@ const TaskEmployeeSelectImmediateUpdate = ({
             <ProfilePicture
               name={employee.employeeName}
               surname={employee.employeeSurname}
-              profilePictureBlobStorage={employee.profilePicture}
+              sasUriProfilPicture={employee.sasUriProfilPicture}
               height={30}
               width={30}
               fontSize={12}
