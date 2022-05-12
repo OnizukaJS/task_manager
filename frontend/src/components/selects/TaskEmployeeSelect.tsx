@@ -44,6 +44,8 @@ const TaskEmployeeSelect = ({
 }: TaskEmployeeSelectProps) => {
   const classes = useStyles();
 
+  console.log(employees);
+
   return (
     <Select
       name="employeeId"

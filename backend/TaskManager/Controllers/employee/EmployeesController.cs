@@ -95,7 +95,7 @@ namespace TaskManager.Controllers.employee
                 {
                     var filename = employee.ProfilePicture;
                     BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, filename);
-                    employee.SasUriProfilPicture = _profilePictureData.GetServiceSasUriForBlob(blobClient);
+                    employee.SasUriProfilPicture = filename != null ? _profilePictureData.GetServiceSasUriForBlob(blobClient) : null;
                 }
 
                 return Ok(employeesDto);
