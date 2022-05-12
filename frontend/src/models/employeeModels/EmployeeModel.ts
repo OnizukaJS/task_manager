@@ -9,6 +9,7 @@ interface EmployeeModel {
   employeeAge: number;
   city: string;
   profilePicture: string;
+  sasUriProfilPicture: string;
 }
 
 export default EmployeeModel;

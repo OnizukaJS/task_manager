@@ -9,19 +9,25 @@ using TaskManager.Dtos.employeeDto;
 using TaskManager.Interfaces.employee;
 using TaskManager.Models.employee;
 using TaskManager.Models.taskToDo;
+using Azure.Storage.Blobs;
+using TaskManager.Interfaces.profilePicture;
 
 namespace TaskManager.Controllers.employee
 {
     [ApiController]
     public class EmployeesController : ControllerBase
     {
+        private string blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=mytaskmanagerblobstorage;AccountKey=8ko4p8gVDbsFNR+ix61bDQthTh5cD7OKCIPXkFaA6hfKPnPmciLVZeesH4UIQndUWbwq6On93UIfd3J94Tva7g==;EndpointSuffix=core.windows.net";
+        private string blobStorageContainerName = "profilepicture";
         private IEmployeeData _employeeData;
+        private IProfilePictureData _profilePictureData;
         private readonly TaskToDoContext _context;
         private readonly IMapper _mapper;
 
-        public EmployeesController(IEmployeeData employeeData, TaskToDoContext context, IMapper mapper)
+        public EmployeesController(IEmployeeData employeeData, IProfilePictureData profilePictureData, TaskToDoContext context, IMapper mapper)
         {
             _employeeData = employeeData;
+            _profilePictureData = profilePictureData;
             _context = context;
             _mapper = mapper;
         }
@@ -99,10 +105,27 @@ namespace TaskManager.Controllers.employee
         public IActionResult GetEmployee(Guid employeeId)
         {
             var existingEmployee = _employeeData.GetEmployeeById(employeeId);
+            var filename = existingEmployee.ProfilePicture;
+            BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, filename);
 
             if (existingEmployee != null)
             {
-                var employeeDto = _mapper.Map<EmployeeResponseModel>(existingEmployee);
+                //var employeeDto = _mapper.Map<EmployeeResponseModel>(existingEmployee);
+                var employeeDto = new EmployeeResponseModel()
+                {
+                    EmployeeId = existingEmployee.EmployeeId,
+                    Email = existingEmployee.Email,
+                    Password = existingEmployee.Password,
+                    EmployeeName = existingEmployee.EmployeeName,
+                    EmployeeSurname = existingEmployee.EmployeeSurname,
+                    EmployeeAge = existingEmployee.EmployeeAge,
+                    City = existingEmployee.City,
+                    JobDescription = existingEmployee.JobDescription,
+                    PhoneNumber = existingEmployee.PhoneNumber,
+                    ProfilePicture = existingEmployee.ProfilePicture,
+                    SasUriProfilPicture = _profilePictureData.GetServiceSasUriForBlob(blobClient),
+                };
+
                 return Ok(employeeDto);
             }
 

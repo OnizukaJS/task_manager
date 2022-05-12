@@ -17,10 +17,12 @@ using TaskManager.Controllers.taskToDo;
 using TaskManager.Controllers.workItem;
 using TaskManager.Interfaces.comment;
 using TaskManager.Interfaces.employee;
+using TaskManager.Interfaces.profilePicture;
 using TaskManager.Interfaces.tag;
 using TaskManager.Interfaces.task;
 using TaskManager.Interfaces.workItem;
 using TaskManager.Models.taskToDo;
+using TaskManager.Queries.profilePicture;
 
 // We need to add our contexts to Startup.cs to inject the services
 
@@ -71,6 +73,7 @@ namespace TaskManager
             services.AddScoped<ITaskToDoData, TaskToDoQueries>();
             services.AddScoped<ICommentData, CommentQueries>();
             services.AddScoped<ITagData, TagQueries>();
+            services.AddScoped<IProfilePictureData, ProfilePictureQueries>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

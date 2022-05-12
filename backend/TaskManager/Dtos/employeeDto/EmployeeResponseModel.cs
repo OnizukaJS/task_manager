@@ -14,5 +14,6 @@ namespace TaskManager.Dtos.employeeDto
         public string JobDescription { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
         public string? ProfilePicture { get; set; } = null!;
+        public Uri? SasUriProfilPicture { get; set; } = null!;
     }
 }
