@@ -12,7 +12,9 @@ import EmployeeRegistration from "../models/employeeModels/EmployeeRegistration"
 import axios from "axios";
 import Cookies from "universal-cookie";
 import routes from "../config/routes";
-import { useSuccessSnackbar } from "../hooks/useErrorSnackbar";
+import useErrorSnackbar, {
+  useSuccessSnackbar,
+} from "../hooks/useErrorSnackbar";
 
 const useStyles = makeStyles({
   containerRegistration: {
@@ -69,6 +71,7 @@ const InputFields = withStyles({
 const RegistrationPage = () => {
   const classes = useStyles();
   const { showMessage: showSuccessMessage } = useSuccessSnackbar();
+  const { showMessage: showErrorMessage } = useErrorSnackbar();
 
   const history = useHistory();
   const [registration, setRegistration] = useState<EmployeeRegistration>({
@@ -91,13 +94,21 @@ const RegistrationPage = () => {
     const baseRegistrationUrl = "https://localhost:44358/api/Employees";
     await axios
       .post(baseRegistrationUrl, registration)
-      .then(() => history.push("/"))
-      .then(() =>
-        showSuccessMessage({
-          message: `A confirmation email has been sent to ${registration.email}`,
-        })
-      )
-      .catch((error) => console.log(error));
+      .then((res) => {
+        if (res.status === 200) {
+          history.push("/");
+          showSuccessMessage({
+            message: `A confirmation email has been sent to ${registration.email}`,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        showErrorMessage({
+          message:
+            "Something went wrong on the registration, please check the values you entered.",
+        });
+      });
   };
 
   const cookies = useMemo(() => {
