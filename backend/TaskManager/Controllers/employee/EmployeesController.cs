@@ -11,6 +11,8 @@ using TaskManager.Models.employee;
 using TaskManager.Models.taskToDo;
 using Azure.Storage.Blobs;
 using TaskManager.Interfaces.profilePicture;
+using TaskManager.Interfaces.mail;
+using TaskManager.Dtos.mail;
 
 namespace TaskManager.Controllers.employee
 {
@@ -21,13 +23,16 @@ namespace TaskManager.Controllers.employee
         private string blobStorageContainerName = "profilepicture";
         private IEmployeeData _employeeData;
         private IProfilePictureData _profilePictureData;
+        private IMailData _mailData;
         private readonly TaskToDoContext _context;
         private readonly IMapper _mapper;
 
-        public EmployeesController(IEmployeeData employeeData, IProfilePictureData profilePictureData, TaskToDoContext context, IMapper mapper)
+        public EmployeesController(IEmployeeData employeeData, IProfilePictureData profilePictureData, IMailData mailData, 
+            TaskToDoContext context, IMapper mapper)
         {
             _employeeData = employeeData;
             _profilePictureData = profilePictureData;
+            _mailData = mailData;
             _context = context;
             _mapper = mapper;
         }
@@ -46,6 +51,13 @@ namespace TaskManager.Controllers.employee
             _employeeData.RegisterEmployee(employee);
 
             var employeeResponse = _mapper.Map<EmployeeResponseModel>(employee);
+
+            var welcomeEmail = new WelcomeEmail()
+            {
+                ToEmail = employeeRegistration.Email,
+                UserName = employeeRegistration.EmployeeName + " " + employeeRegistration.EmployeeSurname,
+            };
+            _mailData.SendWelcomeEmailAsync(welcomeEmail);
 
             return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + employeeResponse.EmployeeId, employeeResponse);
         }

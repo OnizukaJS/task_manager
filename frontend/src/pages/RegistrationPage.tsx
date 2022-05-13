@@ -12,6 +12,7 @@ import EmployeeRegistration from "../models/employeeModels/EmployeeRegistration"
 import axios from "axios";
 import Cookies from "universal-cookie";
 import routes from "../config/routes";
+import { useSuccessSnackbar } from "../hooks/useErrorSnackbar";
 
 const useStyles = makeStyles({
   containerRegistration: {
@@ -67,6 +68,7 @@ const InputFields = withStyles({
 
 const RegistrationPage = () => {
   const classes = useStyles();
+  const { showMessage: showSuccessMessage } = useSuccessSnackbar();
 
   const history = useHistory();
   const [registration, setRegistration] = useState<EmployeeRegistration>({
@@ -90,6 +92,11 @@ const RegistrationPage = () => {
     await axios
       .post(baseRegistrationUrl, registration)
       .then(() => history.push("/"))
+      .then(() =>
+        showSuccessMessage({
+          message: `A confirmation email has been sent to ${registration.email}`,
+        })
+      )
       .catch((error) => console.log(error));
   };
 
