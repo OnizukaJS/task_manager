@@ -47,6 +47,13 @@ const useStyles = makeStyles<Theme>((theme) =>
       justifyContent: "space-between",
       minHeight: "65px",
     },
+    containerHeaderNotLogged: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "end",
+      minHeight: "65px",
+      marginRight: theme.spacing(2),
+    },
     containerHeaderMenu: {
       position: "fixed",
       width: "100%",
@@ -66,12 +73,22 @@ const useStyles = makeStyles<Theme>((theme) =>
         backgroundColor: "#FAFAFA",
       },
     },
+    iconsNotLogged: {
+      marginRight: theme.spacing(0.5),
+      color: "#3f51b5",
+    },
     iconSearch: {
       transform: "rotate(90deg)",
       color: "rgba(102,102,102,1)",
     },
+    link: {
+      textDecoration: "none",
+    },
     linkToTaskList: {
       textDecoration: "none",
+    },
+    listItemIcon: {
+      alignItems: "center",
     },
     menuList: {
       display: "flex",
@@ -211,20 +228,23 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
     </Box>
   ) : (
     <Box className={classes.containerHeaderMenu}>
-      <Box className={classes.containerHeader}>
+      <Box className={classes.containerHeaderNotLogged}>
         <MenuList className={classes.menuList}>
           <Link to={routes.loginPage} className={classes.link}>
             <CustomMenuItem>
-              <ListItemIcon>
-                <Login fontSize="small" />
+              <ListItemIcon className={classes.listItemIcon}>
+                <Login fontSize="small" className={classes.iconsNotLogged} />
                 <Typography variant="inherit">Login</Typography>
               </ListItemIcon>
             </CustomMenuItem>
           </Link>
           <Link to={routes.registrationPage} className={classes.link}>
             <CustomMenuItem>
-              <ListItemIcon>
-                <FormatListBulleted fontSize="small" />
+              <ListItemIcon className={classes.listItemIcon}>
+                <FormatListBulleted
+                  fontSize="small"
+                  className={classes.iconsNotLogged}
+                />
                 <Typography variant="inherit">Registration</Typography>
               </ListItemIcon>
             </CustomMenuItem>

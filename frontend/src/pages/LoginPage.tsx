@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Cookies from "universal-cookie";
 import EmployeeLogin from "../models/employeeModels/EmployeeLogin";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import routes from "../config/routes";
 import Box from "@material-ui/core/Box";
 import { Divider, makeStyles, TextField, Typography } from "@material-ui/core";
@@ -26,19 +26,33 @@ const useStyles = makeStyles({
     borderColor: "#3f51b5",
     boxShadow:
       "0 0.1875rem 0.4375rem 0.1875rem rgb(3, 3, 3, 13%), 0 0.6875rem 1.5rem 1rem rgb(3, 3, 3, 12%)",
+    background: "white",
   },
   containerLoginPage: {
     height: "100%",
     overflow: "auto",
+    background: `url(
+      "https://wallpaperbat.com/img/11945-geometric-desktop-background-geometric.jpg"
+    ) no-repeat center center fixed`,
   },
   containerLoginTitle: {
     display: "flex",
     justifyContent: "center",
     margin: "10px 0 20px 0",
   },
+  doNotHaveAnAccount: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "16px",
+  },
   loginTitle: {
     fontSize: 24,
     margin: "20px 0",
+  },
+  registerLink: {
+    textDecoration: "none",
+    marginLeft: "4px",
+    color: "#3f51b5",
   },
 });
 
@@ -167,6 +181,13 @@ const LoginPage = ({
           <GoogleLoginButton />
           <MicrosoftLoginButton />
           <LinkedinLoginButton />
+
+          <Typography className={classes.doNotHaveAnAccount}>
+            Don't have an account yet?{" "}
+            <Link to="/registration" className={classes.registerLink}>
+              Register
+            </Link>
+          </Typography>
         </form>
       </Box>
     </Box>

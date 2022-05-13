@@ -104,6 +104,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) =>
       padding: "16px 24px",
       overflow: "auto",
       height: "100%",
+      marginLeft: "51px",
     },
     doubleArrowIcon: {
       transform: (props) =>

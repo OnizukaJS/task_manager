@@ -15,8 +15,15 @@ import routes from "../config/routes";
 import useErrorSnackbar, {
   useSuccessSnackbar,
 } from "../hooks/useErrorSnackbar";
+import { EmployeeUrlBasePath } from "../constants/apiUrls";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
+  alreadyHaveAnAccount: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "8px",
+  },
   containerRegistration: {
     padding: "40px",
   },
@@ -30,10 +37,14 @@ const useStyles = makeStyles({
     borderColor: "#3f51b5",
     boxShadow:
       "0 0.1875rem 0.4375rem 0.1875rem rgb(3, 3, 3, 13%), 0 0.6875rem 1.5rem 1rem rgb(3, 3, 3, 12%)",
+    background: "white",
   },
   containerRegistrationPage: {
     height: "100%",
     overflow: "auto",
+    background: `url(
+      "https://wallpaperbat.com/img/11945-geometric-desktop-background-geometric.jpg"
+    ) no-repeat center center fixed`,
   },
   containerBoxFields: {
     display: "flex",
@@ -54,6 +65,11 @@ const useStyles = makeStyles({
   registrationTitle: {
     fontSize: 24,
     margin: "20px 0",
+  },
+  signInLink: {
+    textDecoration: "none",
+    marginLeft: "4px",
+    color: "#3f51b5",
   },
 });
 
@@ -91,7 +107,7 @@ const RegistrationPage = () => {
   };
 
   const registerEmployee = async () => {
-    const baseRegistrationUrl = "https://localhost:44358/api/Employees";
+    const baseRegistrationUrl = EmployeeUrlBasePath;
     await axios
       .post(baseRegistrationUrl, registration)
       .then((res) => {
@@ -234,6 +250,13 @@ const RegistrationPage = () => {
             marginTop="1rem"
             marginBottom="1rem"
           />
+
+          <Typography className={classes.alreadyHaveAnAccount}>
+            Already have an account?{" "}
+            <Link to="/" className={classes.signInLink}>
+              Sign in
+            </Link>
+          </Typography>
         </form>
       </Box>
     </Box>

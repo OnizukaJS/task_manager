@@ -13,7 +13,6 @@ import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
 const useStyles = makeStyles({
   containerRoutes: {
     overflow: "hidden",
-    marginLeft: "51px",
     height: "100%",
   },
 });
