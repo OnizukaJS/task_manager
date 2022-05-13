@@ -15,13 +15,16 @@ using TaskManager.Controllers.employee;
 using TaskManager.Controllers.tag;
 using TaskManager.Controllers.taskToDo;
 using TaskManager.Controllers.workItem;
+using TaskManager.Dtos.mail;
 using TaskManager.Interfaces.comment;
 using TaskManager.Interfaces.employee;
+using TaskManager.Interfaces.mail;
 using TaskManager.Interfaces.profilePicture;
 using TaskManager.Interfaces.tag;
 using TaskManager.Interfaces.task;
 using TaskManager.Interfaces.workItem;
 using TaskManager.Models.taskToDo;
+using TaskManager.Queries.mails;
 using TaskManager.Queries.profilePicture;
 
 // We need to add our contexts to Startup.cs to inject the services
@@ -64,6 +67,8 @@ namespace TaskManager
                 options.IncludeXmlComments(filePath);
             });
 
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+
             // UseSqlServer requires a connection string that's defined in our appsettings.json
             services.AddDbContextPool<TaskToDoContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("TaskManagerContextConnectionString")));
@@ -74,6 +79,7 @@ namespace TaskManager
             services.AddScoped<ICommentData, CommentQueries>();
             services.AddScoped<ITagData, TagQueries>();
             services.AddScoped<IProfilePictureData, ProfilePictureQueries>();
+            services.AddTransient<IMailData, MailQueries>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
