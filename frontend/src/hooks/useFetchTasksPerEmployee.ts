@@ -19,14 +19,14 @@ const useFetchTasksPerEmployee = (
     })
       .then((response) => response.json())
       .then((data) => setTasksPerEmployee(data))
-      .then(() =>
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000)
-      )
       .catch(() =>
         console.log(`ERROR while getting task of the employee ${employeeId}`)
-      );
+      )
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
+      });
   }, [employeeId]);
 
   return [tasksPerEmployee, isLoading];
