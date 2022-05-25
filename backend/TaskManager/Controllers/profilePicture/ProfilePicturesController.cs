@@ -25,17 +25,64 @@ namespace TaskManager.Controllers.profilePicture
         }
 
         [HttpPost]
-        [Route("api/[controller]")]
-        public ActionResult UpdateProfilePicture([FromForm] ProfilePicture profilePicture)
+        [Route("api/[controller]/native")]
+        public ActionResult UpdateProfilePictureNative([FromForm] ProfilePictureNative profilePictureNative)
         {
-            var existingEmployee = _employeeQueries.GetEmployeeById(profilePicture.EmployeeId);
+            var existingEmployee = _employeeQueries.GetEmployeeById(profilePictureNative.EmployeeId); // Done
 
             if (existingEmployee == null)
             {
                 return NotFound("The employee does not exist");
             }
 
-            var currentFileName = existingEmployee.ProfilePicture;
+            var currentFileName = existingEmployee.ProfilePicture; // Done
+
+            if (currentFileName != null)
+            {
+                DeleteProfilePicture(profilePictureNative.EmployeeId);
+            }
+
+            try
+            {
+                var folderName = existingEmployee.EmployeeName; // Done
+                var filename = folderName + "/" + profilePictureNative.FileName; // Done
+                var fileUrl = "";
+                var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName); // Done
+
+                try
+                {
+                    BlobClient blob = container.GetBlobClient(filename); // Done
+
+                    //using (Stream stream = profilePicture.FormFile.OpenReadStream())
+                    //{
+                    //    blob.Upload(stream);
+                    //}
+                    fileUrl = blob.Uri.AbsoluteUri; // Check if this is the localUri I have in the FE
+
+                    _employeeQueries.EditEmployeeProfilePicture(profilePictureNative.EmployeeId, filename);
+                }
+                catch (Exception) { }
+                var result = fileUrl;
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/[controller]")]
+        public ActionResult UpdateProfilePicture([FromForm] ProfilePicture profilePicture)
+        {
+            var existingEmployee = _employeeQueries.GetEmployeeById(profilePicture.EmployeeId); // Done
+
+            if (existingEmployee == null)
+            {
+                return NotFound("The employee does not exist");
+            }
+
+            var currentFileName = existingEmployee.ProfilePicture; // Done
 
             if (currentFileName != null)
             {
@@ -44,20 +91,20 @@ namespace TaskManager.Controllers.profilePicture
 
             try
             {
-                var folderName = existingEmployee.EmployeeName;
-                var filename = folderName + "/" + profilePicture.FileName;
+                var folderName = existingEmployee.EmployeeName; // Done
+                var filename = folderName + "/" + profilePicture.FileName; // Done
                 var fileUrl = "";
-                var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
+                var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName); // Done
 
                 try
                 {
-                    BlobClient blob = container.GetBlobClient(filename);
+                    BlobClient blob = container.GetBlobClient(filename); // Done
                     
                     using (Stream stream = profilePicture.FormFile.OpenReadStream())
                     {
                         blob.Upload(stream);
                     }
-                    fileUrl = blob.Uri.AbsoluteUri;
+                    fileUrl = blob.Uri.AbsoluteUri; // Check if this is the localUri I have in the FE
 
                     _employeeQueries.EditEmployeeProfilePicture(profilePicture.EmployeeId, filename);
                 }
