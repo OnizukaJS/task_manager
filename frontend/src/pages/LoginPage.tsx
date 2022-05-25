@@ -11,6 +11,7 @@ import GoogleLoginButton from "../components/buttons/GoogleLoginButton";
 import MicrosoftLoginButton from "../components/buttons/MicrosoftLoginButton";
 import LinkedinLoginButton from "../components/buttons/LinkedinLoginButton";
 import apiUrls from "../constants/apiUrls";
+import LoginBackground from "../images/login-registration-background.jpg";
 
 const useStyles = makeStyles({
   containerLogin: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles({
     height: "100%",
     overflow: "auto",
     background: `url(
-      "https://wallpaperbat.com/img/11945-geometric-desktop-background-geometric.jpg"
+      ${LoginBackground}
     ) no-repeat center center fixed`,
   },
   containerLoginTitle: {

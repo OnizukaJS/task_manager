@@ -17,6 +17,7 @@ import useErrorSnackbar, {
 } from "../hooks/useErrorSnackbar";
 import { EmployeeUrlBasePath } from "../constants/apiUrls";
 import { Link } from "react-router-dom";
+import RegistrationBackground from "../images/login-registration-background.jpg";
 
 const useStyles = makeStyles({
   alreadyHaveAnAccount: {
@@ -43,7 +44,7 @@ const useStyles = makeStyles({
     height: "100%",
     overflow: "auto",
     background: `url(
-      "https://wallpaperbat.com/img/11945-geometric-desktop-background-geometric.jpg"
+      ${RegistrationBackground}
     ) no-repeat center center fixed`,
   },
   containerBoxFields: {
