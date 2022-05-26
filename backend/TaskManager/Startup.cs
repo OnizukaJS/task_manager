@@ -26,6 +26,8 @@ using TaskManager.Queries.profilePicture;
 using TaskManager.Queries.tag;
 using TaskManager.Queries.taskToDo;
 using TaskManager.Queries.workItem;
+using TaskManager.Services.employee;
+using TaskManager.Services.profilePicture;
 
 // We need to add our contexts to Startup.cs to inject the services
 
@@ -78,7 +80,8 @@ namespace TaskManager
             services.AddScoped<ITaskToDoData, TaskToDoQueries>();
             services.AddScoped<ICommentData, CommentQueries>();
             services.AddScoped<ITagData, TagQueries>();
-            services.AddScoped<IProfilePictureData, ProfilePictureQueries>();
+            services.AddScoped<IProfilePictureService, ProfilePictureService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddTransient<IMailData, MailQueries>();
         }
 
