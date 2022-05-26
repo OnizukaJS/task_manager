@@ -6,7 +6,6 @@ namespace TaskManager.Dtos.employeeDto
     {
         public Guid EmployeeId { get; set; }
         public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
         public string EmployeeName { get; set; } = null!;
         public string EmployeeSurname { get; set; } = null!;
         public int EmployeeAge { get; set; }

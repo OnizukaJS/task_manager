@@ -45,7 +45,7 @@ namespace TaskManager.Controllers.employee
 
             if (_context.Employees.Any(e => e.Email == employeeRegistration.Email))
             {
-                return NotFound("Email already in use.");
+                return BadRequest("Email already in use.");
             }
 
             _employeeData.RegisterEmployee(employee);
@@ -55,7 +55,7 @@ namespace TaskManager.Controllers.employee
             var welcomeEmail = new WelcomeEmail()
             {
                 ToEmail = employeeRegistration.Email,
-                UserName = employeeRegistration.EmployeeName + " " + employeeRegistration.EmployeeSurname,
+                UserName = $"{employeeRegistration.EmployeeName} {employeeRegistration.EmployeeSurname}",
             };
             _mailData.SendWelcomeEmailAsync(welcomeEmail);
 

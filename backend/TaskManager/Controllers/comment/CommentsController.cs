@@ -8,6 +8,7 @@ using TaskManager.Models;
 
 namespace TaskManager.Controllers.comment
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
     {
@@ -21,7 +22,6 @@ namespace TaskManager.Controllers.comment
         }
 
         [HttpGet]
-        [Route("api/[controller]")]
         public IActionResult GetComments()
         {
             var existingComments = _commentData.GetComments();
@@ -31,7 +31,7 @@ namespace TaskManager.Controllers.comment
         }
 
         [HttpGet]
-        [Route("api/[controller]/{commentId}")]
+        [Route("{commentId}")]
         public IActionResult GetComment(Guid commentId)
         {
             var existingComment = _commentData.GetComment(commentId);
@@ -46,7 +46,6 @@ namespace TaskManager.Controllers.comment
         }
 
         [HttpPost]
-        [Route("api/[controller]")]
         public IActionResult AddComment(CommentCreateModel commentCreate)
         {
             var comment = _mapper.Map<Comment>(commentCreate);
@@ -55,11 +54,12 @@ namespace TaskManager.Controllers.comment
 
             var commentResponse = _mapper.Map<CommentResponseModel>(comment);
 
+            // TODO: check notes
             return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + commentResponse.CommentId, commentResponse);
         }
 
         [HttpDelete]
-        [Route("api/[controller]/{commentId}")]
+        [Route("{commentId}")]
         public IActionResult DeleteComment(Guid commentId)
         {
             var commentToDelete = _commentData.GetComment(commentId);
