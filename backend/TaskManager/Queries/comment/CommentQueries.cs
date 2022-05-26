@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using TaskManager.Interfaces.comment;
-using TaskManager.Models;
+using TaskManager.Models.comment;
 using TaskManager.Models.taskToDo;
 
-namespace TaskManager.Controllers.comment
+namespace TaskManager.Queries.comment
 {
     public class CommentQueries : ICommentData
     {

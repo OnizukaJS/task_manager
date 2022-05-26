@@ -8,7 +8,7 @@ using TaskManager.Dtos.mail;
 using TaskManager.Interfaces.mail;
 using TaskManager.Models.mail;
 
-namespace TaskManager.Queries.mails
+namespace TaskManager.Queries.mail
 {
     public class MailQueries : IMailData
     {

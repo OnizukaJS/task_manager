@@ -3,9 +3,9 @@ using Azure.Storage.Sas;
 using System;
 using TaskManager.Interfaces.profilePicture;
 
-namespace TaskManager.Queries.profilePicture
+namespace TaskManager.Services.profilePicture
 {
-    public class ProfilePictureQueries : IProfilePictureData
+    public class ProfilePictureService : IProfilePictureService
     {
         public Uri GetServiceSasUriForBlob(BlobClient blobClient, string storedPolicyName = null)
         {
@@ -24,7 +24,7 @@ namespace TaskManager.Queries.profilePicture
                 {
                     sasBuilder.ExpiresOn = DateTimeOffset.UtcNow.AddHours(1);
                     sasBuilder.SetPermissions(BlobSasPermissions.Read |
-                        BlobSasPermissions.Write);
+                        BlobSasPermissions.Write); // TODO: Check maybe only read is needed
                 }
                 else
                 {

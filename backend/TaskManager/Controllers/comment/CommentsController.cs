@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using TaskManager.Dtos.CommentDto;
 using TaskManager.Interfaces.comment;
-using TaskManager.Models;
+using TaskManager.Models.comment;
 
 namespace TaskManager.Controllers.comment
 {

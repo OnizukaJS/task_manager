@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaskManager.Interfaces.task;
-using TaskManager.Models;
+using TaskManager.Interfaces.taskToDo;
+using TaskManager.Models.comment;
 using TaskManager.Models.tag;
 using TaskManager.Models.taskToDo;
 
-namespace TaskManager.Controllers.taskToDo
+namespace TaskManager.Queries.taskToDo
 {
     public class TaskToDoQueries : ITaskToDoData
     {
@@ -16,7 +16,7 @@ namespace TaskManager.Controllers.taskToDo
         {
             _taskToDoContext = taskToDoContext;
         }
-        
+
         public TaskToDo AddTask(TaskToDo taskToDo)
         {
             taskToDo.Id = Guid.NewGuid();
@@ -34,7 +34,7 @@ namespace TaskManager.Controllers.taskToDo
         public TaskToDo EditTask(TaskToDo taskToDo)
         {
             var existingTaskToDo = _taskToDoContext.TaskToDos.Find(taskToDo.Id);
-            if(existingTaskToDo != null)
+            if (existingTaskToDo != null)
             {
                 existingTaskToDo.Name = taskToDo.Name;
                 existingTaskToDo.Description = taskToDo.Description;

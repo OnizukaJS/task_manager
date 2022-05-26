@@ -10,22 +10,22 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using TaskManager.Controllers.comment;
-using TaskManager.Controllers.employee;
-using TaskManager.Controllers.tag;
-using TaskManager.Controllers.taskToDo;
-using TaskManager.Controllers.workItem;
 using TaskManager.Dtos.mail;
 using TaskManager.Interfaces.comment;
 using TaskManager.Interfaces.employee;
 using TaskManager.Interfaces.mail;
 using TaskManager.Interfaces.profilePicture;
 using TaskManager.Interfaces.tag;
-using TaskManager.Interfaces.task;
+using TaskManager.Interfaces.taskToDo;
 using TaskManager.Interfaces.workItem;
 using TaskManager.Models.taskToDo;
-using TaskManager.Queries.mails;
+using TaskManager.Queries.comment;
+using TaskManager.Queries.employee;
+using TaskManager.Queries.mail;
 using TaskManager.Queries.profilePicture;
+using TaskManager.Queries.tag;
+using TaskManager.Queries.taskToDo;
+using TaskManager.Queries.workItem;
 
 // We need to add our contexts to Startup.cs to inject the services
 

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using TaskManager.Enums;
 using TaskManager.Interfaces.workItem;
-using TaskManager.Models;
+using TaskManager.Models.comment;
 using TaskManager.Models.tag;
 using TaskManager.Models.taskToDo;
 using TaskManager.Models.workItem;
 
-namespace TaskManager.Controllers.workItem
+namespace TaskManager.Queries.workItem
 {
     public class WorkItemQueries : IWorkItemData
     {
@@ -37,7 +37,7 @@ namespace TaskManager.Controllers.workItem
         public WorkItem EditWorkItem(WorkItem workItem)
         {
             var existingWorkItem = _taskToDoContext.WorkItems.Find(workItem.Id);
-            if(existingWorkItem != null)
+            if (existingWorkItem != null)
             {
                 existingWorkItem.Name = workItem.Name;
                 existingWorkItem.Description = workItem.Description;

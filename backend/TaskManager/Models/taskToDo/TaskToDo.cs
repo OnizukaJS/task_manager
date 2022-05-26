@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using TaskManager.Enums;
+using TaskManager.Models.comment;
 using TaskManager.Models.employee;
 using TaskManager.Models.tag;
 using TaskManager.Models.workItem;
 
-namespace TaskManager.Models
+namespace TaskManager.Models.taskToDo
 {
     public class TaskToDo
     {

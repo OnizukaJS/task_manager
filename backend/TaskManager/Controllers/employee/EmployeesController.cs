@@ -26,15 +26,17 @@ namespace TaskManager.Controllers.employee
         private IMailData _mailData;
         private readonly TaskToDoContext _context;
         private readonly IMapper _mapper;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeesController(IEmployeeData employeeData, IProfilePictureData profilePictureData, IMailData mailData, 
-            TaskToDoContext context, IMapper mapper)
+        public EmployeesController(IEmployeeData employeeData, IProfilePictureData profilePictureData, IMailData mailData,
+            TaskToDoContext context, IMapper mapper, IEmployeeService employeeService)
         {
             _employeeData = employeeData;
             _profilePictureData = profilePictureData;
             _mailData = mailData;
             _context = context;
             _mapper = mapper;
+            _employeeService = employeeService;
         }
 
         [HttpPost]
@@ -82,7 +84,6 @@ namespace TaskManager.Controllers.employee
             {
                 EmployeeId = employee.EmployeeId,
                 Email = employee.Email,
-                Password = employee.Password,
                 EmployeeName = employee.EmployeeName,
                 EmployeeSurname = employee.EmployeeSurname,
                 EmployeeAge = employee.EmployeeAge,
@@ -98,25 +99,8 @@ namespace TaskManager.Controllers.employee
         [Route("api/[controller]")]
         public IActionResult GetEmployees()
         {
-            try
-            {
-                var employees = _employeeData.GetEmployees();
-                var employeesDto = _mapper.Map<IEnumerable<EmployeeResponseModel>>(employees);
-
-                foreach (var employee in employeesDto)
-                {
-                    var filename = employee.ProfilePicture;
-                    BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, filename);
-                    employee.SasUriProfilPicture = filename != null ? _profilePictureData.GetServiceSasUriForBlob(blobClient) : null;
-                }
-
-                return Ok(employeesDto);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
-            }
-            
+            var employees = _employeeService.GetEmployees();
+            return Ok(employees);
         }
 
         [HttpGet]
@@ -156,17 +140,15 @@ namespace TaskManager.Controllers.employee
         [Route("api/[controller]/{employeeId}")]
         public IActionResult EditEmployee(EmployeeUpdateModel employeeUpdate, Guid employeeId)
         {
-            var existingEmployee = _employeeData.GetEmployeeById(employeeId);
-
-            if (existingEmployee != null)
+            try
             {
-                var employee = _mapper.Map<Employee>(employeeUpdate);
-                employee.EmployeeId = existingEmployee.EmployeeId;
-                _employeeData.EditEmployee(employee);
-
+                var employee = _employeeService.UpdateEmployee(employeeId, employeeUpdate);
+                return Ok(employee);
+            } 
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
             }
-
-            return Ok(employeeUpdate);
         }
 
         [HttpPatch]
@@ -185,7 +167,7 @@ namespace TaskManager.Controllers.employee
                 var employee = _mapper.Map<Employee>(employeePassword);
                 employee.EmployeeId = existingEmployee.EmployeeId;
                 _employeeData.EditEmployeePassword(employee);
-                return Ok(employeePassword); 
+                return Ok(employeePassword);
             }
 
             return NotFound($"The employee with the Id: {employeeId} does not exist");

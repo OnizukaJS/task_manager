@@ -8,10 +8,10 @@ using TaskManager.Dtos.tag;
 using TaskManager.Dtos.taskToDoDto;
 using TaskManager.Interfaces.comment;
 using TaskManager.Interfaces.tag;
-using TaskManager.Interfaces.task;
-using TaskManager.Models;
+using TaskManager.Interfaces.taskToDo;
+using TaskManager.Models.taskToDo;
 
-namespace TaskManager.Controllers.task
+namespace TaskManager.Controllers.taskToDo
 {
     [ApiController]
     public class TasksToDoController : ControllerBase

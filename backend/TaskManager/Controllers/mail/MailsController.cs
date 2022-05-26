@@ -21,31 +21,16 @@ namespace TaskManager.Controllers.mail
         [Route("api/[controller]/Email")]
         public async Task<IActionResult> SendMail([FromForm] MailRequest request)
         {
-            try
-            {
-                await _mailQueries.SendMailAsync(request);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-
+            await _mailQueries.SendMailAsync(request);
+            return Ok();
         }
 
         [HttpPost]
         [Route("api/[controller]/WelcomeEmail")]
         public async Task<IActionResult> SendWelcomeMail([FromForm] WelcomeEmail welcomeEmail)
         {
-            try
-            {
-                await _mailQueries.SendWelcomeEmailAsync(welcomeEmail);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            await _mailQueries.SendWelcomeEmailAsync(welcomeEmail);
+            return Ok();
 
         }
     }

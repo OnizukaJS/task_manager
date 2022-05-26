@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using TaskManager.Dtos.taskToDoDto;
-using TaskManager.Models;
+using TaskManager.Models.comment;
 using TaskManager.Models.tag;
+using TaskManager.Models.taskToDo;
 
-namespace TaskManager.Interfaces.task
+namespace TaskManager.Interfaces.taskToDo
 {
     public interface ITaskToDoData
     {

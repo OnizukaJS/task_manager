@@ -7,7 +7,7 @@ using TaskManager.Models.employee;
 using TaskManager.Models.taskToDo;
 using TaskManager.Models.profilePicture;
 
-namespace TaskManager.Controllers.employee
+namespace TaskManager.Queries.employee
 {
     public class EmployeeQueries : IEmployeeData
     {
@@ -34,21 +34,10 @@ namespace TaskManager.Controllers.employee
                 .SingleOrDefault(x => x.Email.Equals(employeeEmail));
         }
 
-        public Employee EditEmployee(Employee employee)
+        public Employee UpdateEmployee(Employee employee)
         {
-            var existingEmployee = _taskToDoContext.Employees.Find(employee.EmployeeId);
-            if (existingEmployee != null)
-            {
-                existingEmployee.EmployeeName = employee.EmployeeName;
-                existingEmployee.EmployeeSurname = employee.EmployeeSurname;
-                existingEmployee.EmployeeAge = employee.EmployeeAge;
-                existingEmployee.Email = employee.Email;
-                existingEmployee.City = employee.City;
-                existingEmployee.JobDescription = employee.JobDescription;
-                existingEmployee.PhoneNumber = employee.PhoneNumber;
-                _taskToDoContext.Employees.Update(existingEmployee);
-                _taskToDoContext.SaveChanges();
-            }
+            _taskToDoContext.Employees.Update(employee);
+            _taskToDoContext.SaveChanges();
             return employee;
         }
 
@@ -62,7 +51,7 @@ namespace TaskManager.Controllers.employee
                 _taskToDoContext.SaveChanges();
             }
             return employee;
-        }        
+        }
 
         public Employee GetEmployeeById(Guid employeeId)
         {

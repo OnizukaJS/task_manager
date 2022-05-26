@@ -4,9 +4,10 @@ using TaskManager.Dtos.employeeDto;
 using TaskManager.Dtos.tag;
 using TaskManager.Dtos.taskToDoDto;
 using TaskManager.Dtos.workItem;
-using TaskManager.Models;
+using TaskManager.Models.comment;
 using TaskManager.Models.employee;
 using TaskManager.Models.tag;
+using TaskManager.Models.taskToDo;
 using TaskManager.Models.workItem;
 
 namespace TaskManager.Mappings

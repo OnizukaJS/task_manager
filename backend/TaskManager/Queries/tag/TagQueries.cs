@@ -5,7 +5,7 @@ using TaskManager.Interfaces.tag;
 using TaskManager.Models.tag;
 using TaskManager.Models.taskToDo;
 
-namespace TaskManager.Controllers.tag
+namespace TaskManager.Queries.tag
 {
     public class TagQueries : ITagData
     {

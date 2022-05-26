@@ -9,7 +9,7 @@ using TaskManager.Dtos.taskToDoDto;
 using TaskManager.Dtos.workItem;
 using TaskManager.Interfaces.comment;
 using TaskManager.Interfaces.tag;
-using TaskManager.Interfaces.task;
+using TaskManager.Interfaces.taskToDo;
 using TaskManager.Interfaces.workItem;
 using TaskManager.Models.workItem;
 

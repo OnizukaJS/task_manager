@@ -1,8 +1,9 @@
 ﻿using System;
 using TaskManager.Models.employee;
+using TaskManager.Models.taskToDo;
 using TaskManager.Models.workItem;
 
-namespace TaskManager.Models
+namespace TaskManager.Models.comment
 {
     public class Comment
     {
