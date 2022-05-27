@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using TaskManager.Dtos.CommentDto;
 using TaskManager.Dtos.tagDto;
 using TaskManager.Dtos.taskToDoDto;
 using TaskManager.Models.taskToDo;
+using TaskManager.Repository.comment;
 using TaskManager.Repository.tag;
 using TaskManager.Repository.taskToDo;
 
@@ -14,12 +17,22 @@ namespace TaskManager.Services.taskToDo
         private readonly ITaskToDoRepository _taskToDoRepository;
         private readonly IMapper _mapper;
         private readonly ITagRepository _tagRepository;
+        private readonly ICommentRepository _commentRepository;
 
-        public TaskToDoService(ITaskToDoRepository taskToDoRepository, IMapper mapper, ITagRepository tagRepository)
+        public TaskToDoService(ITaskToDoRepository taskToDoRepository, IMapper mapper, ITagRepository tagRepository, ICommentRepository commentRepository)
         {
             _taskToDoRepository = taskToDoRepository;
             _mapper = mapper;
             _tagRepository = tagRepository;
+            _commentRepository = commentRepository;
+        }
+
+        public TaskToDoResponseModel AddTask(TaskToDoCreateModel taskToDoCreate)
+        {
+            var taskToCreate = _mapper.Map<TaskToDo>(taskToDoCreate);
+            _taskToDoRepository.AddTask(taskToCreate);
+            var taskToDoResponse = _mapper.Map<TaskToDoResponseModel>(taskToCreate);
+            return taskToDoResponse;
         }
 
         public IEnumerable<TaskToDoResponseModel> GetTasks()
@@ -76,6 +89,19 @@ namespace TaskManager.Services.taskToDo
             var tagsPerTask = _tagRepository.GetTagsPerTask(existingTask.Id);
             
             return _mapper.Map<IEnumerable<TagResponseModel>>(tagsPerTask);
+        }
+
+        public IEnumerable<CommentResponseModel> GetCommentsPerTask(Guid taskId)
+        {
+            var existingTask = _taskToDoRepository.GetTask(taskId);
+            if (existingTask == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            var commentsPerTask  = _commentRepository.GetCommentsPerTask(existingTask.Id);
+
+            return _mapper.Map<IEnumerable<CommentResponseModel>>(commentsPerTask);
         }
     }
 }

@@ -37,12 +37,7 @@ namespace TaskManager.Controllers.taskToDo
         [HttpPost]
         public IActionResult AddTask(TaskToDoCreateModel taskToDoCreate)
         {
-            var taskToDo = _mapper.Map<TaskToDo>(taskToDoCreate);
-
-            _taskToDoRepository.AddTask(taskToDo);
-
-            var taskToDoResponse = _mapper.Map<TaskToDoResponseModel>(taskToDo);
-
+            var taskToDoResponse = _taskToDoService.AddTask(taskToDoCreate);
             return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + taskToDoResponse.Id, taskToDoResponse);
         }
 
@@ -68,19 +63,17 @@ namespace TaskManager.Controllers.taskToDo
         }
 
         [HttpGet("{taskId}/comments")]
-        public IActionResult GetCommentsPerTaskToDoOrderedByCreationDataDesc(Guid taskId)
+        public IActionResult GetCommentsPerTask(Guid taskId)
         {
-            var existingCommentsPerTasks = _commentRepository.GetCommentsPerTaskToDoOrderedByCreationDataDesc(taskId);
-
-            var commentsPerTaskDto = _mapper.Map<IEnumerable<CommentResponseModel>>(existingCommentsPerTasks);
-            return Ok(commentsPerTaskDto);
+            var commentsPerTask = _taskToDoService.GetCommentsPerTask(taskId);
+            return Ok(commentsPerTask);
         }
 
         [HttpGet("{taskId}/tags")]
         public IActionResult GetTagsPerTask(Guid taskId)
         {
-            var tagsPerTasks = _taskToDoService.GetTagsPerTask(taskId);
-            return Ok(tagsPerTasks);
+            var tagsPerTask = _taskToDoService.GetTagsPerTask(taskId);
+            return Ok(tagsPerTask);
         }
 
         [HttpDelete("{taskId}")]

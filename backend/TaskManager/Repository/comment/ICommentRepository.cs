@@ -8,8 +8,8 @@ namespace TaskManager.Repository.comment
     {
         List<Comment> GetComments();
         Comment GetComment(Guid commentId);
-        List<Comment> GetCommentsPerWorkItemOrderedByCreationDataDesc(Guid workItemId);
-        List<Comment> GetCommentsPerTaskToDoOrderedByCreationDataDesc(Guid taskToDoId);
+        List<Comment> GetCommentsPerWorkItem(Guid workItemId);
+        List<Comment> GetCommentsPerTask(Guid taskToDoId);
         Comment AddComment(Comment comment);
         void DeleteComment(Comment comment);
     }

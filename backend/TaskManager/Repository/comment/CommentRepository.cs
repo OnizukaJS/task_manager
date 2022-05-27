@@ -43,14 +43,14 @@ namespace TaskManager.Repository.comment
                 .ToList();
         }
 
-        public List<Comment> GetCommentsPerWorkItemOrderedByCreationDataDesc(Guid workItemId)
+        public List<Comment> GetCommentsPerWorkItem(Guid workItemId)
         {
             return _taskToDoContext.Comments
                 .Where(x => x.WorkItemId == workItemId)
                 .OrderByDescending(x => x.CreationDate).ToList();
         }
 
-        public List<Comment> GetCommentsPerTaskToDoOrderedByCreationDataDesc(Guid taskId)
+        public List<Comment> GetCommentsPerTask(Guid taskId)
         {
             return _taskToDoContext.Comments
                 .Where(x => x.TaskToDoId == taskId)

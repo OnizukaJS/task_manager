@@ -83,7 +83,7 @@ namespace TaskManager.Controllers.workItem
         public IActionResult GetWorkItemComments(Guid workItemId)
         {
             // TODO: Make the order in the SQL (more powerful because SQL is to manage data) and change the name
-            var existingCommentsPerWorkItem = _commentRepository.GetCommentsPerWorkItemOrderedByCreationDataDesc(workItemId);
+            var existingCommentsPerWorkItem = _commentRepository.GetCommentsPerWorkItem(workItemId);
 
             var commentsPerWorkItemDto = _mapper.Map <IEnumerable<CommentResponseModel>>(existingCommentsPerWorkItem);
             return Ok(commentsPerWorkItemDto);
