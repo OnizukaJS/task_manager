@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using TaskManager.Models.comment;
 
-namespace TaskManager.Interfaces.comment
+namespace TaskManager.Repository.comment
 {
-    public interface ICommentData
+    public interface ICommentRepository
     {
         List<Comment> GetComments();
         Comment GetComment(Guid commentId);

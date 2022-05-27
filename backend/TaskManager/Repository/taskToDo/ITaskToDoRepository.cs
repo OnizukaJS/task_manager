@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaskManager.Dtos.taskToDoDto;
 using TaskManager.Models.comment;
-using TaskManager.Models.tag;
 using TaskManager.Models.taskToDo;
 
-namespace TaskManager.Interfaces.taskToDo
+namespace TaskManager.Repository.taskToDo
 {
-    public interface ITaskToDoData
+    public interface ITaskToDoRepository
     {
         List<TaskToDo> GetTasks();
         List<Comment> GetTaskComments(Guid taskId);
@@ -15,6 +13,6 @@ namespace TaskManager.Interfaces.taskToDo
         TaskToDo GetTask(Guid taskId);
         TaskToDo AddTask(TaskToDo taskToDo);
         void DeleteTask(TaskToDo taskToDo);
-        TaskToDo EditTask(TaskToDo taskToDo);
+        TaskToDo UpdateTask(TaskToDo taskToDo);
     }
 }

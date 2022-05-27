@@ -1,7 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 using System;
-using TaskManager.Interfaces.profilePicture;
 
 namespace TaskManager.Services.profilePicture
 {

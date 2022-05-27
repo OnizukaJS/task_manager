@@ -11,23 +11,16 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using TaskManager.Dtos.mail;
-using TaskManager.Interfaces.comment;
-using TaskManager.Interfaces.employee;
-using TaskManager.Interfaces.mail;
-using TaskManager.Interfaces.profilePicture;
-using TaskManager.Interfaces.tag;
-using TaskManager.Interfaces.taskToDo;
-using TaskManager.Interfaces.workItem;
 using TaskManager.Models.taskToDo;
-using TaskManager.Queries.comment;
-using TaskManager.Queries.employee;
-using TaskManager.Queries.mail;
-using TaskManager.Queries.profilePicture;
-using TaskManager.Queries.tag;
-using TaskManager.Queries.taskToDo;
-using TaskManager.Queries.workItem;
+using TaskManager.Repository.comment;
+using TaskManager.Repository.employee;
+using TaskManager.Repository.mail;
+using TaskManager.Repository.tag;
+using TaskManager.Repository.taskToDo;
+using TaskManager.Repository.workItem;
 using TaskManager.Services.employee;
 using TaskManager.Services.profilePicture;
+using TaskManager.Services.taskToDo;
 
 // We need to add our contexts to Startup.cs to inject the services
 
@@ -75,14 +68,21 @@ namespace TaskManager
             services.AddDbContextPool<TaskToDoContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("TaskManagerContextConnectionString")));
 
-            services.AddScoped<IEmployeeData, EmployeeQueries>();
-            services.AddScoped<IWorkItemData, WorkItemQueries>();
-            services.AddScoped<ITaskToDoData, TaskToDoQueries>();
-            services.AddScoped<ICommentData, CommentQueries>();
-            services.AddScoped<ITagData, TagQueries>();
-            services.AddScoped<IProfilePictureService, ProfilePictureService>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddTransient<IMailData, MailQueries>();
+
+            services.AddScoped<ITaskToDoRepository, TaskToDoRepository>();
+            services.AddScoped<ITaskToDoService, TaskToDoService>();
+
+            services.AddScoped<IWorkItemRepository, WorkItemRepository>();
+            
+            services.AddScoped<ICommentRepository, CommentRepository>();
+
+            services.AddScoped<ITagRepository, TagRepository>();
+
+            services.AddScoped<IProfilePictureService, ProfilePictureService>();
+
+            services.AddTransient<IMailRepository, MailRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

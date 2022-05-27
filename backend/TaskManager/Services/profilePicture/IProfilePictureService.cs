@@ -1,7 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using System;
 
-namespace TaskManager.Interfaces.profilePicture
+namespace TaskManager.Services.profilePicture
 {
     public interface IProfilePictureService
     {

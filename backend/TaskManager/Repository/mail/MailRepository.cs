@@ -5,17 +5,16 @@ using MimeKit;
 using System.IO;
 using System.Threading.Tasks;
 using TaskManager.Dtos.mail;
-using TaskManager.Interfaces.mail;
 using TaskManager.Models.mail;
 
-namespace TaskManager.Queries.mail
+namespace TaskManager.Repository.mail
 {
-    public class MailQueries : IMailData
+    public class MailRepository : IMailRepository
     {
         private readonly MailSettings _mailSettings;
 
         // We are Injecting the IOptions<MailSettings> to the constructor and assigning it’s value to the instance of MailSettings. Like this, we will be able to access the data from the JSON at runtime.
-        public MailQueries(IOptions<MailSettings> mailSettings)
+        public MailRepository(IOptions<MailSettings> mailSettings)
         {
             _mailSettings = mailSettings.Value;
         }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using TaskManager.Dtos.employeeDto;
 
-namespace TaskManager.Interfaces.employee
+namespace TaskManager.Services.employee
 {
     public interface IEmployeeService
     {
         IEnumerable<EmployeeResponseModel> GetEmployees();
-        EmployeeResponseModel UpdateEmployee(Guid id, EmployeeUpdateModel employeeUpdateModel);
+        EmployeeResponseModel UpdateEmployee(Guid employeeId, EmployeeUpdateModel employeeUpdateModel);
     }
 }

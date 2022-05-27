@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaskManager.Dtos.employeeDto;
 using TaskManager.Models.employee;
 
-namespace TaskManager.Interfaces.employee
+namespace TaskManager.Repository.employee
 {
-    public interface IEmployeeData
+    public interface IEmployeeRepository
     {
         List<Employee> GetEmployees();
         Employee GetEmployeeById(Guid employeeId);

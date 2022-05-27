@@ -2,17 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaskManager.Interfaces.taskToDo;
 using TaskManager.Models.comment;
 using TaskManager.Models.tag;
 using TaskManager.Models.taskToDo;
 
-namespace TaskManager.Queries.taskToDo
+namespace TaskManager.Repository.taskToDo
 {
-    public class TaskToDoQueries : ITaskToDoData
+    public class TaskToDoRepository : ITaskToDoRepository
     {
         private TaskToDoContext _taskToDoContext;
-        public TaskToDoQueries(TaskToDoContext taskToDoContext)
+        public TaskToDoRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
         }
@@ -31,18 +30,10 @@ namespace TaskManager.Queries.taskToDo
             _taskToDoContext.SaveChanges();
         }
 
-        public TaskToDo EditTask(TaskToDo taskToDo)
+        public TaskToDo UpdateTask(TaskToDo taskToDo)
         {
-            var existingTaskToDo = _taskToDoContext.TaskToDos.Find(taskToDo.Id);
-            if (existingTaskToDo != null)
-            {
-                existingTaskToDo.Name = taskToDo.Name;
-                existingTaskToDo.Description = taskToDo.Description;
-                existingTaskToDo.Status = taskToDo.Status;
-                existingTaskToDo.EmployeeId = taskToDo.EmployeeId;
-                _taskToDoContext.TaskToDos.Update(existingTaskToDo);
-                _taskToDoContext.SaveChanges();
-            }
+            _taskToDoContext.TaskToDos.Update(taskToDo);
+            _taskToDoContext.SaveChanges();
             return taskToDo;
         }
 

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaskManager.Models;
-using TaskManager.Models.tag;
 using TaskManager.Models.workItem;
 
-namespace TaskManager.Interfaces.workItem
+namespace TaskManager.Repository.workItem
 {
-    public interface IWorkItemData
+    public interface IWorkItemRepository
     {
         List<WorkItem> GetWorkItems();
         WorkItem GetWorkItem(Guid workItemId);

@@ -3,18 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaskManager.Enums;
-using TaskManager.Interfaces.workItem;
 using TaskManager.Models.comment;
 using TaskManager.Models.tag;
 using TaskManager.Models.taskToDo;
 using TaskManager.Models.workItem;
 
-namespace TaskManager.Queries.workItem
+namespace TaskManager.Repository.workItem
 {
-    public class WorkItemQueries : IWorkItemData
+    public class WorkItemRepository : IWorkItemRepository
     {
         private TaskToDoContext _taskToDoContext;
-        public WorkItemQueries(TaskToDoContext taskToDoContext)
+        public WorkItemRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
         }

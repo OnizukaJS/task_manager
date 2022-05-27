@@ -2,9 +2,9 @@
 using TaskManager.Dtos.mail;
 using TaskManager.Models.mail;
 
-namespace TaskManager.Interfaces.mail
+namespace TaskManager.Repository.mail
 {
-    public interface IMailData
+    public interface IMailRepository
     {
         Task SendMailAsync(MailRequest mailRequest);
         Task SendWelcomeEmailAsync(WelcomeEmail welcomeEmail);

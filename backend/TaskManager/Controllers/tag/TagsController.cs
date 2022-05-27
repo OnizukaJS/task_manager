@@ -3,37 +3,50 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using TaskManager.Dtos.tag;
-using TaskManager.Interfaces.tag;
 using TaskManager.Models.tag;
+using TaskManager.Repository.tag;
 
 namespace TaskManager.Controllers.tag
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class TagsController : ControllerBase
     {
-        private ITagData _tagData;
+        private ITagRepository _tagRepository;
         private IMapper _mapper;
 
-        public TagsController(ITagData tagData, IMapper mapper)
+        public TagsController(ITagRepository tagRepository, IMapper mapper)
         {
-            _tagData = tagData;
+            _tagRepository = tagRepository;
             _mapper = mapper;
         }
 
+        [HttpPost]
+        public IActionResult AddTag([FromBody] TagCreateModel tagCreate)
+        {
+            var tag = _mapper.Map<Tag>(tagCreate);
+
+            _tagRepository.AddTag(tag);
+
+            var tagResponse = _mapper.Map<TagResponseModel>(tag);
+
+            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + tagResponse.TagId, tagResponse);
+        }
+
         [HttpGet]
-        [Route("api/[controller]")]
         public IActionResult GetTags()
         {
-            var existingTags = _tagData.GetTags();
+            var existingTags = _tagRepository.GetTags();
 
             var tagsDto = _mapper.Map<IEnumerable<TagResponseModel>>(existingTags);
             return Ok(tagsDto);
         }
 
         [HttpGet]
-        [Route("api/[controller]/{tagId}")]
+        [Route("{tagId}")]
         public IActionResult GetTag(Guid tagId)
         {
-            var existingTag = _tagData.GetTag(tagId);
+            var existingTag = _tagRepository.GetTag(tagId);
 
             if (existingTag != null)
             {
@@ -44,28 +57,15 @@ namespace TaskManager.Controllers.tag
             return NotFound($"The tag with the Id: {tagId} does not exist");
         }
 
-        [HttpPost]
-        [Route("api/[controller]")]
-        public IActionResult AddTag([FromBody]TagCreateModel tagCreate)
-        {
-            var tag = _mapper.Map<Tag>(tagCreate);
-
-            _tagData.AddTag(tag);
-
-            var tagResponse = _mapper.Map<TagResponseModel>(tag);
-
-            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + tagResponse.TagId, tagResponse);
-        }
-
         [HttpDelete]
-        [Route("api/[controller]/{tagId}")]
+        [Route("{tagId}")]
         public IActionResult DeleteTag(Guid tagId)
         {
-            var tagToDelete = _tagData.GetTag(tagId);
+            var tagToDelete = _tagRepository.GetTag(tagId);
 
             if (tagToDelete != null)
             {
-                _tagData.DeleteTag(tagToDelete);
+                _tagRepository.DeleteTag(tagToDelete);
                 return Ok();
             }
 

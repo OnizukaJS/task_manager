@@ -2,17 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaskManager.Interfaces.employee;
 using TaskManager.Models.employee;
 using TaskManager.Models.taskToDo;
-using TaskManager.Models.profilePicture;
 
-namespace TaskManager.Queries.employee
+namespace TaskManager.Repository.employee
 {
-    public class EmployeeQueries : IEmployeeData
+    public class EmployeeRepository : IEmployeeRepository
     {
         private TaskToDoContext _taskToDoContext;
-        public EmployeeQueries(TaskToDoContext taskToDoContext)
+        public EmployeeRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
         }

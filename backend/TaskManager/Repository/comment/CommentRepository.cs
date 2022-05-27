@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaskManager.Interfaces.comment;
 using TaskManager.Models.comment;
 using TaskManager.Models.taskToDo;
 
-namespace TaskManager.Queries.comment
+namespace TaskManager.Repository.comment
 {
-    public class CommentQueries : ICommentData
+    public class CommentRepository : ICommentRepository
     {
         private TaskToDoContext _taskToDoContext;
-        public CommentQueries(TaskToDoContext taskToDoContext)
+        public CommentRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
         }

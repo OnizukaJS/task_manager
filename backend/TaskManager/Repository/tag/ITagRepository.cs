@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using TaskManager.Models.tag;
 
-namespace TaskManager.Interfaces.tag
+namespace TaskManager.Repository.tag
 {
-    public interface ITagData
+    public interface ITagRepository
     {
         List<Tag> GetTags();
         Tag GetTag(Guid tagId);

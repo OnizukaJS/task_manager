@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaskManager.Interfaces.tag;
 using TaskManager.Models.tag;
 using TaskManager.Models.taskToDo;
 
-namespace TaskManager.Queries.tag
+namespace TaskManager.Repository.tag
 {
-    public class TagQueries : ITagData
+    public class TagRepository : ITagRepository
     {
         private TaskToDoContext _taskToDoContext;
-        public TagQueries(TaskToDoContext taskToDoContext)
+        public TagRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
         }

@@ -6,44 +6,73 @@ using System.Linq;
 using TaskManager.Dtos.CommentDto;
 using TaskManager.Dtos.tag;
 using TaskManager.Dtos.taskToDoDto;
-using TaskManager.Interfaces.comment;
-using TaskManager.Interfaces.tag;
-using TaskManager.Interfaces.taskToDo;
 using TaskManager.Models.taskToDo;
+using TaskManager.Repository.comment;
+using TaskManager.Repository.tag;
+using TaskManager.Repository.taskToDo;
+using TaskManager.Services.taskToDo;
 
 namespace TaskManager.Controllers.taskToDo
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class TasksToDoController : ControllerBase
     {
-        private ITaskToDoData _taskToDoData;
-        private ICommentData _commentData;
-        private ITagData _tagData;
+        private ITaskToDoRepository _taskToDoRepository;
+        private ICommentRepository _commentRepository;
+        private ITagRepository _tagRepository;
         private IMapper _mapper;
+        private readonly ITaskToDoService _taskToDoService;
 
-        public TasksToDoController(ITaskToDoData taskToDoData, ICommentData commentData, ITagData tagData, IMapper mapper)
+        public TasksToDoController(ITaskToDoRepository taskToDoRepository, ICommentRepository commentRepository, ITagRepository tagRepository, IMapper mapper,
+            ITaskToDoService taskToDoService)
         {
-            _taskToDoData = taskToDoData;
-            _commentData = commentData;
-            _tagData = tagData;
+            _taskToDoRepository = taskToDoRepository;
+            _commentRepository = commentRepository;
+            _tagRepository = tagRepository;
             _mapper = mapper;
+            _taskToDoService = taskToDoService;
+        }
+
+        [HttpPost]
+        public IActionResult AddTask(TaskToDoCreateModel taskToDoCreate)
+        {
+            var taskToDo = _mapper.Map<TaskToDo>(taskToDoCreate);
+
+            _taskToDoRepository.AddTask(taskToDo);
+
+            var taskToDoResponse = _mapper.Map<TaskToDoResponseModel>(taskToDo);
+
+            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + taskToDoResponse.Id, taskToDoResponse);
+        }
+
+        [HttpPatch]
+        [Route("{taskId}")]
+        public IActionResult EditTask(Guid taskId, TaskToDoUpdateModel taskToDoUpdate)
+        {
+            try
+            {
+                var task = _taskToDoService.UpdateTask(taskId, taskToDoUpdate);
+                return Ok(task);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet]
-        [Route("api/[controller]")]
         public IActionResult GetTasks()
         {
-            var existingTasks = _taskToDoData.GetTasks();
-
-            var tasksToDoDto = _mapper.Map<IEnumerable<TaskToDoResponseModel>>(existingTasks);
-            return Ok(tasksToDoDto);
+            var tasks = _taskToDoService.GetTasks();
+            return Ok(tasks);
         }
 
         [HttpGet]
-        [Route("api/[controller]/{taskId}")]
+        [Route("{taskId}")]
         public IActionResult GetTask(Guid taskId)
         {
-            var existingTaskToDo = _taskToDoData.GetTask(taskId);
+            var existingTaskToDo = _taskToDoRepository.GetTask(taskId);
 
             if (existingTaskToDo != null)
             {
@@ -55,74 +84,45 @@ namespace TaskManager.Controllers.taskToDo
         }
 
         [HttpGet]
-        [Route("api/[controller]/{taskId}/comments")]
+        [Route("{taskId}/comments")]
         public IActionResult GetCommentsPerTaskToDoOrderedByCreationDataDesc(Guid taskId)
         {
-            var existingCommentsPerTasks = _commentData.GetCommentsPerTaskToDoOrderedByCreationDataDesc(taskId);
+            var existingCommentsPerTasks = _commentRepository.GetCommentsPerTaskToDoOrderedByCreationDataDesc(taskId);
 
             var commentsPerTaskDto = _mapper.Map<IEnumerable<CommentResponseModel>>(existingCommentsPerTasks);
             return Ok(commentsPerTaskDto);
         }
 
         [HttpGet]
-        [Route("api/[controller]/{taskId}/tags")]
+        [Route("{taskId}/tags")]
         public IActionResult GetTagsPerTaskToDoOrderedByAlphabeticText(Guid taskId)
         {
-            var existingTagsPerTasks = _tagData.GetTagsPerTaskToDoOrderedByAlphabeticText(taskId);
+            var existingTagsPerTasks = _tagRepository.GetTagsPerTaskToDoOrderedByAlphabeticText(taskId);
 
             var tagsPerTaskDto = _mapper.Map<IEnumerable<TagResponseModel>>(existingTagsPerTasks);
             return Ok(tagsPerTaskDto);
         }
 
         [HttpGet]
-        [Route("api/[controller]/employee/{employeeId}")]
+        [Route("employee/{employeeId}")]
         public IActionResult GetActionResult(Guid employeeId)
         {
-            return Ok(_taskToDoData.GetTasks().Where(x => x.EmployeeId == employeeId));
-        }
-
-        [HttpPost]
-        [Route("api/[controller]")]
-        public IActionResult AddTask(TaskToDoCreateModel taskToDoCreate)
-        {
-            var taskToDo = _mapper.Map<TaskToDo>(taskToDoCreate);
-
-            _taskToDoData.AddTask(taskToDo);
-
-            var taskToDoResponse = _mapper.Map<TaskToDoResponseModel>(taskToDo);
-
-            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + taskToDoResponse.Id, taskToDoResponse);
+            return Ok(_taskToDoRepository.GetTasks().Where(x => x.EmployeeId == employeeId));
         }
 
         [HttpDelete]
-        [Route("api/[controller]/{taskId}")]
+        [Route("{taskId}")]
         public IActionResult DeleteTask(Guid taskId)
         {
-            var taskToDelete = _taskToDoData.GetTask(taskId);
+            var taskToDelete = _taskToDoRepository.GetTask(taskId);
 
             if (taskToDelete != null)
             {
-                _taskToDoData.DeleteTask(taskToDelete);
+                _taskToDoRepository.DeleteTask(taskToDelete);
                 return Ok();
             }
 
             return NotFound($"The task with the Id: {taskId} does not exist");
-        }
-
-        [HttpPatch]
-        [Route("api/[controller]/{Id}")]
-        public IActionResult EditTask(Guid Id, TaskToDoUpdateModel taskToDoUpdate)
-        {
-            var existingTask = _taskToDoData.GetTask(Id);
-
-            if (existingTask != null)
-            {
-                var taskToDoDto = _mapper.Map<TaskToDo>(taskToDoUpdate);
-                taskToDoDto.Id = existingTask.Id;
-                _taskToDoData.EditTask(taskToDoDto);
-            }
-
-            return Ok(taskToDoUpdate);
-        }
+        }        
     }
 }
