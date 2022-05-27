@@ -49,7 +49,7 @@ namespace TaskManager.Repository.tag
                 .OrderByDescending(t => t.Text).ToList();
         }
 
-        public List<Tag> GetTagsPerTaskToDoOrderedByAlphabeticText(Guid taskId)
+        public List<Tag> GetTagsPerTask(Guid taskId)
         {
             return _taskToDoContext.Tags
                 .Where(x => x.TaskToDoId == taskId)

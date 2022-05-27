@@ -77,18 +77,10 @@ namespace TaskManager.Controllers.taskToDo
         }
 
         [HttpGet("{taskId}/tags")]
-        public IActionResult GetTagsPerTaskToDoOrderedByAlphabeticText(Guid taskId)
+        public IActionResult GetTagsPerTask(Guid taskId)
         {
-            var existingTagsPerTasks = _tagRepository.GetTagsPerTaskToDoOrderedByAlphabeticText(taskId);
-
-            var tagsPerTaskDto = _mapper.Map<IEnumerable<TagResponseModel>>(existingTagsPerTasks);
-            return Ok(tagsPerTaskDto);
-        }
-
-        [HttpGet("employee/{employeeId}")]
-        public IActionResult GetActionResult(Guid employeeId)
-        {
-            return Ok(_taskToDoRepository.GetTasks().Where(x => x.EmployeeId == employeeId));
+            var tagsPerTasks = _taskToDoService.GetTagsPerTask(taskId);
+            return Ok(tagsPerTasks);
         }
 
         [HttpDelete("{taskId}")]

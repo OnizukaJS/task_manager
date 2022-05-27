@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using TaskManager.Dtos.tagDto;
 using TaskManager.Dtos.taskToDoDto;
 using TaskManager.Models.taskToDo;
+using TaskManager.Repository.tag;
 using TaskManager.Repository.taskToDo;
 
 namespace TaskManager.Services.taskToDo
@@ -11,11 +13,13 @@ namespace TaskManager.Services.taskToDo
     {
         private readonly ITaskToDoRepository _taskToDoRepository;
         private readonly IMapper _mapper;
+        private readonly ITagRepository _tagRepository;
 
-        public TaskToDoService(ITaskToDoRepository taskToDoRepository, IMapper mapper)
+        public TaskToDoService(ITaskToDoRepository taskToDoRepository, IMapper mapper, ITagRepository tagRepository)
         {
             _taskToDoRepository = taskToDoRepository;
             _mapper = mapper;
+            _tagRepository = tagRepository;
         }
 
         public IEnumerable<TaskToDoResponseModel> GetTasks()
@@ -59,6 +63,19 @@ namespace TaskManager.Services.taskToDo
             }
 
             _taskToDoRepository.DeleteTask(taskToDelete);
+        }
+
+        public IEnumerable<TagResponseModel> GetTagsPerTask(Guid taskId)
+        {
+            var existingTask = _taskToDoRepository.GetTask(taskId);
+            if (existingTask == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            var tagsPerTask = _tagRepository.GetTagsPerTask(existingTask.Id);
+            
+            return _mapper.Map<IEnumerable<TagResponseModel>>(tagsPerTask);
         }
     }
 }
