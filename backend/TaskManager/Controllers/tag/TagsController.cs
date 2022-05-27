@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TaskManager.Dtos.tagDto;
 using TaskManager.Models.tag;
 using TaskManager.Repository.tag;
+using TaskManager.Services.tag;
 
 namespace TaskManager.Controllers.tag
 {
@@ -14,11 +15,13 @@ namespace TaskManager.Controllers.tag
     {
         private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
+        private readonly ITagService _tagService;
 
-        public TagsController(ITagRepository tagRepository, IMapper mapper)
+        public TagsController(ITagRepository tagRepository, IMapper mapper, ITagService tagService)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
+            _tagService = tagService;
         }
 
         [HttpPost]
@@ -36,10 +39,8 @@ namespace TaskManager.Controllers.tag
         [HttpGet]
         public IActionResult GetTags()
         {
-            var existingTags = _tagRepository.GetTags();
-
-            var tagsDto = _mapper.Map<IEnumerable<TagResponseModel>>(existingTags);
-            return Ok(tagsDto);
+            var tags = _tagService.GetTags();
+            return Ok(tags);
         }
 
         [HttpGet("{tagId}")]

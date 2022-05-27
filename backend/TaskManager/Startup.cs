@@ -21,6 +21,7 @@ using TaskManager.Repository.workItem;
 using TaskManager.Services.comment;
 using TaskManager.Services.employee;
 using TaskManager.Services.profilePicture;
+using TaskManager.Services.tag;
 using TaskManager.Services.taskToDo;
 using TaskManager.Services.workItem;
 
@@ -83,6 +84,7 @@ namespace TaskManager
             services.AddScoped<ICommentService, CommentService>();
 
             services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<ITagService, TagService>();
 
             services.AddScoped<IProfilePictureService, ProfilePictureService>();
 
