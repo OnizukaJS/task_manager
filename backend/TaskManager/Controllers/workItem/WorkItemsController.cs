@@ -52,15 +52,8 @@ namespace TaskManager.Controllers.workItem
         [HttpPatch("{workItemId}")]
         public IActionResult EditWorkItem(Guid workItemId, WorkItemCreateUpdateModel workItemUpdate)
         {
-            try
-            {
-                var workItem =  _workItemService.UpdateWorkItem(workItemId, workItemUpdate);
-                return Ok(workItem);
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var workItem =  _workItemService.UpdateWorkItem(workItemId, workItemUpdate);
+            return Ok(workItem);
         }
 
         [HttpGet]
@@ -73,15 +66,8 @@ namespace TaskManager.Controllers.workItem
         [HttpGet("{workItemId}")]
         public IActionResult GetWorkItem(Guid workItemId)
         {
-            var existingWorkItemToDo = _workItemRepository.GetWorkItem(workItemId);
-
-            if (existingWorkItemToDo != null)
-            {
-                var workItemDto = _mapper.Map<WorkItemResponseModel>(existingWorkItemToDo);
-                return Ok(workItemDto);
-            }
-
-            return NotFound($"This workItem with the Id: {workItemId} does not exist");
+            var workItem = _workItemService.GetWorkItem(workItemId);
+            return Ok(workItem);
         }
 
         [HttpGet("{workItemId}/taskToDos")]
@@ -115,15 +101,8 @@ namespace TaskManager.Controllers.workItem
         [HttpDelete("{workItemId}")]
         public IActionResult DeleteWorkItem(Guid workItemId)
         {
-            var workItemToDelete = _workItemRepository.GetWorkItem(workItemId);
-
-            if (workItemToDelete != null)
-            {
-                _workItemRepository.DeleteWorkItem(workItemToDelete);
-                return Ok();
-            }
-
-            return NotFound($"The workItem with the Id: {workItemId} does not exist");
+            _workItemService.DeleteWorkItem(workItemId);
+            return Ok();
         }
     }
 }

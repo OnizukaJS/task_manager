@@ -47,29 +47,15 @@ namespace TaskManager.Controllers.comment
         [HttpGet("{commentId}")]
         public IActionResult GetComment(Guid commentId)
         {
-            var existingComment = _commentRepository.GetComment(commentId);
-
-            if (existingComment != null)
-            {
-                var commentsDto = _mapper.Map<CommentResponseModel>(existingComment);
-                return Ok(commentsDto);
-            }
-
-            return NotFound($"The comment with the Id: {commentId} does not exist");
+            var comment = _commentService.GetComment(commentId);
+            return Ok(comment);
         }
 
         [HttpDelete("{commentId}")]
         public IActionResult DeleteComment(Guid commentId)
         {
-            var commentToDelete = _commentRepository.GetComment(commentId);
-
-            if (commentToDelete != null)
-            {
-                _commentRepository.DeleteComment(commentToDelete);
-                return Ok();
-            }
-
-            return NotFound($"The comment with the Id: {commentId} does not exist");
+            _commentService.DeleteComment(commentId);
+            return Ok();
         }
     }
 }

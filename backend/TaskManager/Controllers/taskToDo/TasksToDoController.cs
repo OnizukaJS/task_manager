@@ -49,15 +49,8 @@ namespace TaskManager.Controllers.taskToDo
         [HttpPatch("{taskId}")]
         public IActionResult EditTask(Guid taskId, TaskToDoUpdateModel taskToDoUpdate)
         {
-            try
-            {
-                var task = _taskToDoService.UpdateTask(taskId, taskToDoUpdate);
-                return Ok(task);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
+            var task = _taskToDoService.UpdateTask(taskId, taskToDoUpdate);
+            return Ok(task);
         }
 
         [HttpGet]
@@ -70,15 +63,8 @@ namespace TaskManager.Controllers.taskToDo
         [HttpGet("{taskId}")]
         public IActionResult GetTask(Guid taskId)
         {
-            var existingTaskToDo = _taskToDoRepository.GetTask(taskId);
-
-            if (existingTaskToDo != null)
-            {
-                var taskToDoDto = _mapper.Map<TaskToDoResponseModel>(existingTaskToDo);
-                return Ok(taskToDoDto);
-            }
-
-            return NotFound($"This task with the Id: {taskId} does not exist");
+            var task = _taskToDoService.GetTask(taskId);
+            return Ok(task);
         }
 
         [HttpGet("{taskId}/comments")]
@@ -108,15 +94,8 @@ namespace TaskManager.Controllers.taskToDo
         [HttpDelete("{taskId}")]
         public IActionResult DeleteTask(Guid taskId)
         {
-            var taskToDelete = _taskToDoRepository.GetTask(taskId);
-
-            if (taskToDelete != null)
-            {
-                _taskToDoRepository.DeleteTask(taskToDelete);
-                return Ok();
-            }
-
-            return NotFound($"The task with the Id: {taskId} does not exist");
+            _taskToDoService.DeleteTask(taskId);
+            return Ok();
         }        
     }
 }

@@ -39,9 +39,26 @@ namespace TaskManager.Services.employee
             return employeesDto;
         }
 
+        public EmployeeResponseModel GetEmployee(Guid employeeId)
+        {
+            var existingEmployee = _employeeRepository.GetEmployee(employeeId);
+            var filename = existingEmployee.ProfilePicture;
+            BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, filename);
+
+            if (existingEmployee == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            var existingEmployeeDto = _mapper.Map<EmployeeResponseModel>(existingEmployee);
+            existingEmployeeDto.SasUriProfilPicture = filename != null ? _profilePictureService.GetServiceSasUriForBlob(blobClient) : null;
+
+            return existingEmployeeDto;
+        }
+
         public EmployeeResponseModel UpdateEmployee(Guid employeeId, EmployeeUpdateModel employeeUpdateModel)
         {
-            var existingEmployee = _employeeRepository.GetEmployeeById(employeeId);
+            var existingEmployee = _employeeRepository.GetEmployee(employeeId);
             if (existingEmployee == null)
             {
                 throw new KeyNotFoundException();
@@ -51,6 +68,17 @@ namespace TaskManager.Services.employee
             _employeeRepository.UpdateEmployee(employeeToUpdate);
 
             return _mapper.Map<EmployeeResponseModel>(existingEmployee);
+        }
+
+        public void DeleteEmployee(Guid employeeId)
+        {
+            var employeeToDelete = _employeeRepository.GetEmployee(employeeId);
+            if (employeeToDelete == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            _employeeRepository.DeleteEmployee(employeeToDelete);
         }
     }
 }

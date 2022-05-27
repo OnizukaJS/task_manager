@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using TaskManager.Dtos.tagDto;
 using TaskManager.Repository.tag;
@@ -21,6 +22,28 @@ namespace TaskManager.Services.tag
             var tags = _tagRepository.GetTags();
             var tagsDto = _mapper.Map<IEnumerable<TagResponseModel>>(tags);
             return tagsDto;
+        }
+
+        public TagResponseModel GetTag(Guid tagId)
+        {
+            var existingTag = _tagRepository.GetTag(tagId);
+            if (existingTag == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            return _mapper.Map<TagResponseModel>(existingTag);
+        }
+
+        public void DeleteTag(Guid tagId)
+        {
+            var TagToDelete = _tagRepository.GetTag(tagId);
+            if (TagToDelete == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            _tagRepository.DeleteTag(TagToDelete);
         }
     }
 }

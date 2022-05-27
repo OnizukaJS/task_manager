@@ -52,7 +52,7 @@ namespace TaskManager.Repository.employee
             return employee;
         }
 
-        public Employee GetEmployeeById(Guid employeeId)
+        public Employee GetEmployee(Guid employeeId)
         {
             var existingEmployee = _taskToDoContext.Employees
                 .Find(employeeId);

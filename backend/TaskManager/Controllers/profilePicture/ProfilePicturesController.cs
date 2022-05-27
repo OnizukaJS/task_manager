@@ -27,7 +27,7 @@ namespace TaskManager.Controllers.profilePicture
         [HttpPost]
         public ActionResult UpdateProfilePicture([FromForm] ProfilePicture profilePicture)
         {
-            var existingEmployee = _employeeQueries.GetEmployeeById(profilePicture.EmployeeId);
+            var existingEmployee = _employeeQueries.GetEmployee(profilePicture.EmployeeId);
 
             if (existingEmployee == null)
             {
@@ -73,7 +73,7 @@ namespace TaskManager.Controllers.profilePicture
         [HttpDelete("{employeeId}")]
         public void DeleteProfilePicture(Guid employeeId)
         {
-            var existingEmployee = _employeeQueries.GetEmployeeById(employeeId);
+            var existingEmployee = _employeeQueries.GetEmployee(employeeId);
             var fileName = existingEmployee.ProfilePicture;
 
             BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, fileName);

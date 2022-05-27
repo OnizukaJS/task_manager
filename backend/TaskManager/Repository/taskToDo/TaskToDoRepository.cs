@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaskManager.Models.comment;
-using TaskManager.Models.tag;
 using TaskManager.Models.taskToDo;
 
 namespace TaskManager.Repository.taskToDo

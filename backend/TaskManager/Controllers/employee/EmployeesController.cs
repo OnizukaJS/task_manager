@@ -98,21 +98,14 @@ namespace TaskManager.Controllers.employee
         [HttpPatch("{employeeId}")]
         public IActionResult EditEmployee(EmployeeUpdateModel employeeUpdate, Guid employeeId)
         {
-            try
-            {
-                var employee = _employeeService.UpdateEmployee(employeeId, employeeUpdate);
-                return Ok(employee);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
+            var employee = _employeeService.UpdateEmployee(employeeId, employeeUpdate);
+            return Ok(employee);
         }
 
         [HttpPatch("{employeeId}/password")]
         public IActionResult EditEmployeePassword(EmployeeUpdatePasswordModel employeePassword, Guid employeeId)
         {
-            var existingEmployee = _employeeRepository.GetEmployeeById(employeeId);
+            var existingEmployee = _employeeRepository.GetEmployee(employeeId);
 
             if (existingEmployee != null)
             {
@@ -140,33 +133,15 @@ namespace TaskManager.Controllers.employee
         [HttpGet("{employeeId}")]
         public IActionResult GetEmployee(Guid employeeId)
         {
-            var existingEmployee = _employeeRepository.GetEmployeeById(employeeId);
-            var filename = existingEmployee.ProfilePicture;
-            BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, filename);
-
-            if (existingEmployee != null)
-            {
-                var employeeDto = _mapper.Map<EmployeeResponseModel>(existingEmployee);
-                employeeDto.SasUriProfilPicture = filename != null ? _profilePictureService.GetServiceSasUriForBlob(blobClient) : null;
-
-                return Ok(employeeDto);
-            }
-
-            return NotFound($"The employee with the Id: {employeeId} does not exist");
+            var employee = _employeeService.GetEmployee(employeeId);
+            return Ok(employee);
         }
 
         [HttpDelete("delete/{employeeId}")]
         public IActionResult DeleteEmployee(Guid employeeId)
         {
-            var employeeToDelete = _employeeRepository.GetEmployeeById(employeeId);
-
-            if (employeeToDelete != null)
-            {
-                _employeeRepository.DeleteEmployee(employeeToDelete);
-                return Ok();
-            }
-
-            return NotFound($"The employee with the Id: {employeeId} does not exist");
+            _employeeService.DeleteEmployee(employeeId);
+            return Ok();
         }
     }
 }

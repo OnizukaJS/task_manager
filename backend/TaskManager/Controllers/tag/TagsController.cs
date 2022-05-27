@@ -46,29 +46,15 @@ namespace TaskManager.Controllers.tag
         [HttpGet("{tagId}")]
         public IActionResult GetTag(Guid tagId)
         {
-            var existingTag = _tagRepository.GetTag(tagId);
-
-            if (existingTag != null)
-            {
-                var tagDto = _mapper.Map<TagResponseModel>(existingTag);
-                return Ok(tagDto);
-            }
-
-            return NotFound($"The tag with the Id: {tagId} does not exist");
+            var tag = _tagService.GetTag(tagId);
+            return Ok(tag);
         }
 
         [HttpDelete("{tagId}")]
         public IActionResult DeleteTag(Guid tagId)
         {
-            var tagToDelete = _tagRepository.GetTag(tagId);
-
-            if (tagToDelete != null)
-            {
-                _tagRepository.DeleteTag(tagToDelete);
-                return Ok();
-            }
-
-            return NotFound($"The tag with the Id: {tagId} does not exist");
+            _tagService.DeleteTag(tagId);
+            return Ok();
         }
     }
 }

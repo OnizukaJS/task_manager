@@ -24,6 +24,17 @@ namespace TaskManager.Services.workItem
             return workItemsDto;
         }
 
+        public WorkItemResponseModel GetWorkItem(Guid workItemId)
+        {
+            var existingWorkItem = _workItemRepository.GetWorkItem(workItemId);
+            if (existingWorkItem != null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            return _mapper.Map<WorkItemResponseModel>(existingWorkItem);
+        }
+
         public WorkItemResponseModel UpdateWorkItem(Guid workItemId, WorkItemCreateUpdateModel workItemUpdateModel)
         {
             var existingWorkItem = _workItemRepository.GetWorkItem(workItemId);
@@ -36,6 +47,17 @@ namespace TaskManager.Services.workItem
             _workItemRepository.UpdateWorkItem(workItemToUpdate);
 
             return _mapper.Map<WorkItemResponseModel>(existingWorkItem);
+        }
+
+        public void DeleteWorkItem(Guid workItemId)
+        {
+            var workItemToDelete = _workItemRepository.GetWorkItem(workItemId);
+            if (workItemToDelete == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            _workItemRepository.DeleteWorkItem(workItemToDelete);
         }
     }
 }
