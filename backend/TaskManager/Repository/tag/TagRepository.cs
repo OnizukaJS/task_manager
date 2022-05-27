@@ -8,7 +8,8 @@ namespace TaskManager.Repository.tag
 {
     public class TagRepository : ITagRepository
     {
-        private TaskToDoContext _taskToDoContext;
+        private readonly TaskToDoContext _taskToDoContext;
+
         public TagRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;

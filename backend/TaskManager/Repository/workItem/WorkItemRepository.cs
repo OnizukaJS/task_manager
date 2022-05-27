@@ -12,7 +12,8 @@ namespace TaskManager.Repository.workItem
 {
     public class WorkItemRepository : IWorkItemRepository
     {
-        private TaskToDoContext _taskToDoContext;
+        private readonly TaskToDoContext _taskToDoContext;
+
         public WorkItemRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;

@@ -9,7 +9,8 @@ namespace TaskManager.Repository.employee
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private TaskToDoContext _taskToDoContext;
+        private readonly TaskToDoContext _taskToDoContext;
+
         public EmployeeRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;

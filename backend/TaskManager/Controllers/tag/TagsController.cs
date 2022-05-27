@@ -12,8 +12,8 @@ namespace TaskManager.Controllers.tag
     [Route("api/[controller]")]
     public class TagsController : ControllerBase
     {
-        private ITagRepository _tagRepository;
-        private IMapper _mapper;
+        private readonly ITagRepository _tagRepository;
+        private readonly IMapper _mapper;
 
         public TagsController(ITagRepository tagRepository, IMapper mapper)
         {

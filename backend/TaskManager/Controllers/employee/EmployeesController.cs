@@ -21,11 +21,11 @@ namespace TaskManager.Controllers.employee
     [Route("api/[controller]")]
     public class EmployeesController : ControllerBase
     {
-        private string blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=mytaskmanagerblobstorage;AccountKey=8ko4p8gVDbsFNR+ix61bDQthTh5cD7OKCIPXkFaA6hfKPnPmciLVZeesH4UIQndUWbwq6On93UIfd3J94Tva7g==;EndpointSuffix=core.windows.net";
-        private string blobStorageContainerName = "profilepicture";
-        private IEmployeeRepository _employeeRepository;
-        private IProfilePictureService _profilePictureService;
-        private IMailRepository _mailRepository;
+        private readonly string blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=mytaskmanagerblobstorage;AccountKey=8ko4p8gVDbsFNR+ix61bDQthTh5cD7OKCIPXkFaA6hfKPnPmciLVZeesH4UIQndUWbwq6On93UIfd3J94Tva7g==;EndpointSuffix=core.windows.net";
+        private readonly string blobStorageContainerName = "profilepicture";
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IProfilePictureService _profilePictureService;
+        private readonly IMailRepository _mailRepository;
         private readonly TaskToDoContext _context;
         private readonly IMapper _mapper;
         private readonly IEmployeeService _employeeService;

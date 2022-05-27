@@ -13,10 +13,10 @@ namespace TaskManager.Controllers.profilePicture
     [Route("api/[controller]")]
     public class ProfilePicturesController : ControllerBase
     {
-        private string blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=mytaskmanagerblobstorage;AccountKey=8ko4p8gVDbsFNR+ix61bDQthTh5cD7OKCIPXkFaA6hfKPnPmciLVZeesH4UIQndUWbwq6On93UIfd3J94Tva7g==;EndpointSuffix=core.windows.net";
-        private string blobStorageContainerName = "profilepicture";
-        private TaskToDoContext _taskToDoContext;
-        private IEmployeeRepository _employeeQueries;
+        private readonly string blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=mytaskmanagerblobstorage;AccountKey=8ko4p8gVDbsFNR+ix61bDQthTh5cD7OKCIPXkFaA6hfKPnPmciLVZeesH4UIQndUWbwq6On93UIfd3J94Tva7g==;EndpointSuffix=core.windows.net";
+        private readonly string blobStorageContainerName = "profilepicture";
+        private readonly TaskToDoContext _taskToDoContext;
+        private readonly IEmployeeRepository _employeeQueries;
 
         public ProfilePicturesController(TaskToDoContext taskToDoContext, IEmployeeRepository employeeQueries)
         {

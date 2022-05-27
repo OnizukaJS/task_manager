@@ -19,11 +19,11 @@ namespace TaskManager.Controllers.workItem
     [Route("api/[controller]")]
     public class WorkItemsController : ControllerBase
     {
-        private IWorkItemRepository _workItemRepository;
-        private ITaskToDoRepository _taskToDoRepository;
-        private ICommentRepository _commentRepository;
-        private ITagRepository _tagRepository;
-        private IMapper _mapper;
+        private readonly IWorkItemRepository _workItemRepository;
+        private readonly ITaskToDoRepository _taskToDoRepository;
+        private readonly ICommentRepository _commentRepository;
+        private readonly ITagRepository _tagRepository;
+        private readonly IMapper _mapper;
         private readonly IWorkItemService _workItemService;
 
         public WorkItemsController(IWorkItemRepository workItemRepository, ITaskToDoRepository taskToDoRepository, ICommentRepository commentRepository, 

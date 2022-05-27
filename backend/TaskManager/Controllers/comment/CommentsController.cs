@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TaskManager.Dtos.CommentDto;
 using TaskManager.Models.comment;
 using TaskManager.Repository.comment;
+using TaskManager.Services.comment;
 
 namespace TaskManager.Controllers.comment
 {
@@ -12,13 +13,15 @@ namespace TaskManager.Controllers.comment
     [Route("api/[controller]")]
     public class CommentsController : ControllerBase
     {
-        private ICommentRepository _commentRepository;
-        private IMapper _mapper;
+        private readonly ICommentRepository _commentRepository;
+        private readonly IMapper _mapper;
+        private readonly ICommentService _commentService;
 
-        public CommentsController(ICommentRepository commentRepository, IMapper mapper)
+        public CommentsController(ICommentRepository commentRepository, IMapper mapper, ICommentService commentService)
         {
             _commentRepository = commentRepository;
             _mapper = mapper;
+            _commentService = commentService;
         }
 
         [HttpPost]
@@ -37,10 +40,8 @@ namespace TaskManager.Controllers.comment
         [HttpGet]
         public IActionResult GetComments()
         {
-            var existingComments = _commentRepository.GetComments();
-
-            var commentsDto = _mapper.Map<IEnumerable<CommentResponseModel>>(existingComments);
-            return Ok(commentsDto);
+            var comments = _commentService.GetComments();
+            return Ok(comments);
         }
 
         [HttpGet("{commentId}")]

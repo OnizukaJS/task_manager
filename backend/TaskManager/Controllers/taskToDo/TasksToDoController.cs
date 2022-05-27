@@ -18,10 +18,10 @@ namespace TaskManager.Controllers.taskToDo
     [Route("api/[controller]")]
     public class TasksToDoController : ControllerBase
     {
-        private ITaskToDoRepository _taskToDoRepository;
-        private ICommentRepository _commentRepository;
-        private ITagRepository _tagRepository;
-        private IMapper _mapper;
+        private readonly ITaskToDoRepository _taskToDoRepository;
+        private readonly ICommentRepository _commentRepository;
+        private readonly ITagRepository _tagRepository;
+        private readonly IMapper _mapper;
         private readonly ITaskToDoService _taskToDoService;
 
         public TasksToDoController(ITaskToDoRepository taskToDoRepository, ICommentRepository commentRepository, ITagRepository tagRepository, IMapper mapper,

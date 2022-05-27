@@ -18,6 +18,7 @@ using TaskManager.Repository.mail;
 using TaskManager.Repository.tag;
 using TaskManager.Repository.taskToDo;
 using TaskManager.Repository.workItem;
+using TaskManager.Services.comment;
 using TaskManager.Services.employee;
 using TaskManager.Services.profilePicture;
 using TaskManager.Services.taskToDo;
@@ -79,6 +80,7 @@ namespace TaskManager
             services.AddScoped<IWorkItemService, WorkItemService>();
             
             services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<ICommentService, CommentService>();
 
             services.AddScoped<ITagRepository, TagRepository>();
 

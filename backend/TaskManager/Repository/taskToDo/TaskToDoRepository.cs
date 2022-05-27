@@ -10,7 +10,8 @@ namespace TaskManager.Repository.taskToDo
 {
     public class TaskToDoRepository : ITaskToDoRepository
     {
-        private TaskToDoContext _taskToDoContext;
+        private readonly TaskToDoContext _taskToDoContext;
+
         public TaskToDoRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;

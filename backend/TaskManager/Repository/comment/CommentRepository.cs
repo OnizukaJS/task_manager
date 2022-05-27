@@ -8,7 +8,8 @@ namespace TaskManager.Repository.comment
 {
     public class CommentRepository : ICommentRepository
     {
-        private TaskToDoContext _taskToDoContext;
+        private readonly TaskToDoContext _taskToDoContext;
+
         public CommentRepository(TaskToDoContext taskToDoContext)
         {
             _taskToDoContext = taskToDoContext;
