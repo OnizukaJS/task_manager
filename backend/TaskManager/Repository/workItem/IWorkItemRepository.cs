@@ -10,6 +10,6 @@ namespace TaskManager.Repository.workItem
         WorkItem GetWorkItem(Guid workItemId);
         WorkItem AddWorkItem(WorkItem workItem);
         void DeleteWorkItem(WorkItem workItem);
-        WorkItem EditWorkItem(WorkItem workItem);
+        WorkItem UpdateWorkItem(WorkItem workItem);
     }
 }

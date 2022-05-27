@@ -8,8 +8,8 @@ using TaskManager.Repository.comment;
 
 namespace TaskManager.Controllers.comment
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class CommentsController : ControllerBase
     {
         private ICommentRepository _commentRepository;
@@ -43,8 +43,7 @@ namespace TaskManager.Controllers.comment
             return Ok(commentsDto);
         }
 
-        [HttpGet]
-        [Route("{commentId}")]
+        [HttpGet("{commentId}")]
         public IActionResult GetComment(Guid commentId)
         {
             var existingComment = _commentRepository.GetComment(commentId);
@@ -58,8 +57,7 @@ namespace TaskManager.Controllers.comment
             return NotFound($"The comment with the Id: {commentId} does not exist");
         }
 
-        [HttpDelete]
-        [Route("{commentId}")]
+        [HttpDelete("{commentId}")]
         public IActionResult DeleteComment(Guid commentId)
         {
             var commentToDelete = _commentRepository.GetComment(commentId);

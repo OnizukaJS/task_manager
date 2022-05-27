@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using TaskManager.Dtos.mail;
+using TaskManager.Dtos.mailDto;
 using TaskManager.Models.taskToDo;
 using TaskManager.Repository.comment;
 using TaskManager.Repository.employee;
@@ -21,6 +21,7 @@ using TaskManager.Repository.workItem;
 using TaskManager.Services.employee;
 using TaskManager.Services.profilePicture;
 using TaskManager.Services.taskToDo;
+using TaskManager.Services.workItem;
 
 // We need to add our contexts to Startup.cs to inject the services
 
@@ -75,6 +76,7 @@ namespace TaskManager
             services.AddScoped<ITaskToDoService, TaskToDoService>();
 
             services.AddScoped<IWorkItemRepository, WorkItemRepository>();
+            services.AddScoped<IWorkItemService, WorkItemService>();
             
             services.AddScoped<ICommentRepository, CommentRepository>();
 

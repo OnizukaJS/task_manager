@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TaskManager.Dtos.mail;
+using TaskManager.Dtos.mailDto;
 using TaskManager.Models.mail;
 using TaskManager.Repository.mail;
 
 namespace TaskManager.Controllers.mail
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class MailsController : ControllerBase
     {
         private readonly IMailRepository _mailQueries;
@@ -17,16 +17,14 @@ namespace TaskManager.Controllers.mail
             _mailQueries = mailQueries;
         }
 
-        [HttpPost]
-        [Route("Email")]
+        [HttpPost("Email")]
         public async Task<IActionResult> SendMail([FromForm] MailRequest request)
         {
             await _mailQueries.SendMailAsync(request);
             return Ok();
         }
 
-        [HttpPost]
-        [Route("WelcomeEmail")]
+        [HttpPost("WelcomeEmail")]
         public async Task<IActionResult> SendWelcomeMail([FromForm] WelcomeEmail welcomeEmail)
         {
             await _mailQueries.SendWelcomeEmailAsync(welcomeEmail);

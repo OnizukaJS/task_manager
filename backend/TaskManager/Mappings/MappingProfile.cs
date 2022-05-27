@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using TaskManager.Dtos.CommentDto;
 using TaskManager.Dtos.employeeDto;
-using TaskManager.Dtos.tag;
+using TaskManager.Dtos.tagDto;
 using TaskManager.Dtos.taskToDoDto;
-using TaskManager.Dtos.workItem;
+using TaskManager.Dtos.workItemDto;
 using TaskManager.Models.comment;
 using TaskManager.Models.employee;
 using TaskManager.Models.tag;
@@ -25,7 +25,7 @@ namespace TaskManager.Mappings
 
             #region WorkItem
             CreateMap<WorkItem, WorkItemResponseModel>();
-            CreateMap<WorkItemCreateEditModel, WorkItem>();
+            CreateMap<WorkItemCreateUpdateModel, WorkItem>();
             #endregion
 
             #region TaskToDo

@@ -9,8 +9,8 @@ using TaskManager.Repository.employee;
 
 namespace TaskManager.Controllers.profilePicture
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ProfilePicturesController : ControllerBase
     {
         private string blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=mytaskmanagerblobstorage;AccountKey=8ko4p8gVDbsFNR+ix61bDQthTh5cD7OKCIPXkFaA6hfKPnPmciLVZeesH4UIQndUWbwq6On93UIfd3J94Tva7g==;EndpointSuffix=core.windows.net";
@@ -70,8 +70,7 @@ namespace TaskManager.Controllers.profilePicture
             }
         }
 
-        [HttpDelete]
-        [Route("{employeeId}")]
+        [HttpDelete("{employeeId}")]
         public void DeleteProfilePicture(Guid employeeId)
         {
             var existingEmployee = _employeeQueries.GetEmployeeById(employeeId);

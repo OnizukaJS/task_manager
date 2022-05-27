@@ -27,27 +27,6 @@ namespace TaskManager.Repository.workItem
             return workItem;
         }
 
-        public void DeleteWorkItem(WorkItem workItem)
-        {
-            _taskToDoContext.WorkItems.Remove(workItem);
-            _taskToDoContext.SaveChanges();
-        }
-
-        public WorkItem EditWorkItem(WorkItem workItem)
-        {
-            var existingWorkItem = _taskToDoContext.WorkItems.Find(workItem.Id);
-            if (existingWorkItem != null)
-            {
-                existingWorkItem.Name = workItem.Name;
-                existingWorkItem.Description = workItem.Description;
-                existingWorkItem.Status = workItem.Status;
-                existingWorkItem.EmployeeId = workItem.EmployeeId;
-                _taskToDoContext.WorkItems.Update(existingWorkItem);
-                _taskToDoContext.SaveChanges();
-            }
-            return workItem;
-        }
-
         public List<WorkItem> GetWorkItems()
         {
             return _taskToDoContext.WorkItems.ToList();
@@ -82,6 +61,19 @@ namespace TaskManager.Repository.workItem
         public List<TaskToDo> GetWorkItemTaskToDos(Guid workItemId)
         {
             return _taskToDoContext.TaskToDos.Where(x => x.WorkItemId == workItemId).ToList();
+        }
+
+        public WorkItem UpdateWorkItem(WorkItem workItem)
+        {
+            _taskToDoContext.WorkItems.Update(workItem);
+            _taskToDoContext.SaveChanges();
+            return workItem;
+        }
+
+        public void DeleteWorkItem(WorkItem workItem)
+        {
+            _taskToDoContext.WorkItems.Remove(workItem);
+            _taskToDoContext.SaveChanges();
         }
     }
 }

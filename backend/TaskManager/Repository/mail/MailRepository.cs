@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using System.IO;
 using System.Threading.Tasks;
-using TaskManager.Dtos.mail;
+using TaskManager.Dtos.mailDto;
 using TaskManager.Models.mail;
 
 namespace TaskManager.Repository.mail

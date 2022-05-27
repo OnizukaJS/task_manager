@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Dtos.mail
+﻿namespace TaskManager.Dtos.mailDto
 {
     public class WelcomeEmail
     {

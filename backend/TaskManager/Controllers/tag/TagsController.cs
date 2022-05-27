@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using TaskManager.Dtos.tag;
+using TaskManager.Dtos.tagDto;
 using TaskManager.Models.tag;
 using TaskManager.Repository.tag;
 
 namespace TaskManager.Controllers.tag
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class TagsController : ControllerBase
     {
         private ITagRepository _tagRepository;
@@ -42,8 +42,7 @@ namespace TaskManager.Controllers.tag
             return Ok(tagsDto);
         }
 
-        [HttpGet]
-        [Route("{tagId}")]
+        [HttpGet("{tagId}")]
         public IActionResult GetTag(Guid tagId)
         {
             var existingTag = _tagRepository.GetTag(tagId);
@@ -57,8 +56,7 @@ namespace TaskManager.Controllers.tag
             return NotFound($"The tag with the Id: {tagId} does not exist");
         }
 
-        [HttpDelete]
-        [Route("{tagId}")]
+        [HttpDelete("{tagId}")]
         public IActionResult DeleteTag(Guid tagId)
         {
             var tagToDelete = _tagRepository.GetTag(tagId);

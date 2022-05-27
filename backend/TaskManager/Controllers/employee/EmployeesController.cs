@@ -9,7 +9,7 @@ using TaskManager.Dtos.employeeDto;
 using TaskManager.Models.employee;
 using TaskManager.Models.taskToDo;
 using Azure.Storage.Blobs;
-using TaskManager.Dtos.mail;
+using TaskManager.Dtos.mailDto;
 using TaskManager.Services.employee;
 using TaskManager.Repository.employee;
 using TaskManager.Repository.mail;
@@ -17,8 +17,8 @@ using TaskManager.Services.profilePicture;
 
 namespace TaskManager.Controllers.employee
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class EmployeesController : ControllerBase
     {
         private string blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=mytaskmanagerblobstorage;AccountKey=8ko4p8gVDbsFNR+ix61bDQthTh5cD7OKCIPXkFaA6hfKPnPmciLVZeesH4UIQndUWbwq6On93UIfd3J94Tva7g==;EndpointSuffix=core.windows.net";
@@ -65,8 +65,7 @@ namespace TaskManager.Controllers.employee
             return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + employeeResponse.EmployeeId, employeeResponse);
         }
 
-        [HttpPost]
-        [Route("authenticate")]
+        [HttpPost("authenticate")]
         public ActionResult<List<Employee>> AuthenticateEmployee([FromBody] EmployeeLoginModel employeeLogin)
         {
             var employee = _employeeRepository.GetEmployeeByEmail(employeeLogin.EmployeeEmail);
@@ -96,8 +95,7 @@ namespace TaskManager.Controllers.employee
             return Ok(employeesDto);
         }
 
-        [HttpPatch]
-        [Route("{employeeId}")]
+        [HttpPatch("{employeeId}")]
         public IActionResult EditEmployee(EmployeeUpdateModel employeeUpdate, Guid employeeId)
         {
             try
@@ -111,8 +109,7 @@ namespace TaskManager.Controllers.employee
             }
         }
 
-        [HttpPatch]
-        [Route("{employeeId}/password")]
+        [HttpPatch("{employeeId}/password")]
         public IActionResult EditEmployeePassword(EmployeeUpdatePasswordModel employeePassword, Guid employeeId)
         {
             var existingEmployee = _employeeRepository.GetEmployeeById(employeeId);
@@ -140,8 +137,7 @@ namespace TaskManager.Controllers.employee
             return Ok(employees);
         }
 
-        [HttpGet]
-        [Route("{employeeId}")]
+        [HttpGet("{employeeId}")]
         public IActionResult GetEmployee(Guid employeeId)
         {
             var existingEmployee = _employeeRepository.GetEmployeeById(employeeId);
@@ -159,8 +155,7 @@ namespace TaskManager.Controllers.employee
             return NotFound($"The employee with the Id: {employeeId} does not exist");
         }
 
-        [HttpDelete]
-        [Route("delete/{employeeId}")]
+        [HttpDelete("delete/{employeeId}")]
         public IActionResult DeleteEmployee(Guid employeeId)
         {
             var employeeToDelete = _employeeRepository.GetEmployeeById(employeeId);

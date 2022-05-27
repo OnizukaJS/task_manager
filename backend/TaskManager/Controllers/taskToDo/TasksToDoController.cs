@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaskManager.Dtos.CommentDto;
-using TaskManager.Dtos.tag;
+using TaskManager.Dtos.tagDto;
 using TaskManager.Dtos.taskToDoDto;
 using TaskManager.Models.taskToDo;
 using TaskManager.Repository.comment;
@@ -14,8 +14,8 @@ using TaskManager.Services.taskToDo;
 
 namespace TaskManager.Controllers.taskToDo
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class TasksToDoController : ControllerBase
     {
         private ITaskToDoRepository _taskToDoRepository;
@@ -46,8 +46,7 @@ namespace TaskManager.Controllers.taskToDo
             return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + taskToDoResponse.Id, taskToDoResponse);
         }
 
-        [HttpPatch]
-        [Route("{taskId}")]
+        [HttpPatch("{taskId}")]
         public IActionResult EditTask(Guid taskId, TaskToDoUpdateModel taskToDoUpdate)
         {
             try
@@ -68,8 +67,7 @@ namespace TaskManager.Controllers.taskToDo
             return Ok(tasks);
         }
 
-        [HttpGet]
-        [Route("{taskId}")]
+        [HttpGet("{taskId}")]
         public IActionResult GetTask(Guid taskId)
         {
             var existingTaskToDo = _taskToDoRepository.GetTask(taskId);
@@ -83,8 +81,7 @@ namespace TaskManager.Controllers.taskToDo
             return NotFound($"This task with the Id: {taskId} does not exist");
         }
 
-        [HttpGet]
-        [Route("{taskId}/comments")]
+        [HttpGet("{taskId}/comments")]
         public IActionResult GetCommentsPerTaskToDoOrderedByCreationDataDesc(Guid taskId)
         {
             var existingCommentsPerTasks = _commentRepository.GetCommentsPerTaskToDoOrderedByCreationDataDesc(taskId);
@@ -93,8 +90,7 @@ namespace TaskManager.Controllers.taskToDo
             return Ok(commentsPerTaskDto);
         }
 
-        [HttpGet]
-        [Route("{taskId}/tags")]
+        [HttpGet("{taskId}/tags")]
         public IActionResult GetTagsPerTaskToDoOrderedByAlphabeticText(Guid taskId)
         {
             var existingTagsPerTasks = _tagRepository.GetTagsPerTaskToDoOrderedByAlphabeticText(taskId);
@@ -103,15 +99,13 @@ namespace TaskManager.Controllers.taskToDo
             return Ok(tagsPerTaskDto);
         }
 
-        [HttpGet]
-        [Route("employee/{employeeId}")]
+        [HttpGet("employee/{employeeId}")]
         public IActionResult GetActionResult(Guid employeeId)
         {
             return Ok(_taskToDoRepository.GetTasks().Where(x => x.EmployeeId == employeeId));
         }
 
-        [HttpDelete]
-        [Route("{taskId}")]
+        [HttpDelete("{taskId}")]
         public IActionResult DeleteTask(Guid taskId)
         {
             var taskToDelete = _taskToDoRepository.GetTask(taskId);
