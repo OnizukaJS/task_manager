@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using TaskManager.Dtos.tagDto;
+using TaskManager.Models.tag;
 using TaskManager.Repository.tag;
 
 namespace TaskManager.Services.tag
@@ -15,6 +16,14 @@ namespace TaskManager.Services.tag
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
+        }
+
+        public TagResponseModel AddTag(TagCreateModel tag)
+        {
+            var tagToCreate = _mapper.Map<Tag>(tag);
+            _tagRepository.AddTag(tagToCreate);
+            var tagResponse = _mapper.Map<TagResponseModel>(tagToCreate);
+            return tagResponse;
         }
 
         public IEnumerable<TagResponseModel> GetTags()

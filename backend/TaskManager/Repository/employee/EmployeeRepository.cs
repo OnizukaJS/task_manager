@@ -40,7 +40,7 @@ namespace TaskManager.Repository.employee
             return employee;
         }
 
-        public Employee EditEmployeePassword(Employee employee)
+        public Employee UpdateEmployeePassword(Employee employee)
         {
             var existingEmployee = _taskToDoContext.Employees.Find(employee.EmployeeId);
             if (existingEmployee != null)
@@ -71,7 +71,7 @@ namespace TaskManager.Repository.employee
             _taskToDoContext.SaveChanges();
         }
 
-        public Employee EditEmployeeProfilePicture(Guid employeeId, string profilePicture)
+        public Employee UpdateEmployeeProfilePicture(Guid employeeId, string profilePicture)
         {
             var existingEmployee = _taskToDoContext.Employees.Find(employeeId);
 
@@ -99,6 +99,12 @@ namespace TaskManager.Repository.employee
             }
 
             return existingEmployee;
+        }
+
+        public bool EmployeeEmailAlreadyInUse(string employeeEmail)
+        {
+            var alreadyInUse = _taskToDoContext.Employees.Any(e => e.Email == employeeEmail);
+            return alreadyInUse;
         }
     }
 }

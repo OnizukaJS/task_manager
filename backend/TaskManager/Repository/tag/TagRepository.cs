@@ -42,7 +42,7 @@ namespace TaskManager.Repository.tag
             return _taskToDoContext.Tags.OrderBy(t => t.Text).ToList();
         }
 
-        public List<Tag> GetTagsPerWorkItemOrderedByAlphabeticText(Guid workItemId)
+        public List<Tag> GetTagsPerWorkItem(Guid workItemId)
         {
             return _taskToDoContext.Tags
                 .Where(x => x.WorkItemId == workItemId)

@@ -19,38 +19,22 @@ namespace TaskManager.Controllers.workItem
     [Route("api/[controller]")]
     public class WorkItemsController : ControllerBase
     {
-        private readonly IWorkItemRepository _workItemRepository;
-        private readonly ITaskToDoRepository _taskToDoRepository;
-        private readonly ICommentRepository _commentRepository;
-        private readonly ITagRepository _tagRepository;
-        private readonly IMapper _mapper;
         private readonly IWorkItemService _workItemService;
 
-        public WorkItemsController(IWorkItemRepository workItemRepository, ITaskToDoRepository taskToDoRepository, ICommentRepository commentRepository, 
-            ITagRepository tagRepository, IMapper mapper, IWorkItemService workItemService)
+        public WorkItemsController(IWorkItemService workItemService)
         {
-            _workItemRepository = workItemRepository;
-            _taskToDoRepository = taskToDoRepository;
-            _commentRepository = commentRepository;
-            _tagRepository = tagRepository;
-            _mapper = mapper;
             _workItemService = workItemService;
         }
 
         [HttpPost]
-        public IActionResult AddTask(WorkItemCreateUpdateModel workItemCreate)
+        public IActionResult AddWorkItem(WorkItemCreateUpdateModel workItemCreate)
         {
-            var workItem = _mapper.Map<WorkItem>(workItemCreate);
-
-            _workItemRepository.AddWorkItem(workItem);
-
-            var workItemResponse = _mapper.Map<WorkItemResponseModel>(workItem);
-
+            var workItemResponse = _workItemService.AddWorkItem(workItemCreate);
             return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + workItemResponse.Id, workItemResponse);
         }
 
         [HttpPatch("{workItemId}")]
-        public IActionResult EditWorkItem(Guid workItemId, WorkItemCreateUpdateModel workItemUpdate)
+        public IActionResult UpdateWorkItem(Guid workItemId, WorkItemCreateUpdateModel workItemUpdate)
         {
             var workItem =  _workItemService.UpdateWorkItem(workItemId, workItemUpdate);
             return Ok(workItem);
@@ -73,29 +57,22 @@ namespace TaskManager.Controllers.workItem
         [HttpGet("{workItemId}/taskToDos")]
         public IActionResult GetTasksPerWorkItem(Guid workItemId)
         {
-            var existingTasksPerWorkItem = _taskToDoRepository.GetTasksPerWorkItem(workItemId);
-
-            var tasksPerWorkItemDto = _mapper.Map<IEnumerable<TaskToDoResponseModel>>(existingTasksPerWorkItem);
-            return Ok(tasksPerWorkItemDto);
+            var tasksPerWorkItem = _workItemService.GetTasksPerWorkItem(workItemId);
+            return Ok(tasksPerWorkItem);
         }
 
         [HttpGet("{workItemId}/comments")]
         public IActionResult GetWorkItemComments(Guid workItemId)
         {
-            // TODO: Make the order in the SQL (more powerful because SQL is to manage data) and change the name
-            var existingCommentsPerWorkItem = _commentRepository.GetCommentsPerWorkItem(workItemId);
-
-            var commentsPerWorkItemDto = _mapper.Map <IEnumerable<CommentResponseModel>>(existingCommentsPerWorkItem);
-            return Ok(commentsPerWorkItemDto);
+            var commentsPerWorkItem = _workItemService.GetCommentsPerWorkItem(workItemId);
+            return Ok(commentsPerWorkItem);
         }
 
         [HttpGet("{workItemId}/tags")]
         public IActionResult GetTagsPerWorkItemOrderedByAlphabeticText(Guid workItemId)
         {
-            var existingTagsPerWorkItem = _tagRepository.GetTagsPerWorkItemOrderedByAlphabeticText(workItemId);
-
-            var tagsPerWorkItemDto = _mapper.Map<IEnumerable<TagResponseModel>>(existingTagsPerWorkItem);
-            return Ok(tagsPerWorkItemDto);
+            var tagsPerWorkItem = _workItemService.GetTagsPerWorkItem(workItemId);
+            return Ok(tagsPerWorkItem);
         }
 
         [HttpDelete("{workItemId}")]

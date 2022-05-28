@@ -1,9 +1,13 @@
-﻿using AutoMapper;
+﻿using BC = BCrypt.Net.BCrypt;
+using AutoMapper;
 using Azure.Storage.Blobs;
 using System;
 using System.Collections.Generic;
 using TaskManager.Dtos.employeeDto;
+using TaskManager.Dtos.mailDto;
+using TaskManager.Models.employee;
 using TaskManager.Repository.employee;
+using TaskManager.Repository.mail;
 using TaskManager.Services.profilePicture;
 
 namespace TaskManager.Services.employee
@@ -15,12 +19,58 @@ namespace TaskManager.Services.employee
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly IProfilePictureService _profilePictureService;
+        private readonly IMailRepository _mailRepository;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper, IProfilePictureService profilePictureService)
+        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper, IProfilePictureService profilePictureService, 
+            IMailRepository mailRepository)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
             _profilePictureService = profilePictureService;
+            _mailRepository = mailRepository;
+        }
+
+        public EmployeeResponseModel RegisterEmployee(EmployeeRegistrationModel employeeRegistration)
+        {
+            var employee = _mapper.Map<Employee>(employeeRegistration);
+
+            if (_employeeRepository.EmployeeEmailAlreadyInUse(employee.Email))
+            {
+                throw new KeyNotFoundException();
+            }
+
+            _employeeRepository.RegisterEmployee(employee);
+
+            var employeeResponse = _mapper.Map<EmployeeResponseModel>(employee);
+
+            var welcomeEmail = new WelcomeEmail()
+            {
+                ToEmail = employeeResponse.Email,
+                UserName = $"{employeeResponse.EmployeeName} {employeeResponse.EmployeeSurname}",
+            };
+
+            _mailRepository.SendWelcomeEmailAsync(welcomeEmail);
+
+            return employeeResponse;
+        }
+
+        public EmployeeResponseModel AuthenticateEmployee(EmployeeLoginModel employeeLogin)
+        {
+            var employee = _employeeRepository.GetEmployeeByEmail(employeeLogin.EmployeeEmail);
+
+            if (employee == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            if (!BC.Verify(employeeLogin.EmployeePassword, employee.Password))
+            {
+                throw new KeyNotFoundException();
+            }
+
+            var employeeResponse = _mapper.Map<EmployeeResponseModel>(employee);
+
+            return employeeResponse;
         }
 
         public IEnumerable<EmployeeResponseModel> GetEmployees()
@@ -66,6 +116,27 @@ namespace TaskManager.Services.employee
 
             var employeeToUpdate = _mapper.Map(employeeUpdateModel, existingEmployee);
             _employeeRepository.UpdateEmployee(employeeToUpdate);
+
+            return _mapper.Map<EmployeeResponseModel>(existingEmployee);
+        }
+
+        public EmployeeResponseModel UpdateEmployeePassword(Guid employeeId, EmployeeUpdatePasswordModel employeePassword)
+        {
+            if (employeePassword.Password != employeePassword.ConfirmPassword)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            var existingEmployee = _employeeRepository.GetEmployee(employeeId);
+
+            if (existingEmployee == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            var employeeResponse = _mapper.Map(employeePassword, existingEmployee);
+
+            _employeeRepository.UpdateEmployeePassword(employeeResponse);
 
             return _mapper.Map<EmployeeResponseModel>(existingEmployee);
         }

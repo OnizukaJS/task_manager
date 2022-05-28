@@ -8,7 +8,7 @@ namespace TaskManager.Repository.tag
     {
         List<Tag> GetTags();
         Tag GetTag(Guid tagId);
-        List<Tag> GetTagsPerWorkItemOrderedByAlphabeticText(Guid workItemId);
+        List<Tag> GetTagsPerWorkItem(Guid workItemId);
         List<Tag> GetTagsPerTask(Guid taskId);
         Tag AddTag(Tag tag);
         void DeleteTag(Tag tag);

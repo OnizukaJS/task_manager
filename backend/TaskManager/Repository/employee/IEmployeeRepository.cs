@@ -11,9 +11,10 @@ namespace TaskManager.Repository.employee
         Employee GetEmployeeByEmail(string employeeEmail);
         Employee RegisterEmployee(Employee employee);
         Employee UpdateEmployee(Employee employee);
-        Employee EditEmployeePassword(Employee employee);
+        Employee UpdateEmployeePassword(Employee employee);
         void DeleteEmployee(Employee employee);
-        Employee EditEmployeeProfilePicture(Guid employeeId, string profilePicture);
+        Employee UpdateEmployeeProfilePicture(Guid employeeId, string profilePicture);
         Employee DeleteEmployeeProfilePicture(Guid employeeId);
+        bool EmployeeEmailAlreadyInUse(string employeeEmail);
     }
 }

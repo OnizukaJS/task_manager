@@ -58,7 +58,7 @@ namespace TaskManager.Controllers.profilePicture
                     }
                     fileUrl = blob.Uri.AbsoluteUri; // Check if this is the localUri I have in the FE
 
-                    _employeeQueries.EditEmployeeProfilePicture(profilePicture.EmployeeId, filename);
+                    _employeeQueries.UpdateEmployeeProfilePicture(profilePicture.EmployeeId, filename);
                 }
                 catch (Exception) { }
                 var result = fileUrl;

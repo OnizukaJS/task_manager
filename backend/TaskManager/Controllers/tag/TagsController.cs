@@ -13,26 +13,17 @@ namespace TaskManager.Controllers.tag
     [Route("api/[controller]")]
     public class TagsController : ControllerBase
     {
-        private readonly ITagRepository _tagRepository;
-        private readonly IMapper _mapper;
         private readonly ITagService _tagService;
 
-        public TagsController(ITagRepository tagRepository, IMapper mapper, ITagService tagService)
+        public TagsController(ITagService tagService)
         {
-            _tagRepository = tagRepository;
-            _mapper = mapper;
             _tagService = tagService;
         }
 
         [HttpPost]
         public IActionResult AddTag([FromBody] TagCreateModel tagCreate)
         {
-            var tag = _mapper.Map<Tag>(tagCreate);
-
-            _tagRepository.AddTag(tag);
-
-            var tagResponse = _mapper.Map<TagResponseModel>(tag);
-
+            var tagResponse = _tagService.AddTag(tagCreate);
             return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + tagResponse.TagId, tagResponse);
         }
 
