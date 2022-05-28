@@ -1,16 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using TaskManager.Dtos.CommentDto;
-using TaskManager.Dtos.tagDto;
-using TaskManager.Dtos.taskToDoDto;
 using TaskManager.Dtos.workItemDto;
-using TaskManager.Models.workItem;
-using TaskManager.Repository.comment;
-using TaskManager.Repository.tag;
-using TaskManager.Repository.taskToDo;
-using TaskManager.Repository.workItem;
 using TaskManager.Services.workItem;
 
 namespace TaskManager.Controllers.workItem

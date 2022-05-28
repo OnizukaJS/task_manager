@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using TaskManager.Dtos.taskToDoDto;
-using TaskManager.Repository.comment;
-using TaskManager.Repository.tag;
-using TaskManager.Repository.taskToDo;
 using TaskManager.Services.taskToDo;
 
 namespace TaskManager.Controllers.taskToDo

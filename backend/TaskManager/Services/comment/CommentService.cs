@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using TaskManager.Dtos.CommentDto;
+using TaskManager.Models.comment;
 using TaskManager.Repository.comment;
 
 namespace TaskManager.Services.comment
@@ -15,6 +16,14 @@ namespace TaskManager.Services.comment
         {
             _commentRepository = commentRepository;
             _mapper = mapper;
+        }
+
+        public CommentResponseModel AddComment(CommentCreateModel comment)
+        {
+            var commentToCreate = _mapper.Map<Comment>(comment);
+            _commentRepository.AddComment(commentToCreate);
+            var commentResponse = _mapper.Map<CommentResponseModel>(commentToCreate);
+            return commentResponse;
         }
 
         public IEnumerable<CommentResponseModel> GetComments()

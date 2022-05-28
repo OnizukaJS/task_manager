@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using TaskManager.Dtos.tagDto;
-using TaskManager.Models.tag;
-using TaskManager.Repository.tag;
 using TaskManager.Services.tag;
 
 namespace TaskManager.Controllers.tag
