@@ -9,25 +9,29 @@ using TaskManager.Models.employee;
 using TaskManager.Repository.employee;
 using TaskManager.Repository.mail;
 using TaskManager.Services.profilePicture;
+using Microsoft.Extensions.Configuration;
 
 namespace TaskManager.Services.employee
 {
     public class EmployeeService : IEmployeeService
     {
-        private string blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=mytaskmanagerblobstorage;AccountKey=8ko4p8gVDbsFNR+ix61bDQthTh5cD7OKCIPXkFaA6hfKPnPmciLVZeesH4UIQndUWbwq6On93UIfd3J94Tva7g==;EndpointSuffix=core.windows.net";
-        private string blobStorageContainerName = "profilepicture";
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly IProfilePictureService _profilePictureService;
         private readonly IMailRepository _mailRepository;
+        private readonly IConfiguration _configuration;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper, IProfilePictureService profilePictureService, 
-            IMailRepository mailRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, 
+            IMapper mapper, 
+            IProfilePictureService profilePictureService, 
+            IMailRepository mailRepository,
+            IConfiguration configuration)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
             _profilePictureService = profilePictureService;
             _mailRepository = mailRepository;
+            _configuration = configuration;
         }
 
         public EmployeeResponseModel RegisterEmployee(EmployeeRegistrationModel employeeRegistration)
@@ -77,6 +81,8 @@ namespace TaskManager.Services.employee
         {
             var employees = _employeeRepository.GetEmployees();
             var employeesDto = _mapper.Map<IEnumerable<EmployeeResponseModel>>(employees);
+            var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
+            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
 
             // TODO: Move to a ValueResolver in mapper
             foreach (var employee in employeesDto)
@@ -93,6 +99,9 @@ namespace TaskManager.Services.employee
         {
             var existingEmployee = _employeeRepository.GetEmployee(employeeId);
             var filename = existingEmployee.ProfilePicture;
+            var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
+            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
+
             BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, filename);
 
             if (existingEmployee == null)

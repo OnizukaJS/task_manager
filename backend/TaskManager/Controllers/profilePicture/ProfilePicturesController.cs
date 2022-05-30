@@ -6,6 +6,7 @@ using TaskManager.Models.profilePicture;
 using Azure.Storage.Blobs;
 using TaskManager.Models.taskToDo;
 using TaskManager.Repository.employee;
+using Microsoft.Extensions.Configuration;
 
 namespace TaskManager.Controllers.profilePicture
 {
@@ -13,15 +14,17 @@ namespace TaskManager.Controllers.profilePicture
     [Route("api/[controller]")]
     public class ProfilePicturesController : ControllerBase
     {
-        private readonly string blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=mytaskmanagerblobstorage;AccountKey=8ko4p8gVDbsFNR+ix61bDQthTh5cD7OKCIPXkFaA6hfKPnPmciLVZeesH4UIQndUWbwq6On93UIfd3J94Tva7g==;EndpointSuffix=core.windows.net";
-        private readonly string blobStorageContainerName = "profilepicture";
         private readonly TaskToDoContext _taskToDoContext;
         private readonly IEmployeeRepository _employeeQueries;
+        private readonly IConfiguration _configuration;
 
-        public ProfilePicturesController(TaskToDoContext taskToDoContext, IEmployeeRepository employeeQueries)
+        public ProfilePicturesController(TaskToDoContext taskToDoContext, 
+            IEmployeeRepository employeeQueries,
+            IConfiguration configuration)
         {
             _taskToDoContext = taskToDoContext;
             _employeeQueries = employeeQueries;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -40,6 +43,9 @@ namespace TaskManager.Controllers.profilePicture
             {
                 DeleteProfilePicture(profilePicture.EmployeeId);
             }
+
+            var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
+            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
 
             try
             {
@@ -75,6 +81,8 @@ namespace TaskManager.Controllers.profilePicture
         {
             var existingEmployee = _employeeQueries.GetEmployee(employeeId);
             var fileName = existingEmployee.ProfilePicture;
+            var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
+            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
 
             BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, fileName);
             blobClient.Delete();
