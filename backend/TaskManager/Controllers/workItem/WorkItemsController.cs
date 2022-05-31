@@ -20,7 +20,7 @@ namespace TaskManager.Controllers.workItem
         public IActionResult AddWorkItem(WorkItemCreateUpdateModel workItemCreate)
         {
             var workItemResponse = _workItemService.AddWorkItem(workItemCreate);
-            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + workItemResponse.Id, workItemResponse);
+            return CreatedAtAction("AddWorkItem", new { id = workItemResponse.Id }, workItemResponse);
         }
 
         [HttpPatch("{workItemId}")]

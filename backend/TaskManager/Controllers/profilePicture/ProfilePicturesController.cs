@@ -62,7 +62,7 @@ namespace TaskManager.Controllers.profilePicture
                     {
                         blob.Upload(stream);
                     }
-                    fileUrl = blob.Uri.AbsoluteUri; // Check if this is the localUri I have in the FE
+                    fileUrl = blob.Uri.AbsoluteUri;
 
                     _employeeQueries.UpdateEmployeeProfilePicture(profilePicture.EmployeeId, filename);
                 }

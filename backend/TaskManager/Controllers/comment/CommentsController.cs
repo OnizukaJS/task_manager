@@ -20,7 +20,7 @@ namespace TaskManager.Controllers.comment
         public IActionResult AddComment(CommentCreateModel commentCreate)
         {
             var commentResponse = _commentService.AddComment(commentCreate);
-            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + commentResponse.CommentId, commentResponse);
+            return CreatedAtAction("AddComment", new { id = commentResponse.CommentId }, commentResponse);
         }
 
         [HttpGet]

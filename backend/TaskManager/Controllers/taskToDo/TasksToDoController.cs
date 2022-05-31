@@ -20,7 +20,7 @@ namespace TaskManager.Controllers.taskToDo
         public IActionResult AddTask(TaskToDoCreateModel taskToDoCreate)
         {
             var taskToDoResponse = _taskToDoService.AddTask(taskToDoCreate);
-            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + taskToDoResponse.Id, taskToDoResponse);
+            return CreatedAtAction("AddTask", new { id = taskToDoResponse.Id }, taskToDoResponse);
         }
 
         [HttpPatch("{taskId}")]

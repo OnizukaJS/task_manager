@@ -20,7 +20,7 @@ namespace TaskManager.Controllers.tag
         public IActionResult AddTag([FromBody] TagCreateModel tagCreate)
         {
             var tagResponse = _tagService.AddTag(tagCreate);
-            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + tagResponse.TagId, tagResponse);
+            return CreatedAtAction("AddTag", new { id = tagResponse.TagId }, tagResponse);
         }
 
         [HttpGet]

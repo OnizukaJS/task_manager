@@ -23,7 +23,7 @@ namespace TaskManager.Controllers.employee
         public IActionResult RegisterEmployee(EmployeeRegistrationModel employeeRegistration)
         {
             var employeeResponse = _employeeService.RegisterEmployee(employeeRegistration);
-            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + employeeResponse.EmployeeId, employeeResponse);
+            return CreatedAtAction("RegisterEmployee", new { id = employeeResponse.EmployeeId }, employeeResponse);
         }
 
         [HttpPost("authenticate")]
