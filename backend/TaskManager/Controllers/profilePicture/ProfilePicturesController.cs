@@ -5,8 +5,9 @@ using System.IO;
 using TaskManager.Models.profilePicture;
 using Azure.Storage.Blobs;
 using TaskManager.Models.taskToDo;
-using TaskManager.Repository.employee;
 using Microsoft.Extensions.Configuration;
+using TaskManager.Services.employee;
+using TaskManager.Services.profilePicture;
 
 namespace TaskManager.Controllers.profilePicture
 {
@@ -15,22 +16,25 @@ namespace TaskManager.Controllers.profilePicture
     public class ProfilePicturesController : ControllerBase
     {
         private readonly TaskToDoContext _taskToDoContext;
-        private readonly IEmployeeRepository _employeeQueries;
+        private readonly IEmployeeService _employeeService;
+        private readonly IProfilePictureService _profilePictureService;
         private readonly IConfiguration _configuration;
 
         public ProfilePicturesController(TaskToDoContext taskToDoContext, 
-            IEmployeeRepository employeeQueries,
+            IEmployeeService employeeService,
+            IProfilePictureService profilePictureService,
             IConfiguration configuration)
         {
             _taskToDoContext = taskToDoContext;
-            _employeeQueries = employeeQueries;
+            _employeeService = employeeService;
+            _profilePictureService = profilePictureService;
             _configuration = configuration;
         }
 
         [HttpPost]
         public ActionResult UpdateProfilePicture([FromForm] ProfilePicture profilePicture)
         {
-            var existingEmployee = _employeeQueries.GetEmployee(profilePicture.EmployeeId);
+            var existingEmployee = _employeeService.GetEmployee(profilePicture.EmployeeId);
 
             if (existingEmployee == null)
             {
@@ -39,7 +43,7 @@ namespace TaskManager.Controllers.profilePicture
 
             var currentFileName = existingEmployee.ProfilePicture;
 
-            if (currentFileName != null)
+            if (!string.IsNullOrEmpty(currentFileName))
             {
                 DeleteProfilePicture(profilePicture.EmployeeId);
             }
@@ -64,7 +68,7 @@ namespace TaskManager.Controllers.profilePicture
                     }
                     fileUrl = blob.Uri.AbsoluteUri;
 
-                    _employeeQueries.UpdateEmployeeProfilePicture(profilePicture.EmployeeId, filename);
+                    _employeeService.UpdateEmployeeProfilePicture(profilePicture.EmployeeId, filename);
                 }
                 catch (Exception) { }
                 var result = fileUrl;
@@ -79,14 +83,7 @@ namespace TaskManager.Controllers.profilePicture
         [HttpDelete("{employeeId}")]
         public void DeleteProfilePicture(Guid employeeId)
         {
-            var existingEmployee = _employeeQueries.GetEmployee(employeeId);
-            var fileName = existingEmployee.ProfilePicture;
-            var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
-            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
-
-            BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, fileName);
-            blobClient.Delete();
-            _employeeQueries.DeleteEmployeeProfilePicture(employeeId);
+            _employeeService.DeleteEmployeeProfilePicture(employeeId);
             _taskToDoContext.SaveChanges();
         }
     }

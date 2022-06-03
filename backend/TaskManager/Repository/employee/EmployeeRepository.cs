@@ -42,13 +42,8 @@ namespace TaskManager.Repository.employee
 
         public Employee UpdateEmployeePassword(Employee employee)
         {
-            var existingEmployee = _taskToDoContext.Employees.Find(employee.EmployeeId);
-            if (existingEmployee != null)
-            {
-                existingEmployee.Password = employee.Password;
-                _taskToDoContext.Employees.Update(existingEmployee);
-                _taskToDoContext.SaveChanges();
-            }
+            _taskToDoContext.Employees.Update(employee);
+            _taskToDoContext.SaveChanges();
             return employee;
         }
 
@@ -71,34 +66,18 @@ namespace TaskManager.Repository.employee
             _taskToDoContext.SaveChanges();
         }
 
-        public Employee UpdateEmployeeProfilePicture(Guid employeeId, string profilePicture)
+        public Employee UpdateEmployeeProfilePicture(Employee employee)
         {
-            var existingEmployee = _taskToDoContext.Employees.Find(employeeId);
-
-            if (existingEmployee != null)
-            {
-                existingEmployee.ProfilePicture = profilePicture;
-                _taskToDoContext.Employees.Update(existingEmployee);
-                _taskToDoContext.SaveChanges();
-
-                return existingEmployee;
-            }
-
-            return existingEmployee;
+            _taskToDoContext.Employees.Update(employee);
+            _taskToDoContext.SaveChanges();
+            return employee;
         }
 
-        public Employee DeleteEmployeeProfilePicture(Guid employeeId)
+        public Employee DeleteEmployeeProfilePicture(Employee employee)
         {
-            var existingEmployee = _taskToDoContext.Employees.Find(employeeId);
-
-            if (existingEmployee != null)
-            {
-                existingEmployee.ProfilePicture = null;
-                _taskToDoContext.Employees.Update(existingEmployee);
-                _taskToDoContext.SaveChanges();
-            }
-
-            return existingEmployee;
+            _taskToDoContext.Employees.Update(employee);
+            _taskToDoContext.SaveChanges();
+            return employee;
         }
 
         public bool EmployeeEmailAlreadyInUse(string employeeEmail)

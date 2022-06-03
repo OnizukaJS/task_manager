@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 using TaskManager.Dtos.mailDto;
 using TaskManager.Models.mail;
 
-namespace TaskManager.Repository.mail
+namespace TaskManager.Services.mail
 {
-    public class MailRepository : IMailRepository
+    public class MailService : IMailService
     {
         private readonly MailSettings _mailSettings;
 
-        // We are Injecting the IOptions<MailSettings> to the constructor and assigning it’s value to the instance of MailSettings. Like this, we will be able to access the data from the JSON at runtime.
-        public MailRepository(IOptions<MailSettings> mailSettings)
+        // We are Injecting the IOptions<MailSettings> to the constructor and assigning it’s value to the instance of MailSettings.
+        // Like this, we will be able to access the data from the JSON at runtime.
+        public MailService(IOptions<MailSettings> mailSettings)
         {
             _mailSettings = mailSettings.Value;
         }

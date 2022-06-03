@@ -7,9 +7,9 @@ using TaskManager.Dtos.employeeDto;
 using TaskManager.Dtos.mailDto;
 using TaskManager.Models.employee;
 using TaskManager.Repository.employee;
-using TaskManager.Repository.mail;
 using TaskManager.Services.profilePicture;
 using Microsoft.Extensions.Configuration;
+using TaskManager.Services.mail;
 
 namespace TaskManager.Services.employee
 {
@@ -18,19 +18,19 @@ namespace TaskManager.Services.employee
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly IProfilePictureService _profilePictureService;
-        private readonly IMailRepository _mailRepository;
+        private readonly IMailService _mailService;
         private readonly IConfiguration _configuration;
 
         public EmployeeService(IEmployeeRepository employeeRepository, 
             IMapper mapper, 
             IProfilePictureService profilePictureService, 
-            IMailRepository mailRepository,
+            IMailService mailService,
             IConfiguration configuration)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
             _profilePictureService = profilePictureService;
-            _mailRepository = mailRepository;
+            _mailService = mailService;
             _configuration = configuration;
         }
 
@@ -53,7 +53,7 @@ namespace TaskManager.Services.employee
                 UserName = $"{employeeResponse.EmployeeName} {employeeResponse.EmployeeSurname}",
             };
 
-            _mailRepository.SendWelcomeEmailAsync(welcomeEmail);
+            _mailService.SendWelcomeEmailAsync(welcomeEmail);
 
             return employeeResponse;
         }
@@ -150,6 +150,24 @@ namespace TaskManager.Services.employee
             return _mapper.Map<EmployeeResponseModel>(existingEmployee);
         }
 
+        public EmployeeResponseModel UpdateEmployeeProfilePicture(Guid employeeId, string profilePicture)
+        {
+            var existingEmployee = _employeeRepository.GetEmployee(employeeId);
+
+            if (existingEmployee == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            existingEmployee.ProfilePicture = profilePicture;
+
+            var employeeResponse = _mapper.Map<Employee>(existingEmployee);
+
+            _employeeRepository.UpdateEmployeeProfilePicture(employeeResponse);
+
+            return _mapper.Map<EmployeeResponseModel>(existingEmployee);
+        }
+
         public void DeleteEmployee(Guid employeeId)
         {
             var employeeToDelete = _employeeRepository.GetEmployee(employeeId);
@@ -159,6 +177,27 @@ namespace TaskManager.Services.employee
             }
 
             _employeeRepository.DeleteEmployee(employeeToDelete);
+        }
+
+        public void DeleteEmployeeProfilePicture(Guid employeeId)
+        {
+            var existingEmployee = _employeeRepository.GetEmployee(employeeId);
+
+            if (existingEmployee == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            var fileName = existingEmployee.ProfilePicture;
+            var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
+            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
+
+            BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, fileName);
+            blobClient.Delete();
+
+            existingEmployee.ProfilePicture = null;
+
+            _employeeRepository.DeleteEmployeeProfilePicture(existingEmployee);
         }
     }
 }

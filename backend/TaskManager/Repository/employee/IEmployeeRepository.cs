@@ -13,8 +13,8 @@ namespace TaskManager.Repository.employee
         Employee UpdateEmployee(Employee employee);
         Employee UpdateEmployeePassword(Employee employee);
         void DeleteEmployee(Employee employee);
-        Employee UpdateEmployeeProfilePicture(Guid employeeId, string profilePicture);
-        Employee DeleteEmployeeProfilePicture(Guid employeeId);
+        Employee UpdateEmployeeProfilePicture(Employee employee);
+        Employee DeleteEmployeeProfilePicture(Employee employee);
         bool EmployeeEmailAlreadyInUse(string employeeEmail);
     }
 }

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using TaskManager.Dtos.mailDto;
 using TaskManager.Models.mail;
-using TaskManager.Repository.mail;
+using TaskManager.Services.mail;
 
 namespace TaskManager.Controllers.mail
 {
@@ -10,24 +10,24 @@ namespace TaskManager.Controllers.mail
     [Route("api/[controller]")]
     public class MailsController : ControllerBase
     {
-        private readonly IMailRepository _mailQueries;
+        private readonly IMailService _mailService;
 
-        public MailsController(IMailRepository mailQueries)
+        public MailsController(IMailService mailService)
         {
-            _mailQueries = mailQueries;
+            _mailService = mailService;
         }
 
         [HttpPost("Email")]
         public async Task<IActionResult> SendMail([FromForm] MailRequest request)
         {
-            await _mailQueries.SendMailAsync(request);
+            await _mailService.SendMailAsync(request);
             return Ok();
         }
 
         [HttpPost("WelcomeEmail")]
         public async Task<IActionResult> SendWelcomeMail([FromForm] WelcomeEmail welcomeEmail)
         {
-            await _mailQueries.SendWelcomeEmailAsync(welcomeEmail);
+            await _mailService.SendWelcomeEmailAsync(welcomeEmail);
             return Ok();
 
         }

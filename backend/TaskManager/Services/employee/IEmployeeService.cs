@@ -12,6 +12,8 @@ namespace TaskManager.Services.employee
         EmployeeResponseModel GetEmployee(Guid employeeId);
         EmployeeResponseModel UpdateEmployee(Guid employeeId, EmployeeUpdateModel employeeUpdateModel);
         EmployeeResponseModel UpdateEmployeePassword(Guid employeeId, EmployeeUpdatePasswordModel employeePassword);
+        EmployeeResponseModel UpdateEmployeeProfilePicture(Guid employeeId, string profilePicture);
         void DeleteEmployee(Guid employeeId);
+        void DeleteEmployeeProfilePicture(Guid employeeId);
     }
 }

@@ -14,12 +14,12 @@ using TaskManager.Dtos.mailDto;
 using TaskManager.Models.taskToDo;
 using TaskManager.Repository.comment;
 using TaskManager.Repository.employee;
-using TaskManager.Repository.mail;
 using TaskManager.Repository.tag;
 using TaskManager.Repository.taskToDo;
 using TaskManager.Repository.workItem;
 using TaskManager.Services.comment;
 using TaskManager.Services.employee;
+using TaskManager.Services.mail;
 using TaskManager.Services.profilePicture;
 using TaskManager.Services.tag;
 using TaskManager.Services.taskToDo;
@@ -88,7 +88,7 @@ namespace TaskManager
 
             services.AddScoped<IProfilePictureService, ProfilePictureService>();
 
-            services.AddTransient<IMailRepository, MailRepository>();
+            services.AddTransient<IMailService, MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
