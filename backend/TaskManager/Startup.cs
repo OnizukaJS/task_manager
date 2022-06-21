@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using TaskManager.Dtos.mailDto;
+using TaskManager.Middlewares;
 using TaskManager.Models.taskToDo;
 using TaskManager.Repository.comment;
 using TaskManager.Repository.employee;
@@ -123,6 +124,8 @@ namespace TaskManager
             app.UseStaticFiles();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ErrorsHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

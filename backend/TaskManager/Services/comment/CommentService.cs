@@ -38,7 +38,7 @@ namespace TaskManager.Services.comment
             var existingComment = _commentRepository.GetComment(commentId);
             if (existingComment == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Comment with id {commentId} not found");
             }
 
             return _mapper.Map<CommentResponseModel>(existingComment);
@@ -49,7 +49,7 @@ namespace TaskManager.Services.comment
             var commentToDelete = _commentRepository.GetComment(commentId);
             if (commentToDelete == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Comment with id {commentId} not found");
             }
 
             _commentRepository.DeleteComment(commentToDelete); 

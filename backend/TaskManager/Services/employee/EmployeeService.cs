@@ -10,6 +10,7 @@ using TaskManager.Repository.employee;
 using TaskManager.Services.profilePicture;
 using Microsoft.Extensions.Configuration;
 using TaskManager.Services.mail;
+using TaskManager.Middlewares;
 
 namespace TaskManager.Services.employee
 {
@@ -40,7 +41,7 @@ namespace TaskManager.Services.employee
 
             if (_employeeRepository.EmployeeEmailAlreadyInUse(employee.Email))
             {
-                throw new KeyNotFoundException();
+                throw new Exception();
             }
 
             _employeeRepository.RegisterEmployee(employee);
@@ -64,12 +65,12 @@ namespace TaskManager.Services.employee
 
             if (employee == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Employee with email {employeeLogin.EmployeeEmail} not found");
             }
 
             if (!BC.Verify(employeeLogin.EmployeePassword, employee.Password))
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException("The password is wrong");
             }
 
             var employeeResponse = _mapper.Map<EmployeeResponseModel>(employee);
@@ -106,7 +107,7 @@ namespace TaskManager.Services.employee
 
             if (existingEmployee == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Employee with id {employeeId} not found");
             }
 
             var existingEmployeeDto = _mapper.Map<EmployeeResponseModel>(existingEmployee);
@@ -120,7 +121,7 @@ namespace TaskManager.Services.employee
             var existingEmployee = _employeeRepository.GetEmployee(employeeId);
             if (existingEmployee == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Employee with id {employeeId} not found");
             }
 
             var employeeToUpdate = _mapper.Map(employeeUpdateModel, existingEmployee);
@@ -133,14 +134,14 @@ namespace TaskManager.Services.employee
         {
             if (employeePassword.Password != employeePassword.ConfirmPassword)
             {
-                throw new KeyNotFoundException();
+                throw new Exception();
             }
 
             var existingEmployee = _employeeRepository.GetEmployee(employeeId);
 
             if (existingEmployee == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Employee with id {employeeId} not found");
             }
 
             var employeeResponse = _mapper.Map(employeePassword, existingEmployee);
@@ -156,7 +157,7 @@ namespace TaskManager.Services.employee
 
             if (existingEmployee == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Employee with id {employeeId} not found");
             }
 
             existingEmployee.ProfilePicture = profilePicture;
@@ -173,7 +174,7 @@ namespace TaskManager.Services.employee
             var employeeToDelete = _employeeRepository.GetEmployee(employeeId);
             if (employeeToDelete == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Employee with id {employeeId} not found");
             }
 
             _employeeRepository.DeleteEmployee(employeeToDelete);
@@ -185,7 +186,7 @@ namespace TaskManager.Services.employee
 
             if (existingEmployee == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Employee with id {employeeId} not found");
             }
 
             var fileName = existingEmployee.ProfilePicture;

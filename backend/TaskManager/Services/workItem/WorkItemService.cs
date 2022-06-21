@@ -51,7 +51,7 @@ namespace TaskManager.Services.workItem
             var existingWorkItem = _workItemRepository.GetWorkItem(workItemId);
             if (existingWorkItem != null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Work item with id {workItemId} not found");
             }
 
             return _mapper.Map<WorkItemResponseModel>(existingWorkItem);
@@ -62,7 +62,7 @@ namespace TaskManager.Services.workItem
             var existingWorkItem = _workItemRepository.GetWorkItem(workItemId);
             if (existingWorkItem == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Work item with id {workItemId} not found");
             }
 
             var workItemToUpdate = _mapper.Map(workItemUpdateModel, existingWorkItem);
@@ -76,7 +76,7 @@ namespace TaskManager.Services.workItem
             var workItemToDelete = _workItemRepository.GetWorkItem(workItemId);
             if (workItemToDelete == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Work item with id {workItemId} not found");
             }
 
             _workItemRepository.DeleteWorkItem(workItemToDelete);
@@ -87,7 +87,7 @@ namespace TaskManager.Services.workItem
             var existingWorkItem = _workItemRepository.GetWorkItem(workItemId);
             if (existingWorkItem == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Work item with id {workItemId} not found");
             }
 
             var tasksPerWorkItem = _taskToDoRepository.GetTasksPerWorkItem(existingWorkItem.Id);
@@ -100,7 +100,7 @@ namespace TaskManager.Services.workItem
             var existingWorkItem = _workItemRepository.GetWorkItem(workItemId);
             if (existingWorkItem == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Work item with id {workItemId} not found");
             }
 
             var tagsPerWorkItem = _tagRepository.GetTagsPerWorkItem(existingWorkItem.Id);
@@ -113,7 +113,7 @@ namespace TaskManager.Services.workItem
             var existingWorkItem = _workItemRepository.GetWorkItem(workItemId);
             if (existingWorkItem == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Work item with id {workItemId} not found");
             }
 
             var commentsPerWorkItem = _commentRepository.GetCommentsPerWorkItem(existingWorkItem.Id);

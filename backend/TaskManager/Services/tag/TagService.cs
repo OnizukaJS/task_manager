@@ -38,7 +38,7 @@ namespace TaskManager.Services.tag
             var existingTag = _tagRepository.GetTag(tagId);
             if (existingTag == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Tag with id {tagId} not found");
             }
 
             return _mapper.Map<TagResponseModel>(existingTag);
@@ -49,7 +49,7 @@ namespace TaskManager.Services.tag
             var TagToDelete = _tagRepository.GetTag(tagId);
             if (TagToDelete == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Tag with id {tagId} not found");
             }
 
             _tagRepository.DeleteTag(TagToDelete);

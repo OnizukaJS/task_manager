@@ -8,6 +8,7 @@ using TaskManager.Models.taskToDo;
 using Microsoft.Extensions.Configuration;
 using TaskManager.Services.employee;
 using TaskManager.Services.profilePicture;
+using System.Collections.Generic;
 
 namespace TaskManager.Controllers.profilePicture
 {
@@ -20,25 +21,24 @@ namespace TaskManager.Controllers.profilePicture
         private readonly IProfilePictureService _profilePictureService;
         private readonly IConfiguration _configuration;
 
-        public ProfilePicturesController(TaskToDoContext taskToDoContext, 
+        public ProfilePicturesController( 
             IEmployeeService employeeService,
             IProfilePictureService profilePictureService,
             IConfiguration configuration)
         {
-            _taskToDoContext = taskToDoContext;
             _employeeService = employeeService;
             _profilePictureService = profilePictureService;
             _configuration = configuration;
         }
 
         [HttpPost]
-        public ActionResult UpdateProfilePicture([FromForm] ProfilePicture profilePicture)
+        public IActionResult UpdateProfilePicture([FromForm] ProfilePicture profilePicture)
         {
             var existingEmployee = _employeeService.GetEmployee(profilePicture.EmployeeId);
 
             if (existingEmployee == null)
             {
-                return NotFound("The employee does not exist");
+                throw new KeyNotFoundException($"Employee with id {profilePicture.EmployeeId} not found");
             }
 
             var currentFileName = existingEmployee.ProfilePicture;
@@ -81,10 +81,10 @@ namespace TaskManager.Controllers.profilePicture
         }
 
         [HttpDelete("{employeeId}")]
-        public void DeleteProfilePicture(Guid employeeId)
+        public IActionResult DeleteProfilePicture(Guid employeeId)
         {
             _employeeService.DeleteEmployeeProfilePicture(employeeId);
-            _taskToDoContext.SaveChanges();
+            return Ok();
         }
     }
 }

@@ -47,7 +47,7 @@ namespace TaskManager.Services.taskToDo
             var existingTask = _taskToDoRepository.GetTask(taskId);
             if(existingTask == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Task with id {taskId} not found");
             }
 
             return _mapper.Map<TaskToDoResponseModel>(existingTask);
@@ -58,7 +58,7 @@ namespace TaskManager.Services.taskToDo
             var existingTask = _taskToDoRepository.GetTask(taskId);
             if (existingTask == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Task with id {taskId} not found");
             }
 
             var taskToUpdate = _mapper.Map(taskUpdateModel, existingTask);
@@ -72,7 +72,7 @@ namespace TaskManager.Services.taskToDo
             var taskToDelete = _taskToDoRepository.GetTask(taskId);
             if (taskToDelete == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Task with id {taskId} not found");
             }
 
             _taskToDoRepository.DeleteTask(taskToDelete);
@@ -83,7 +83,7 @@ namespace TaskManager.Services.taskToDo
             var existingTask = _taskToDoRepository.GetTask(taskId);
             if (existingTask == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Task with id {taskId} not found");
             }
 
             var tagsPerTask = _tagRepository.GetTagsPerTask(existingTask.Id);
@@ -96,7 +96,7 @@ namespace TaskManager.Services.taskToDo
             var existingTask = _taskToDoRepository.GetTask(taskId);
             if (existingTask == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException($"Task with id {taskId} not found");
             }
 
             var commentsPerTask  = _commentRepository.GetCommentsPerTask(existingTask.Id);
