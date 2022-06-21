@@ -12,11 +12,11 @@ namespace TaskManager.Models.taskToDo
         {
         }
 
-        public DbSet<Employee> Employees { get; set; } // This acts as a table - means "this is a DB of TaskToDo in SQL"
-        public DbSet<WorkItem> WorkItems { get; set; }
-        public DbSet<TaskToDo> TaskToDos { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Employee>? Employees { get; set; } // This acts as a table - means "this is a DB of TaskToDo in SQL"
+        public DbSet<WorkItem>? WorkItems { get; set; }
+        public DbSet<TaskToDo>? TaskToDos { get; set; }
+        public DbSet<Comment>? Comments { get; set; }
+        public DbSet<Tag>? Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -4,10 +4,8 @@ using System;
 using System.IO;
 using TaskManager.Models.profilePicture;
 using Azure.Storage.Blobs;
-using TaskManager.Models.taskToDo;
 using Microsoft.Extensions.Configuration;
 using TaskManager.Services.employee;
-using TaskManager.Services.profilePicture;
 using System.Collections.Generic;
 
 namespace TaskManager.Controllers.profilePicture
@@ -16,18 +14,14 @@ namespace TaskManager.Controllers.profilePicture
     [Route("api/[controller]")]
     public class ProfilePicturesController : ControllerBase
     {
-        private readonly TaskToDoContext _taskToDoContext;
         private readonly IEmployeeService _employeeService;
-        private readonly IProfilePictureService _profilePictureService;
         private readonly IConfiguration _configuration;
 
         public ProfilePicturesController( 
             IEmployeeService employeeService,
-            IProfilePictureService profilePictureService,
             IConfiguration configuration)
         {
             _employeeService = employeeService;
-            _profilePictureService = profilePictureService;
             _configuration = configuration;
         }
 

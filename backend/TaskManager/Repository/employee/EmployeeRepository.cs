@@ -22,34 +22,34 @@ namespace TaskManager.Repository.employee
 
             employee.Password = BC.HashPassword(employee.Password);
 
-            _taskToDoContext.Employees.Add(employee);
+            _taskToDoContext.Employees!.Add(employee);
             _taskToDoContext.SaveChanges();
             return employee;
         }
 
-        public Employee GetEmployeeByEmail(string employeeEmail)
+        public Employee? GetEmployeeByEmail(string employeeEmail)
         {
-            return _taskToDoContext.Employees
+            return _taskToDoContext.Employees!
                 .SingleOrDefault(x => x.Email.Equals(employeeEmail));
         }
 
         public Employee UpdateEmployee(Employee employee)
         {
-            _taskToDoContext.Employees.Update(employee);
+            _taskToDoContext.Employees!.Update(employee);
             _taskToDoContext.SaveChanges();
             return employee;
         }
 
         public Employee UpdateEmployeePassword(Employee employee)
         {
-            _taskToDoContext.Employees.Update(employee);
+            _taskToDoContext.Employees!.Update(employee);
             _taskToDoContext.SaveChanges();
             return employee;
         }
 
-        public Employee GetEmployee(Guid employeeId)
+        public Employee? GetEmployee(Guid employeeId)
         {
-            var existingEmployee = _taskToDoContext.Employees
+            var existingEmployee = _taskToDoContext.Employees!
                 .Find(employeeId);
 
             return existingEmployee;
@@ -57,32 +57,32 @@ namespace TaskManager.Repository.employee
 
         public List<Employee> GetEmployees()
         {
-            return _taskToDoContext.Employees.ToList();
+            return _taskToDoContext.Employees!.ToList();
         }
 
         public void DeleteEmployee(Employee employee)
         {
-            _taskToDoContext.Employees.Remove(employee);
+            _taskToDoContext.Employees!.Remove(employee);
             _taskToDoContext.SaveChanges();
         }
 
         public Employee UpdateEmployeeProfilePicture(Employee employee)
         {
-            _taskToDoContext.Employees.Update(employee);
+            _taskToDoContext.Employees!.Update(employee);
             _taskToDoContext.SaveChanges();
             return employee;
         }
 
         public Employee DeleteEmployeeProfilePicture(Employee employee)
         {
-            _taskToDoContext.Employees.Update(employee);
+            _taskToDoContext.Employees!.Update(employee);
             _taskToDoContext.SaveChanges();
             return employee;
         }
 
         public bool EmployeeEmailAlreadyInUse(string employeeEmail)
         {
-            var alreadyInUse = _taskToDoContext.Employees.Any(e => e.Email == employeeEmail);
+            var alreadyInUse = _taskToDoContext.Employees!.Any(e => e.Email == employeeEmail);
             return alreadyInUse;
         }
     }

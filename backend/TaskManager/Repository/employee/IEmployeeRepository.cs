@@ -7,8 +7,8 @@ namespace TaskManager.Repository.employee
     public interface IEmployeeRepository
     {
         List<Employee> GetEmployees();
-        Employee GetEmployee(Guid employeeId);
-        Employee GetEmployeeByEmail(string employeeEmail);
+        Employee? GetEmployee(Guid employeeId);
+        Employee? GetEmployeeByEmail(string employeeEmail);
         Employee RegisterEmployee(Employee employee);
         Employee UpdateEmployee(Employee employee);
         Employee UpdateEmployeePassword(Employee employee);

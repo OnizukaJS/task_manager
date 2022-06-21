@@ -7,7 +7,7 @@ namespace TaskManager.Repository.tag
     public interface ITagRepository
     {
         List<Tag> GetTags();
-        Tag GetTag(Guid tagId);
+        Tag? GetTag(Guid tagId);
         List<Tag> GetTagsPerWorkItem(Guid workItemId);
         List<Tag> GetTagsPerTask(Guid taskId);
         Tag AddTag(Tag tag);

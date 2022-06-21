@@ -10,7 +10,7 @@ namespace TaskManager.Repository.taskToDo
         List<TaskToDo> GetTasks();
         List<Comment> GetTaskComments(Guid taskId);
         List<TaskToDo> GetTasksPerWorkItem(Guid workItemId);
-        TaskToDo GetTask(Guid taskId);
+        TaskToDo? GetTask(Guid taskId);
         TaskToDo AddTask(TaskToDo taskToDo);
         void DeleteTask(TaskToDo taskToDo);
         TaskToDo UpdateTask(TaskToDo taskToDo);
