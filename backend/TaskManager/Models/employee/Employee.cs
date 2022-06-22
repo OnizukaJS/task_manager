@@ -16,7 +16,7 @@ namespace TaskManager.Models.employee
         public string City { get; set; } = string.Empty;
         public string JobDescription { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
-        public string? ProfilePicture { get; set; } = string.Empty;
+        public string? ProfilePicture { get; set; } = null;
 
         // Navigation Properties
         public virtual ICollection<WorkItem> WorkItems { get; set; } = null!;
