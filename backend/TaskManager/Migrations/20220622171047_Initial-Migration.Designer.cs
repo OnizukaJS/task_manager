@@ -7,21 +7,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManager.Models.taskToDo;
 
+#nullable disable
+
 namespace TaskManager.Migrations
 {
     [DbContext(typeof(TaskToDoContext))]
-    [Migration("20220509102543_InitialMigration")]
+    [Migration("20220622171047_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            modelBuilder.Entity("TaskManager.Models.Comment", b =>
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("TaskManager.Models.comment.Comment", b =>
                 {
                     b.Property<Guid>("CommentId")
                         .ValueGeneratedOnAdd()
@@ -52,41 +55,6 @@ namespace TaskManager.Migrations
                     b.HasIndex("WorkItemId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("TaskManager.Models.TaskToDo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("WorkItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("WorkItemId");
-
-                    b.ToTable("TaskToDos");
                 });
 
             modelBuilder.Entity("TaskManager.Models.employee.Employee", b =>
@@ -162,6 +130,41 @@ namespace TaskManager.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("TaskManager.Models.taskToDo.TaskToDo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("WorkItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("WorkItemId");
+
+                    b.ToTable("TaskToDos");
+                });
+
             modelBuilder.Entity("TaskManager.Models.workItem.WorkItem", b =>
                 {
                     b.Property<Guid>("Id")
@@ -192,7 +195,7 @@ namespace TaskManager.Migrations
                     b.ToTable("WorkItems");
                 });
 
-            modelBuilder.Entity("TaskManager.Models.Comment", b =>
+            modelBuilder.Entity("TaskManager.Models.comment.Comment", b =>
                 {
                     b.HasOne("TaskManager.Models.employee.Employee", "Employee")
                         .WithMany()
@@ -200,7 +203,7 @@ namespace TaskManager.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManager.Models.TaskToDo", "TaskToDo")
+                    b.HasOne("TaskManager.Models.taskToDo.TaskToDo", "TaskToDo")
                         .WithMany("Comments")
                         .HasForeignKey("TaskToDoId")
                         .OnDelete(DeleteBehavior.ClientCascade);
@@ -217,7 +220,24 @@ namespace TaskManager.Migrations
                     b.Navigation("WorkItem");
                 });
 
-            modelBuilder.Entity("TaskManager.Models.TaskToDo", b =>
+            modelBuilder.Entity("TaskManager.Models.tag.Tag", b =>
+                {
+                    b.HasOne("TaskManager.Models.taskToDo.TaskToDo", "TaskToDo")
+                        .WithMany("Tags")
+                        .HasForeignKey("TaskToDoId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.HasOne("TaskManager.Models.workItem.WorkItem", "WorkItem")
+                        .WithMany("Tags")
+                        .HasForeignKey("WorkItemId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("TaskToDo");
+
+                    b.Navigation("WorkItem");
+                });
+
+            modelBuilder.Entity("TaskManager.Models.taskToDo.TaskToDo", b =>
                 {
                     b.HasOne("TaskManager.Models.employee.Employee", "Employee")
                         .WithMany("TasksToDo")
@@ -236,23 +256,6 @@ namespace TaskManager.Migrations
                     b.Navigation("WorkItem");
                 });
 
-            modelBuilder.Entity("TaskManager.Models.tag.Tag", b =>
-                {
-                    b.HasOne("TaskManager.Models.TaskToDo", "TaskToDo")
-                        .WithMany("Tags")
-                        .HasForeignKey("TaskToDoId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("TaskManager.Models.workItem.WorkItem", "WorkItem")
-                        .WithMany("Tags")
-                        .HasForeignKey("WorkItemId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("TaskToDo");
-
-                    b.Navigation("WorkItem");
-                });
-
             modelBuilder.Entity("TaskManager.Models.workItem.WorkItem", b =>
                 {
                     b.HasOne("TaskManager.Models.employee.Employee", "Employee")
@@ -264,18 +267,18 @@ namespace TaskManager.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("TaskManager.Models.TaskToDo", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Tags");
-                });
-
             modelBuilder.Entity("TaskManager.Models.employee.Employee", b =>
                 {
                     b.Navigation("TasksToDo");
 
                     b.Navigation("WorkItems");
+                });
+
+            modelBuilder.Entity("TaskManager.Models.taskToDo.TaskToDo", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("TaskManager.Models.workItem.WorkItem", b =>

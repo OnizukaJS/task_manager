@@ -112,7 +112,7 @@ const RegistrationPage = () => {
     await axios
       .post(baseRegistrationUrl, registration)
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === 200 || res.status === 201) {
           history.push("/");
           showSuccessMessage({
             message: `A confirmation email has been sent to ${registration.email}`,

@@ -46,6 +46,8 @@ const ProfilePicture = ({
     return color;
   };
 
+  console.log(sasUriProfilPicture);
+
   const sasUriProfilPictureIsNotFound = (): boolean => {
     if (
       sasUriProfilPicture === null ||
