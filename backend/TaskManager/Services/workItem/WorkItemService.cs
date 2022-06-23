@@ -49,7 +49,7 @@ namespace TaskManager.Services.workItem
         public WorkItemResponseModel GetWorkItem(Guid workItemId)
         {
             var existingWorkItem = _workItemRepository.GetWorkItem(workItemId);
-            if (existingWorkItem != null)
+            if (existingWorkItem == null)
             {
                 throw new KeyNotFoundException($"Work item with id {workItemId} not found");
             }
