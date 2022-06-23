@@ -9,23 +9,23 @@ env:
   APP_NAME: TaskManager
   AZURE_WEBAPP_NAME: mytaskmanagerappservices
   AZURE_WEBAPP_PACKAGE_PATH: TaskManager/publish
-  AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+  AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2264203A2E33446F91A62C7CED916D81 }}
   PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.106
   WORKING_DIRECTORY_BACKEND: backend
   WORKING_DIRECTORY_FRONTEND: frontend
   NAME: TaskManager/TaskManager.csproj
-  NODE_VERSION: '14.x'
+  NODE_VERSION: "14.x"
   ROOT: wwwroot
 
 jobs:
   build:
     runs-on: windows-latest
 
-    steps:  
+    steps:
       - uses: actions/checkout@v2
-      
+
       - name: npm install, build
         working-directory: ${{ env.WORKING_DIRECTORY_FRONTEND }}
         run: |
@@ -33,7 +33,7 @@ jobs:
           npm run build
         env:
           CI: ""
-        
+
       - name: Delete wwwroot folder
         shell: powershell
         run: |
@@ -41,7 +41,7 @@ jobs:
           if (Test-Path $FolderName) {
             Remove-Item -Path $FolderName -Force -Recurse
           }
-          
+
       - name: Copy paste build folder to wwwroot
         shell: powershell
         run: |
@@ -64,12 +64,12 @@ jobs:
         with:
           name: .net-app
           path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-    
+
   deploy:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -83,6 +83,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          slot-name: 'Production'
+          slot-name: "Production"
           publish-profile: ${{ env.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .
