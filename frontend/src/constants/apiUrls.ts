@@ -1,10 +1,9 @@
-export const EmployeeUrlBasePath = "https://localhost:44358/api/Employees";
-export const TaskUrlBasePath = "https://localhost:44358/api/TasksToDo";
-export const WorkItemUrlBasePath = "https://localhost:44358/api/WorkItems";
-export const CommentUrlBasePath = "https://localhost:44358/api/Comments";
-export const TagUrlBasePath = "https://localhost:44358/api/Tags";
-export const ProfilePictureBasePath =
-  "https://localhost:44358/api/ProfilePictures";
+export const EmployeeUrlBasePath = "/api/Employees";
+export const TaskUrlBasePath = "/api/TasksToDo";
+export const WorkItemUrlBasePath = "/api/WorkItems";
+export const CommentUrlBasePath = "/api/Comments";
+export const TagUrlBasePath = "/api/Tags";
+export const ProfilePictureBasePath = "/api/ProfilePictures";
 
 const apiUrls = {
   comment: {},
