@@ -1,9 +1,13 @@
-export const EmployeeUrlBasePath = "/api/Employees";
-export const TaskUrlBasePath = "/api/TasksToDo";
-export const WorkItemUrlBasePath = "/api/WorkItems";
-export const CommentUrlBasePath = "/api/Comments";
-export const TagUrlBasePath = "/api/Tags";
-export const ProfilePictureBasePath = "/api/ProfilePictures";
+const baseUrl =
+  process.env.NODE_ENV === "development"
+    ? "https://localhost:44358/api"
+    : "/api";
+export const EmployeeUrlBasePath = `${baseUrl}/Employees`;
+export const TaskUrlBasePath = `${baseUrl}/TasksToDo`;
+export const WorkItemUrlBasePath = `${baseUrl}/WorkItems`;
+export const CommentUrlBasePath = `${baseUrl}/Comments`;
+export const TagUrlBasePath = `${baseUrl}/Tags`;
+export const ProfilePictureBasePath = `${baseUrl}/ProfilePictures`;
 
 const apiUrls = {
   comment: {},
