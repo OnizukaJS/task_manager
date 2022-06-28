@@ -7,13 +7,12 @@ import {
   createStyles,
   withStyles,
 } from "@material-ui/core";
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import EmployeeModel from "../models/employeeModels/EmployeeModel";
 import ProfilePicture from "./ProfilePicture";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import routes from "../config/routes";
-import Cookies from "universal-cookie";
 import { useHistory } from "react-router";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
 
@@ -95,11 +94,6 @@ const MyAccountPopoverMenuItem = ({
   const { showMessage: showWarningMessage } = useWarningSnackbar();
   const classes = useStyles();
 
-  const cookies = useMemo(() => {
-    const cook = new Cookies();
-    return cook;
-  }, []);
-
   const history = useHistory();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -113,21 +107,19 @@ const MyAccountPopoverMenuItem = ({
   };
 
   const handleSignOut = () => {
-    cookies.remove("employeeId", { path: "/" });
-    cookies.remove("employeeName", { path: "/" });
-    cookies.remove("employeeSurname", { path: "/" });
-    cookies.remove("email", { path: "/" });
-    cookies.remove("password", { path: "/" });
-    cookies.remove("jobDescription", { path: "/" });
-    cookies.remove("phoneNumber", { path: "/" });
-    cookies.remove("employeeAge", { path: "/" });
-    cookies.remove("city", { path: "/" });
-    cookies.remove("jobDescription", { path: "/" });
-    cookies.remove("phoneNumber", { path: "/" });
-    cookies.remove("profilePicture", { path: "/" });
-    cookies.remove("sasUriProfilPicture", {
-      path: "/",
-    });
+    localStorage.removeItem("employeeId");
+    localStorage.removeItem("employeeName");
+    localStorage.removeItem("employeeSurname");
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+    localStorage.removeItem("jobDescription");
+    localStorage.removeItem("phoneNumber");
+    localStorage.removeItem("employeeAge");
+    localStorage.removeItem("city");
+    localStorage.removeItem("jobDescription");
+    localStorage.removeItem("phoneNumber");
+    localStorage.removeItem("profilePicture");
+    localStorage.removeItem("sasUriProfilPicture");
 
     history.push("/");
     triggerRefresh();

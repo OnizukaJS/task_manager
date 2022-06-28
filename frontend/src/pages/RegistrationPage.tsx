@@ -5,12 +5,11 @@ import {
   withStyles,
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import ButtonComponent from "../components/buttons/ButtonComponent";
 import EmployeeRegistration from "../models/employeeModels/EmployeeRegistration";
 import axios from "axios";
-import Cookies from "universal-cookie";
 import routes from "../config/routes";
 import useErrorSnackbar, {
   useSuccessSnackbar,
@@ -128,16 +127,11 @@ const RegistrationPage = () => {
       });
   };
 
-  const cookies = useMemo(() => {
-    const cook = new Cookies();
-    return cook;
-  }, []);
-
   useEffect(() => {
-    if (cookies.get("employeeId")) {
+    if (localStorage.getItem("employeeId")) {
       history.push(routes.tasksList);
     }
-  }, [cookies, history]);
+  }, [history]);
 
   return (
     <Box className={classes.containerRegistrationPage}>

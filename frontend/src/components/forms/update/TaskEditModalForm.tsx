@@ -24,7 +24,6 @@ import {
 import ForumOutlinedIcon from "@material-ui/icons/ForumOutlined";
 import TaskStatusColorIcon from "../../ColorIconStatus";
 import EmployeeModel from "../../../models/employeeModels/EmployeeModel";
-import Cookies from "universal-cookie";
 import TaskEmployeeSelect from "../../selects/TaskEmployeeSelect";
 import useFetchCommentsPerTask from "../../../hooks/useFetchCommentsPerTask";
 import AccordionComponent from "../../AccordionComponent";
@@ -331,12 +330,10 @@ const TaskEditModalForm = ({
   const [comments] = useFetchCommentsPerTask(taskToEdit.id, refreshState);
 
   useMemo(() => {
-    const cookie = new Cookies();
-
     setEmployeeLogged({
       ...employeeLogged,
-      nameEmployeeLogged: cookie.get("employeeName"),
-      surnameEmployeeLogged: cookie.get("employeeSurname"),
+      nameEmployeeLogged: localStorage.getItem("employeeName")!,
+      surnameEmployeeLogged: localStorage.getItem("employeeSurname")!,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

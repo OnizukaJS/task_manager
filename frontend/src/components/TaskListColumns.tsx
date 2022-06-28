@@ -41,7 +41,6 @@ import EmployeeModel from "../models/employeeModels/EmployeeModel";
 import FilterBar from "./FilterBar";
 import PersonToDisplaySelect from "./selects/PersonToDisplaySelect";
 import useFetchEmployeeData from "../hooks/useFetchEmployeeData";
-import Cookies from "universal-cookie";
 import ButtonComponent from "./buttons/ButtonComponent";
 import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 import { useWarningSnackbar } from "../hooks/useErrorSnackbar";
@@ -268,10 +267,9 @@ const TaskListColumns = ({
   const [displayFilterBar, setDisplayFilterBar] = useState<boolean>(false);
   const [expandedWorkItem, setExpandedWorkItem] = useState<boolean>(true);
   const classes = useStyles({ expandedWorkItem });
-  const cookies = new Cookies();
 
   const [currentEmployeeData] = useFetchEmployeeData(
-    cookies.get("employeeId"),
+    localStorage.getItem("employeeId")!,
     refreshState
   );
 

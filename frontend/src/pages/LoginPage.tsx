@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Cookies from "universal-cookie";
 import EmployeeLogin from "../models/employeeModels/EmployeeLogin";
 import { Link, useHistory } from "react-router-dom";
 import routes from "../config/routes";
@@ -84,16 +83,11 @@ const LoginPage = ({
     employeePassword: "",
   });
 
-  const cookies = useMemo(() => {
-    const cook = new Cookies();
-    return cook;
-  }, []);
-
   useEffect(() => {
-    if (cookies.get("employeeId")) {
+    if (localStorage.getItem("employeeId")) {
       history.push(routes.tasksList);
     }
-  }, [cookies, history]);
+  }, [history]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -117,19 +111,17 @@ const LoginPage = ({
         return response.json();
       })
       .then((data) => {
-        cookies.set("employeeId", data.employeeId, { path: "/" });
-        cookies.set("email", data.email, { path: "/" });
-        cookies.set("password", data.password, { path: "/" });
-        cookies.set("employeeName", data.employeeName, { path: "/" });
-        cookies.set("employeeSurname", data.employeeSurname, { path: "/" });
-        cookies.set("employeeAge", data.employeeAge, { path: "/" });
-        cookies.set("city", data.city, { path: "/" });
-        cookies.set("jobDescription", data.jobDescription, { path: "/" });
-        cookies.set("phoneNumber", data.phoneNumber, { path: "/" });
-        cookies.set("profilePicture", data.profilePicture, { path: "/" });
-        cookies.set("sasUriProfilPicture", data.sasUriProfilPicture, {
-          path: "/",
-        });
+        localStorage.setItem("employeeId", data.employeeId);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("password", data.password);
+        localStorage.setItem("employeeName", data.employeeName);
+        localStorage.setItem("employeeSurname", data.employeeSurname);
+        localStorage.setItem("employeeAge", data.employeeAge);
+        localStorage.setItem("city", data.city);
+        localStorage.setItem("jobDescription", data.jobDescription);
+        localStorage.setItem("phoneNumber", data.phoneNumber);
+        localStorage.setItem("profilePicture", data.profilePicture);
+        localStorage.setItem("sasUriProfilPicture", data.sasUriProfilPicture);
 
         history.push(routes.tasksList);
         triggerRefresh();

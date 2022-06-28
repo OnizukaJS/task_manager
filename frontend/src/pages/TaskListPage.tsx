@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 
 import TaskModel from "../models/taskModels/TaskModel";
 import TaskEditModalForm from "../components/forms/update/TaskEditModalForm";
@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom";
 import TaskModelToCreate from "../models/taskModels/TaskModelToCreate";
 import TaskStatusEnum from "../models/enum/TaskStatusEnum";
 import TaskTypeEnum from "../models/enum/TaskTypeEnum";
-import Cookies from "universal-cookie";
 import routes from "../config/routes";
 import TaskCreateModalForm from "../components/forms/create/TaskCreateModalForm";
 import TaskListColumns from "../components/TaskListColumns";
@@ -28,10 +27,6 @@ const TasksListPage = ({
   triggerRefresh,
   setEmployeeIdRoutes,
 }: TaskListItemProps) => {
-  const cookies = useMemo(() => {
-    const cook = new Cookies();
-    return cook;
-  }, []);
   const [taskToCreate, setTaskToCreate] = useState<TaskModelToCreate>({
     name: "",
     description: "",
@@ -71,13 +66,14 @@ const TasksListPage = ({
 
   const history = useHistory();
 
-  // Check the cookies for the login
+  // Check the localStorage for the login
   useEffect(() => {
-    if (!cookies.get("employeeId")) {
+    if (!localStorage.getItem("employeeId")) {
       history.push(routes.loginPage);
     }
-    setEmployeeId(cookies.get("employeeId"));
-    setEmployeeIdRoutes(cookies.get("employeeId"));
+
+    setEmployeeId(localStorage.getItem("employeeId")!);
+    setEmployeeIdRoutes(localStorage.getItem("employeeId")!);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

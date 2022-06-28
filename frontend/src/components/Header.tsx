@@ -16,7 +16,6 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
-import Cookies from "universal-cookie";
 import routes from "../config/routes";
 import {
   Search,
@@ -147,10 +146,9 @@ interface HeaderProps {
 
 const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
   const { showMessage: showWarningMessage } = useWarningSnackbar();
-  const cookies = new Cookies();
   const classes = useStyles();
   const [currentEmployeeData] = useFetchEmployeeData(
-    cookies.get("employeeId"),
+    localStorage.getItem("employeeId")!,
     refreshState
   );
 
@@ -158,7 +156,7 @@ const Header = ({ triggerRefresh, refreshState }: HeaderProps) => {
     showWarningMessage({ message: "This button does nothing! :)" });
   };
 
-  return cookies.get("employeeId") ? (
+  return localStorage.getItem("employeeId") ? (
     <Box className={classes.containerHeaderMenu}>
       <Box className={classes.containerHeader}>
         <Box className={classes.containerLogo}>
