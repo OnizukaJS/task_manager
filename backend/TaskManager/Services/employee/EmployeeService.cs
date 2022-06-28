@@ -90,7 +90,7 @@ namespace TaskManager.Services.employee
             {
                 var filename = employee.ProfilePicture;
                 BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, filename);
-                employee.SasUriProfilPicture = filename != null ? _profilePictureService.GetServiceSasUriForBlob(blobClient) : null;
+                employee.SasUriProfilPicture = filename != null && !string.IsNullOrEmpty(filename) ? _profilePictureService.GetServiceSasUriForBlob(blobClient) : null;
             }
 
             return employeesDto;
@@ -99,7 +99,7 @@ namespace TaskManager.Services.employee
         public EmployeeResponseModel GetEmployee(Guid employeeId)
         {
             var existingEmployee = _employeeRepository.GetEmployee(employeeId);
-            var filename = existingEmployee.ProfilePicture;
+            var filename = existingEmployee!.ProfilePicture;
             var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
             var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
 
@@ -111,7 +111,7 @@ namespace TaskManager.Services.employee
             }
 
             var existingEmployeeDto = _mapper.Map<EmployeeResponseModel>(existingEmployee);
-            existingEmployeeDto.SasUriProfilPicture = filename != null ? _profilePictureService.GetServiceSasUriForBlob(blobClient) : null;
+            existingEmployeeDto.SasUriProfilPicture = filename != null && !string.IsNullOrEmpty(filename) ? _profilePictureService.GetServiceSasUriForBlob(blobClient) : null;
 
             return existingEmployeeDto;
         }
