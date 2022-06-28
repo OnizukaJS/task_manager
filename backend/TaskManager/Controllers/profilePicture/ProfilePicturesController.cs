@@ -43,7 +43,7 @@ namespace TaskManager.Controllers.profilePicture
             }
 
             var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
-            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
+            var blobStorageConnectionString = _configuration.GetConnectionString("BlobStorageConnectionString");
 
             try
             {

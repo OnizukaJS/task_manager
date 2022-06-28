@@ -83,7 +83,7 @@ namespace TaskManager.Services.employee
             var employees = _employeeRepository.GetEmployees();
             var employeesDto = _mapper.Map<IEnumerable<EmployeeResponseModel>>(employees);
             var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
-            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
+            var blobStorageConnectionString = _configuration.GetConnectionString("BlobStorageConnectionString");
 
             // TODO: Move to a ValueResolver in mapper
             foreach (var employee in employeesDto)
@@ -101,7 +101,7 @@ namespace TaskManager.Services.employee
             var existingEmployee = _employeeRepository.GetEmployee(employeeId);
             var filename = existingEmployee!.ProfilePicture;
             var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
-            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
+            var blobStorageConnectionString = _configuration.GetConnectionString("BlobStorageConnectionString");
 
             BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, filename);
 
@@ -191,7 +191,7 @@ namespace TaskManager.Services.employee
 
             var fileName = existingEmployee.ProfilePicture;
             var blobStorageContainerName = _configuration.GetValue<string>("BlobStorageSettings:blobStorageContainerName");
-            var blobStorageConnectionString = _configuration["BlobStorageSettings:blobStorageConnectionString"];
+            var blobStorageConnectionString = _configuration.GetConnectionString("GetConnectionString");
 
             BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, fileName);
             blobClient.Delete();
